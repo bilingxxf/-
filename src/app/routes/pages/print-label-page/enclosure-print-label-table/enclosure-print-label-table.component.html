@@ -1,0 +1,100 @@
+<nz-spin [nzSpinning]="isPrintSpinning" [nzTip]="printTip">
+    <div class="operate-box" style="margin-bottom: 10px">
+        <div class="operate-left-box">
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixButton">
+                <input type="text" 
+                [(ngModel)]="dto.name"
+                    nz-input placeholder="产品名称"
+                    (keyup)="($event.which === 13)?search():0" />
+            </nz-input-group>
+            <ng-template #suffixButton>
+                <span style="cursor: pointer" (click)="search()">搜索</span>
+            </ng-template>
+        </div>
+        <div class="operate-right-box">
+                <nz-checkbox-group [(ngModel)]="checkOptionsOne" (ngModelChange)="log(checkOptionsOne)"></nz-checkbox-group>
+                <div style="width: 150px">
+                    <input nz-input placeholder="替换制造商名称" [(ngModel)]="manufacturerName">
+                </div>
+                <button
+                nz-button
+                nzSize="default"
+                (click)="print()"
+                nzType="primary">打印标签</button>
+        </div>
+    </div>
+    <nz-table
+        [nzData]="data.data"
+        [(nzPageIndex)]="dto.page"
+        [(nzPageSize)]="dto.size"
+        [nzTotal]="data.totalCount"
+        (nzPageIndexChange)="getData()"
+        (nzPageSizeChange)="getData()"
+        [nzFrontPagination]="false"
+        [nzLoading]="isSpinning"
+        nzShowTotal
+        nzShowQuickJumper
+        nzShowSizeChanger>
+        <thead>
+            <tr>
+                <th nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
+                <th>序号</th>
+                <th>产品名称</th>
+                <th>颜色</th>
+                <th>厚度(mm)</th>
+                <th>板型</th>
+                <th>有效宽度(mm)</th>
+                <th>长度(mm)</th>
+                <th style="width: 120px">数量(张)</th>
+                <th>总长度(m)</th>
+                <th>总面积(㎡)</th>
+                <th>使用部位</th>
+                <th>打印数量</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data.data;let i = index">
+                <td nzShowCheckbox [(nzChecked)]="item.checked" [nzDisabled]="item.status === 2" (nzCheckedChange)="refreshStatus($event)"></td>
+                <td class="tip-parent">
+                    <div *ngIf="item.status > 1" class="td-tip"  [ngStyle]="{'background-color': ComponentColors[item.status-1]}">{{ productStatus[item.status] }}</div>
+                    {{ i + 1 }}
+                </td>
+                <td class="tip-parent">
+                    <div *ngIf="item.containmentType !== undefined" class="td-tip" [ngStyle]="{'background-color': item.containmentType === 0 ? 'green':'orange'}">{{ item.containmentType === 0 ? '车间' : '工地' }}</div>
+                    {{ item.name }}
+                </td>
+                <td>{{ item.color }}</td>
+                <td>{{ item.thickness.toFixed(3) }}</td>
+                <td>{{ item.modelNum }}</td>
+                <td>{{ item.width }}</td>
+                <td>{{ item.length }}</td>
+                <td class="tip-parent">
+                    <div *ngIf="item.printNumber > 0" class="td-tip print-tip">已打印</div>
+                    {{ item.quantity }}
+                </td>
+                <td>{{ item.totalMeter }}</td>
+                <td>{{ item.surfaceArea }}</td>
+                <td>{{ item.useArea }}</td>
+                <td style="width: 120px">
+                    <nz-input-number
+                    style="width: 100%;"
+                    nzSize="default"
+                    [(ngModel)]="item.count"
+                    [ngModelOptions]="{standalone: true}"
+                    [nzStep]="1"
+                    [nzMin]="0"></nz-input-number>
+                </td>
+                <td>
+                    <a (click)="preview(item)">查看标签</a>
+                    <a (click)="history(item)" style="margin-left: 8px">打印记录</a>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-spin>
+<style scoped>
+.print-tip {
+    background: black;
+}
+</style>

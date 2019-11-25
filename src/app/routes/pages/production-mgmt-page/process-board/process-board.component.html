@@ -1,0 +1,53 @@
+<nz-card>
+    <nz-tabset style="min-height: 600px;margin-right:20px" [nzShowPagination]="false" [nzTabPosition]="'left'"
+        [(nzSelectedIndex)]="leftSelectedIndex">
+        <nz-tab *ngFor="let tab of leftTabs" [nzTitle]="tab.name">
+            <ng-container *ngIf="tab.value === 'structure' && tab.index == leftSelectedIndex">
+                <nz-tabset *ngIf="monomer" [(nzSelectedIndex)]="contentSelectedIndex" (nzSelectChange)="selectChange()">
+                    <nz-tab nzTitle="工序状态">
+                        <ng-container *ngIf="tab.value === 'structure' && contentSelectedIndex == 0">
+                            <nz-tabset>
+                                <nz-tab nzTitle="{{ area.areaName + '(' + area.coordinates + ')' }}"
+                                    *ngFor="let area of areas" (nzClick)="currentArea = area">
+                                </nz-tab>
+                            </nz-tabset>
+                            <app-productivity-static-structure-table *ngIf="currentArea" [monomerId]="currentArea.id">
+                            </app-productivity-static-structure-table>
+                        </ng-container>
+                    </nz-tab>
+                    <nz-tab nzTitle="总装看板">
+                        <ng-container *ngIf="tab.value === 'structure' && contentSelectedIndex == 1">
+                            <nz-tabset>
+                                <nz-tab nzTitle="{{area.areaName + '(' + area.coordinates + ')'}}"
+                                    *ngFor="let area of areas" (nzClick)="currentArea = area">
+                                </nz-tab>
+                            </nz-tabset>
+                            <nz-card *ngIf="currentArea">
+                                <app-productivity-static-tile-mode [monomerId]="currentArea.id" [productType]="1"
+                                    [finishType]="1">
+                                </app-productivity-static-tile-mode>
+                            </nz-card>
+                        </ng-container>
+                    </nz-tab>
+                    <nz-tab nzTitle="涂装看板">
+                        <ng-container *ngIf="tab.value === 'structure' && contentSelectedIndex == 2">
+                            <nz-tabset>
+                                <nz-tab nzTitle="{{area.areaName + '(' + area.coordinates + ')'}}"
+                                    *ngFor="let area of areas" (nzClick)="currentArea = area">
+                                </nz-tab>
+                            </nz-tabset>
+                            <nz-card *ngIf="currentArea">
+                                <app-productivity-static-tile-mode [monomerId]="currentArea.id" [productType]="1"
+                                    [finishType]="2"></app-productivity-static-tile-mode>
+                            </nz-card>
+                        </ng-container>
+                    </nz-tab>
+                </nz-tabset>
+            </ng-container>
+            <ng-container *ngIf="tab.value === 'enclosure' && tab.index == leftSelectedIndex">
+                <app-productivity-static-enclosure-table [monomerId]="monomer.id">
+                </app-productivity-static-enclosure-table>
+            </ng-container>
+        </nz-tab>
+    </nz-tabset>
+</nz-card>

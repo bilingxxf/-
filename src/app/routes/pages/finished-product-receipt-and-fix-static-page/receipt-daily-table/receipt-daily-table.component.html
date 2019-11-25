@@ -1,0 +1,41 @@
+<nz-table
+    [acl]="1295"
+    *hasPermission="1295"
+    [nzData]="data.data"
+    [(nzPageIndex)]="dto.page"
+    [(nzPageSize)]="dto.size"
+    [nzTotal]="data.totalCount"
+    (nzPageIndexChange)="getData()"
+    (nzPageSizeChange)="getData()"
+    [nzFrontPagination]="false"
+    nzShowTotal
+    nzShowQuickJumper
+    nzShowSizeChanger>
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>车牌号</th>
+            <th>司机姓名</th>
+            <th>司机手机</th>
+            <th>出库办理人</th>
+            <th>出库办理人电话</th>
+            <th>收货时间</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of data.data;let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.licensePlate }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.phone }}</td>
+            <td>{{ item.consignee }}</td>
+            <td>{{ item.consigneePhone }}</td>
+            <td>{{ item.createTime | date: 'yyyy-MM-dd HH:mm' }}</td>
+            <td>
+                <a (click)="openDetailModal(item.id)">详情</a>
+                <a (click)="exportExcel(item.id)" style="margin-left: 10px;">导出</a>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>

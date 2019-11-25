@@ -1,0 +1,53 @@
+<nz-card style="margin-top: 10px">
+
+        <div class="vertical-tabs">
+            <div class="vertical-tabs__header">
+                <div class="vertical-tab" (click)="active = 1" [ngClass]="{'is-active': active === 1}">结构</div>
+                <!--<div class="vertical-tab" (click)="active = 2" [ngClass]="{'is-active': active === 2}">围护</div>-->
+                <!--<div class="vertical-tab" (click)="active = 3" [ngClass]="{'is-active': active === 3}">辅材</div>-->
+            </div>
+            <div class="vertical-tabs__content"  *ngIf="active === 1">
+                <nz-tabset>
+                    <nz-tab nzTitle="{{ area.areaName + '(' + area.coordinates + ')' }}"
+                        *ngFor="let area of currentMonomer.areas" (nzClick)="currentArea = area">
+                    </nz-tab>
+                </nz-tabset>
+                <app-finished-board-table *ngIf="currentArea" [monomerId]="currentArea.id" [productType]="1"></app-finished-board-table>
+            </div>
+            <!--<div class="vertical-tabs__content"  *ngIf="active === 2">
+                <app-finished-board-table [monomerId]="currentMonomer.monomer.id" [productType]="2"></app-finished-board-table>
+
+            </div>-->
+            <!--<div class="vertical-tabs__content"  *ngIf="active === 3">
+                <app-finished-board-table [monomerId]="currentMonomer.monomer.id" [productType]="3"></app-finished-board-table>
+
+            </div>-->
+        </div>
+</nz-card>
+
+
+<!-- <nz-card >
+    <ng-template #title>
+        结构
+    </ng-template>
+    <nz-tabset>
+        <nz-tab nzTitle="{{ area.areaName + '(' + area.coordinates + ')' }}"
+            *ngFor="let area of currentMonomer.areas">
+            <app-finished-board-table [monomerId]="area.id" [productType]="1"></app-finished-board-table>
+        </nz-tab>
+    </nz-tabset>
+</nz-card>
+
+<nz-card >
+    <ng-template #title>
+        围护
+    </ng-template>
+    <app-finished-board-table [monomerId]="currentMonomer.monomer.id" [productType]="2"></app-finished-board-table>
+</nz-card>
+
+<nz-card >
+    <ng-template #title>
+        辅材
+    </ng-template>
+    <app-finished-board-table [monomerId]="currentMonomer.monomer.id" [productType]="3"></app-finished-board-table>
+</nz-card> -->

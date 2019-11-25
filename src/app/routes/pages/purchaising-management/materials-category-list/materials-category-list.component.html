@@ -1,0 +1,53 @@
+
+<nz-card>
+        <form nz-form [nzLayout]="'inline'" style="margin-bottom: 15px">
+            <nz-form-item>
+                <nz-form-control>
+                    <input nz-input placeholder="输入关键字" [nzSize]="'default'">
+                    
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-control>
+                    <button nz-button [nzType]="'primary'">
+                        <span>搜索</span>
+                    </button>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-control>
+                    <button nz-button [nzType]="'primary'" routerLink="/materials-type">
+                        <span>设置分类</span>
+                    </button>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+        <nz-table #nzTable [nzData]="[]">
+        <thead>
+          <tr>
+            <!-- <th><span>序号</span></th> -->
+            <th><span>编号</span></th>
+            <th><span>名称</span></th>
+            <th><span>种类</span></th>
+            <th><span>品种</span></th>
+            <th><span>单位</span></th>
+            <th><span>最低库存要求</span></th>
+            <th><span>类型</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of nzTable.data; index as i">
+            <!-- <td>
+              <a>{{index + 1}}</a>
+            </td> -->
+            <td>{{data.age}}</td>
+            <td>{{data.address}}</td>
+            <td>{{data.address}}</td>
+            <td>{{data.address}}</td>
+            <td>{{data.address}}</td>
+            <td>{{data.address}}</td>
+            <td>{{data.address}}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </nz-card>

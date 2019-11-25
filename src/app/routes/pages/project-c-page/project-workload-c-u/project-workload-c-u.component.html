@@ -1,0 +1,55 @@
+<form
+    nz-form
+    #form="ngForm"
+    (ngSubmit)="ok()"
+    [nzLayout]="'vertical'">
+    <nz-tabset>
+        <nz-tab nzTitle="{{ m.name }}" *ngFor="let m of monomers;let i = index">
+            <nz-table
+                [nzShowPagination]="false"
+                [nzData]="m.workloads">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th nzRequired>类型</th>
+                        <th nzRequired>单位</th>
+                        <th nzRequired>中标工作量</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of m.workloads;let i = index">
+                        <td>
+                            {{ i + 1 }}
+                        </td>
+                        <td>
+                            {{ item.productName }}
+                        </td>
+                        <td>
+                            {{ item.unit }}
+                        </td>
+                        <td>
+                            <nz-input-number
+                                style="width: 100%"
+                                [(ngModel)]="item.biddingQuantity"
+                                [ngModelOptions]="{standalone: true}"
+                                [nzMin]="0"
+                                nzSize="default"
+                                [nzStep]="1"></nz-input-number>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </nz-tab>
+    </nz-tabset>
+
+    <footer-toolbar>
+        <ng-content></ng-content>
+        <button
+            nz-button
+            type="submit"
+            [nzType]="'primary'"
+            nzSize="default"
+            [disabled]="!canSubmit()"
+            [nzLoading]="submitting">{{ btnText }}</button>
+    </footer-toolbar>
+</form>

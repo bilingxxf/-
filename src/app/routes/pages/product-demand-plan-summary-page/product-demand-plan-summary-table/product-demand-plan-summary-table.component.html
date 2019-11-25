@@ -1,0 +1,30 @@
+<nz-table
+    [nzData]="data.data"
+    [(nzPageIndex)]="dto.page"
+    [(nzPageSize)]="dto.size"
+    [nzTotal]="data.totalCount"
+    (nzPageIndexChange)="getData()"
+    (nzPageSizeChange)="getData()"
+    [nzFrontPagination]="false"
+    nzShowTotal
+    nzShowQuickJumper
+    nzShowSizeChanger>
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>名称</th>
+            <th>编号</th>
+            <th>数量</th>
+            <th>需求日期</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of data.data;let i = index;">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.serialNo }}</td>
+            <td>{{ item.demandQuantity }}</td>
+            <td>{{ item.createTime | date: 'yyyy-MM-dd' }}</td>
+        </tr>
+    </tbody>
+</nz-table>

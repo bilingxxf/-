@@ -1,0 +1,66 @@
+<div class="operate-box" style="margin-bottom: 10px">
+    <div class="operate-left-box">
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixButton">
+            <input type="text" [(ngModel)]="dto.name" nz-input placeholder="产品名称"
+                (keyup)="($event.which === 13)?search():0" />
+        </nz-input-group>
+        <ng-template #suffixButton>
+            <span style="cursor: pointer" (click)="search()">搜索</span>
+        </ng-template>
+    </div>
+    <div class="operate-right-box">
+    </div>
+</div>
+<nz-table #enclListTable [nzData]="data.data" [(nzPageIndex)]="dto.page" [(nzPageSize)]="dto.size"
+    [nzTotal]="data.totalCount" (nzPageIndexChange)="getData()" (nzPageSizeChange)="getData()"
+    [nzFrontPagination]="false" [nzLoading]="isSpinning" nzShowTotal nzShowQuickJumper nzShowSizeChanger>
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>产品名称</th>
+            <th>颜色</th>
+            <th>厚度(mm)</th>
+            <th>板型</th>
+            <th>有效宽度(mm)</th>
+            <th>长度(mm)</th>
+            <th style="width: 120px">数量(张)</th>
+            <th>总长度(m)</th>
+            <th>总面积(㎡)</th>
+            <th>使用部位</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of enclListTable.data;let i = index">
+            <td>
+                {{ i + 1 }}
+            </td>
+            <td class="tip-parent">
+                <div *ngIf="item.containmentType !== undefined" class="td-tip"
+                    [ngStyle]="{'background-color': item.containmentType === 0 ? 'green':'orange'}">
+                    {{ item.containmentType === 0 ? '车间' : '工地' }}</div>
+                {{ item.name }}
+            </td>
+            <td>{{ item.color }}</td>
+            <td>{{ item.thickness.toFixed(3) }}</td>
+            <td>{{ item.modelNum }}</td>
+            <td>{{ item.width }}</td>
+            <td>{{ item.length }}</td>
+            <td>
+                {{ item.quantity }}
+            </td>
+            <td>{{ item.totalMeter }}</td>
+            <td>{{ item.surfaceArea }}</td>
+            <td>{{ item.useArea }}</td>
+            <td>
+                <a (click)="preview(item)">查看标签</a>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>
+<style scoped>
+    .print-tip {
+        background: black;
+    }
+
+</style>

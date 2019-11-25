@@ -1,0 +1,41 @@
+<app-project-pro-header [projectId]="projectId" [showCalendar]="true" [remainNumber]="remainNumber">
+    <nz-tabset>
+        <nz-tab nzTitle="{{ monomer.name }}" *ngFor="let monomer of monomers" (nzClick)="currentMonomerss = monomer">
+        </nz-tab>
+    </nz-tabset>
+</app-project-pro-header>
+
+<nz-card class="panel" *ngIf="currentMonomerss">
+    <nz-tabset>
+        <nz-tab nzTitle="任务分配">
+            <!-- <app-material-demand-page></app-material-demand-page> -->
+            <app-task-assignment-mgmt-page [areas]="areas" [monomer]="currentMonomerss" [projectId]="projectId"></app-task-assignment-mgmt-page>
+        </nz-tab>
+        <nz-tab nzTitle="标签打印">
+            <app-print-label-page [areas]="areas" [monomer]="currentMonomerss" [projectId]="projectId">
+            </app-print-label-page>
+        </nz-tab>
+        <nz-tab nzTitle="产量报表">
+            <app-productivity-board [areas]="areas" [monomer]="currentMonomerss" [projectId]="projectId">
+                <!-- 注释之前的代码 -->
+            <!-- <app-productivity-board  [projectId]="projectId"  [monomerId]="currentMonomers.id"></app-productivity-board> -->
+            </app-productivity-board>
+        </nz-tab>
+        <nz-tab nzTitle="工序看板" [acl]="1125"><!-- *hasPermission="1125"-->
+            <!-- <app-productivity-static [areas]="areas" [monomer]="currentMonomerss" [projectId]="projectId"> 
+            </app-productivity-static> -->
+            <app-process-board [areas]="areas" [monomer]="currentMonomerss" [projectId]="projectId"> 
+            </app-process-board>
+        </nz-tab>
+        <nz-tab nzTitle="质量管理" [acl]="1292"><!-- *hasPermission="1292"-->
+            <app-problem-feedback-mgmt-page [typeList]="[1, 2, 3, 4]" [projectId]="projectId">
+            </app-problem-feedback-mgmt-page>
+        </nz-tab>
+        <!-- <nz-tab nzTitle="计划管理">
+            <app-project-plan-detail [projectId]="projectId" [monomerId]="currentMonomerss.id"></app-project-plan-detail>
+        </nz-tab> -->
+        <!-- <nz-tab nzTitle="工地需求计划">
+            <app-site-demand-plan [projectId]="projectId" [monomerId]="currentMonomerss.id"></app-site-demand-plan>
+        </nz-tab> -->
+    </nz-tabset>
+</nz-card>

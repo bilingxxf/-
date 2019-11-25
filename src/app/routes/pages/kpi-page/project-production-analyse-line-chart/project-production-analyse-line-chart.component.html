@@ -1,0 +1,22 @@
+<div style="width: 100%;margin-top: 6px;height: 300px;">
+
+  <nz-select *ngIf="type === 'year'" style="width: 120px;" [(ngModel)]="yearMonth"  nzAllowClear nzPlaceHolder="选择年">
+      <nz-option nzValue="2018" nzLabel="2018"></nz-option>
+      <nz-option nzValue="2019" nzLabel="2019"></nz-option>
+      <nz-option nzValue="2020" nzLabel="2020"></nz-option>
+  </nz-select>
+
+  <nz-month-picker
+    #input
+    *ngIf="type === 'month'"
+    style="width: 100%"
+    [(ngModel)]="yearMonth"
+    [nzFormat]="'YYYY/MM'"
+    name="date"
+    nzSize="default"
+    style="width: 120px;"></nz-month-picker>
+
+  <div
+    #echart
+    style="width: 100%;height: 100%;"></div>
+</div>

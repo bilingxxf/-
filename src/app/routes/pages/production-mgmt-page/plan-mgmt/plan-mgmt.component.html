@@ -1,0 +1,128 @@
+<div style="height: 10px;"></div>
+
+<form nz-form [nzLayout]="'inline'">
+    <nz-form-item>
+        <nz-form-control>
+            <nz-select
+                style="width: 100px;"
+                [(ngModel)]="year"
+                placeholder="请选择"
+                (ngModelChange)="setCurrentMonthData()"
+                name="type"
+                nzAllowClear>
+                <nz-option *ngFor="let y of years" [nzLabel]="y" [nzValue]="y"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control>
+            <nz-select
+                style="width: 100px;"
+                [(ngModel)]="month"
+                (ngModelChange)="setCurrentMonthData()"
+                placeholder="请选择"
+                name="type"
+                nzAllowClear>
+                <nz-option *ngFor="let m of months" [nzLabel]="m + '月'" [nzValue]="m"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+</form>
+
+<nz-card style="margin-top: 10px">
+
+    <div class="vertical-tabs">
+        <div class="vertical-tabs__header">
+            <div class="vertical-tab" (click)="active = 1" [ngClass]="{'is-active': active === 1}">结构</div>
+            <!--<div class="vertical-tab" (click)="active = 2" [ngClass]="{'is-active': active === 2}">围护</div>-->
+            <!--<div class="vertical-tab" (click)="active = 3" [ngClass]="{'is-active': active === 3}">辅材</div>-->
+        </div>
+        <div class="vertical-tabs__content"  *ngIf="active === 1">
+            <div
+                nz-row style="margin-top: 20px;"
+                [acl]="1301">
+                <div
+                    style="margin: 0 4px;padding: 0 8px 4px;"
+                    nz-col
+                    [nzSpan]="3"
+                    *ngFor="let dayOfWeek of weeks"
+                    class="text-right">
+                    {{ dayOfWeek }}
+                </div>
+            </div>
+            <div nz-row
+                *ngFor="let week of dataFormat7"
+                [acl]="1301">
+                <div
+                    nz-col
+                    [nzSpan]="3"
+                    *ngFor="let day of week"
+                    class="text-right item"
+                    (click)="click(day)"
+                    [ngClass]="{
+                        'item-wrote': day.data.length
+                    }">
+                    {{ day.date | date: 'dd' }}
+                </div>
+            </div>
+        </div>
+        <!--<div class="vertical-tabs__content"  *ngIf="active === 2">
+            <div
+                nz-row style="margin-top: 20px;"
+                [acl]="1301">
+                <div
+                    style="margin: 0 4px;padding: 0 8px 4px;"
+                    nz-col
+                    [nzSpan]="3"
+                    *ngFor="let dayOfWeek of weeks"
+                    class="text-right">
+                    {{ dayOfWeek }}
+                </div>
+            </div>
+            <div nz-row
+                *ngFor="let week of chunk(containmentdata, 7)"
+                [acl]="1301">
+                <div
+                    nz-col
+                    [nzSpan]="3"
+                    *ngFor="let day of week"
+                    class="text-right item"
+                    (click)="click(day)"
+                    [ngClass]="{
+                        'item-wrote': day.data.length
+                    }">
+                    {{ day.date | date: 'dd' }}
+                </div>
+            </div>
+        </div>-->
+        <!--<div class="vertical-tabs__content"  *ngIf="active === 3">
+            <div
+                nz-row style="margin-top: 20px;"
+                [acl]="951">
+                <div
+                    style="margin: 0 4px;padding: 0 8px 4px;"
+                    nz-col
+                    [nzSpan]="3"
+                    *ngFor="let dayOfWeek of weeks"
+                    class="text-right">
+                    {{ dayOfWeek }}
+        			</div>
+            </div>
+            <div nz-row
+                *ngFor="let week of chunk(materialData, 7)"
+                [acl]="951">
+                <div
+                    nz-col
+                    [nzSpan]="3"
+                    *ngFor="let day of week"
+                    class="text-right item"
+                    (click)="click(day)"
+                    [ngClass]="{
+                        'item-wrote': day.data.length
+                    }">
+                    {{ day.date | date: 'dd' }}
+                </div>
+            </div>
+        </div>-->
+    </div>
+</nz-card>

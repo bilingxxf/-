@@ -1,0 +1,92 @@
+<div class="content__title">
+    <h1>部门管理</h1>
+</div>
+<nz-card>
+    <form nz-form (keydown.enter)="$event.preventDefault()">
+        <nz-form-item nz-row [nzGutter]="16">
+            <div nz-col [nzSm]="12" [nzOffset]="12">
+                <button
+                    [acl]="969"
+                    (click)="show = !show"
+                    nzType="primary"
+                    nz-button>添加部门</button>
+
+                    <button
+                    [acl]="969"
+                    (click)="showEdit = !showEdit"
+                    nzType="primary"
+                    nz-button>编辑</button>
+
+                    <!-- <button
+                    [acl]="969"
+                    (click)="showEdit = !showEdit"
+                    nzType="primary"
+                    nz-button>设置部门负责人</button> -->
+
+                    <button
+                    [acl]="969"
+                    (click)="showDelete = !showDelete"
+                    nzType="primary"
+                    nz-button>删除部门</button>
+            </div>
+        </nz-form-item>
+        <!-- <nz-form-item  nz-row [nzGutter]="16" *ngIf="show">
+            <div nz-col [nzSm]="5">
+                <button
+                    (click)="c({})"
+                    nzType="primary"
+                    nz-button>添加顶级部门</button>
+            </div>
+        </nz-form-item> -->
+    </form>
+    
+    <tree-root 
+        #tree
+        [nodes]="nodes" 
+        [focused]="true"
+        (toggleExpanded)="getChildren($event)"
+        [options]="options">
+
+        <ng-template #treeNodeTemplate let-node let-index="index">
+            <span>{{ node.data.name }}</span>
+            <button style="margin-left: 5px" *ngIf="show"  (click)="c(node.data)" nz-button [nzType]="'primary'" [nzShape]="'circle'">
+                <i class="anticon anticon-plus"></i>
+            </button>
+            <button style="margin-left: 5px" *ngIf="showEdit"  (click)="edit(node.data)" nz-button [nzType]="'primary'" [nzShape]="'circle'">
+                <i class="anticon anticon-edit"></i>
+            </button>
+            <button style="margin-left: 5px" *ngIf="showDelete"  (click)="remove(node.data)" nz-button [nzType]="'primary'" [nzShape]="'circle'">
+                <i class="anticon anticon-delete"></i>
+            </button>
+        </ng-template>
+    </tree-root>
+    <!-- <nz-table
+        #nzTable
+        [acl]="970"
+        [nzData]="departments"
+        [nzShowPagination]="false"
+        nzShowTotal>
+        <thead>
+            <tr>
+                <th>
+                    <span>部门名称</span>
+                </th>
+                <th>
+                    <span>创建时间</span>
+                </th>
+                <th>
+                    <span>操作</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of departments">
+                <td>{{ data.name }}</td>
+                <td>{{ data.createTime | date: 'yyyy-MM-dd HH:mm' }}</td>
+                <td>
+
+                </td>
+            </tr>
+        </tbody>
+    </nz-table> -->
+</nz-card>

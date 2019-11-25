@@ -1,0 +1,93 @@
+<!-- <div class="content__title">
+    <h1>项目信息</h1>
+</div> -->
+<nz-card style="padding: 0 20px">
+    <div class="operate-box">
+        <div class="operate-left-box">
+            <nz-select style="width: 120px;" [(ngModel)]="dto.year" name="type" nzAllowClear nzPlaceHolder="选择年"  (ngModelChange)="resetPageAndGetData()">
+                <nz-option [nzValue]="year" [nzLabel]="year" *ngFor="let year of years"></nz-option>
+            </nz-select>
+        </div>
+        <div class="operate-right-box">
+            <button nz-button nzType="primary" [routerLink]="['/project-c']" [acl]="1034">
+                <i class="anticon anticon-plus"></i>
+                <span>新建项目</span>
+            </button>
+        </div>
+    </div>
+    <div class="content-box">
+            <nz-table
+            [acl]="1033"
+            [nzData]="data.data"
+            [(nzPageIndex)]="dto.page"
+            [(nzPageSize)]="dto.size"
+            [nzTotal]="data.totalCount"
+            [nzFrontPagination]="false"
+            (nzPageIndexChange)="getData()"
+            (nzPageSizeChange)="getData()"
+            nzShowTotal
+            nzBordered
+            [nzLoading]="_loading"
+            nzShowQuickJumper
+            nzShowSizeChanger>
+            <thead>
+                <tr>
+                    <th><span>序号</span></th>
+                    <th><span>项目名称</span></th>
+                    <th><span>开始时间</span></th>
+                    <th><span>完成时间</span></th>
+                    <th><span>计划用时(天)</span></th>
+                    <th><span>已用时</span></th>
+                    <th><span>完成率</span></th>
+                    <th><span>操作</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let project of data.data;let i = index;" [routerLink]="['/project-detail', project.id]">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ project.name }}</td>
+                    <td>{{ project.startDate | date: 'yyyy-MM-dd' }}</td>
+                    <td>{{ project.endDate | date: 'yyyy-MM-dd' }}</td>
+                    <td>{{ project.totalDays }}</td>
+                    <td>{{ project.workDays }}</td>
+                    <td>{{ project.finishedPercent }}%</td>
+                    <td>
+                        <span>
+                            <a (click)="getMembers($event, project)">项目成员</a>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+    
+</nz-card>
+<nz-modal [nzVisible]="isVisible" [nzTitle]="'项目成员'" [nzContent]="modalContent" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <ng-template #modalContent>
+        <nz-table #userListTable [nzData]="userList" [nzShowPagination]="false" [nzScroll]="{ y: '500px' }" [nzLoading]="isSpinning">
+            <thead>
+                <tr>
+                    <th nzWidth="150px"><span>姓名</span></th>
+                    <th nzWidth="150px"><span>职位</span></th>
+                    <th nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of userList">
+                    <td>{{user.name}}</td>
+                    <td>{{user.departmentName}}</td>
+                    <td nzShowCheckbox [(nzChecked)]="user.checked" (nzCheckedChange)="join(user)">
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </ng-template>
+</nz-modal>
+<style scoped>
+.content__title {
+    border: none !important;
+    padding: 20px 55px !important;
+    background: none !important;
+    margin: 10px 0 0 -24px !important;
+} 
+</style>

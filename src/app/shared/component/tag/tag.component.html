@@ -1,0 +1,15 @@
+<!-- <div class="tags">
+  <div class="tag" *ngFor="let item of options" [ngStyle]="{'background-color': item.color}">
+    {{item.label}}
+  </div>
+</div> -->
+
+<div class="tags">
+  <div class="tag" *ngFor="let item of options">
+      <div class="circle" [ngStyle]="{'background-color': item.color}"></div>
+      <div class="title">
+          {{item.label}}
+      </div>
+  </div>
+  
+</div>

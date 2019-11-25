@@ -1,0 +1,59 @@
+<div class="operate-box">
+    <div class="operate-left-box">
+        <nz-month-picker #input style="width: 100%" [(ngModel)]="date" (ngModelChange)="onChange($event)"
+            [nzFormat]="'YYYY/MM'" name="date" nzSize="default"></nz-month-picker>
+    </div>
+    <div class="operate-right-box">
+
+    </div>
+</div>
+<div class="content-box">
+    <nz-table [acl]="938" [nzData]="data" [(nzPageIndex)]="dto.page" [(nzPageSize)]="dto.size" [nzTotal]="totalCount"
+        (nzPageIndexChange)="getData()" (nzPageSizeChange)="getData()" [nzFrontPagination]="false" nzShowQuickJumper
+        nzShowSizeChanger nzShowTotal>
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>日期</th>
+                <th>车牌号</th>
+                <th>司机姓名</th>
+                <th>司机电话</th>
+                <th>出库办理人</th>
+                <th>理论重量(kg)</th>
+                <th>过磅重量(kg)</th>
+                <th>差值</th>
+                <th>差值率(%)</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data;let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.recordDate | date: 'yyyy-MM-dd' }}</td>
+                <td>{{ item.licensePlate }}</td>
+                <td>{{ item.driverName }}</td>
+                <td>{{ item.driverPhone }}</td>
+                <td>{{ item.consigneeName }}</td>
+                <td>{{ item.theoreticalWeight }}</td>
+                <td>{{ item.actualWeight }}</td>
+                <td [ngStyle]="{'color': item.difference > 0 ? 'red' : item.difference == 0 ? '' : 'green'}">
+                    {{ (item.difference > 0 ? '+':'') + item.difference }}</td>
+                <td [ngStyle]="{'color': item.difference > 0 ? 'red' : item.difference == 0 ? '' : 'green'}">
+                    {{ item.differenceRate }}</td>
+                <td>
+                    <a (click)="openDetailModal(item.id)">查看</a>
+                    <a (click)="exportExcel(item.id)" style="margin-left: 10px;">下载</a>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+
+    <a *ngIf="data.length>0" (click)="monthExportExcel()" class="export-style">月度汇总下载</a>
+</div>
+<style scoped>
+    .export-style {
+        display: inline-block;
+        margin: 20px 0 20px 20px;
+        font-size: 16px;
+    }
+</style>

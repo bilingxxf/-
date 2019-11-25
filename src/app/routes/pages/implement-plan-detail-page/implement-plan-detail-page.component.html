@@ -1,0 +1,358 @@
+<app-project-pro-header [projectId]="projectId">
+    <nz-tabset>
+        <nz-tab nzTitle="{{ monomer.name }}" *ngFor="let monomer of monomers" (nzClick)="currentMonomers = monomer">
+        </nz-tab>
+    </nz-tabset>
+</app-project-pro-header>
+
+<nz-card>
+    <nz-table #nzTable 
+    [nzData]="areas" 
+    [nzBordered]="true"
+    [nzLoading]="loading"
+    [nzShowPagination]="false">
+        <thead>
+            <tr>
+                <th><span>序号</span></th>
+                <th><span>部门计划</span></th>
+                <th><span>开始时间</span></th>
+                <th><span>结束时间</span></th>
+                <th><span>计划用时(天)</span></th>
+                <th><span>实际用时(天)</span></th>
+                <th><span>操作</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of areas;let i = index;">
+                <td>  {{ i + 1 }} </td>
+                <td>  {{ item.typeName }} </td>
+                <td>  {{ item.startDate? (item.startDate | date: 'yyyy-MM-dd'): '-'  }} </td>
+                <td>  {{ item.planedFinishDate? (item.planedFinishDate | date: 'yyyy-MM-dd'): '-' }} </td>
+                <td title={{item.planDate}}>  {{ item.planDate? item.planDate: '-' }} </td>
+                <td  [ngClass]="{'green': item.isFinish==true,'red': item.isFinish == false}"> {{ item.actualDate? item.actualDate: '-' }} </td>
+                <td>
+                    <!-- <a (click)="editPlan(item)">修改</a>&nbsp; -->
+                    <nz-popconfirm [nzTitle]="'确定要点击完成计划吗?'" (nzOnConfirm)="finishHandle(item)" >
+                        <button nz-popconfirm  nz-button style="margin-left: 5px">完成</button>
+                    </nz-popconfirm>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+    <nz-tabset>
+        <!-- 施工区域划分 -->
+        <!-- <nz-tab nzTitle="施工区域划分">
+            <nz-table #nzTable [nzData]="areas" [nzShowPagination]="false">
+                <thead>
+                    <tr>
+                        <th><span>序号</span></th>
+                        <th><span>区域划分</span></th>
+                        <th><span>轴线或标高</span></th>
+                        <th><span>操作</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of areas;let i = index;">
+                        <td>
+                            {{ i + 1 }}
+                        </td>
+                        <td>
+                            {{ item.areaName }}
+                        </td>
+                        <td>
+                            {{ item.coordinates }}
+                        </td>
+                        <td title={{item.tip}}>
+                            {{ item.tip }}
+                        </td>
+                        <td>
+                            <a (click)="editPlan(item)">修改</a>&nbsp;
+                            <nz-popconfirm [nzTitle]="'确定要删除该区域吗?'" (nzOnConfirm)="remove(item)" >
+                                <button nz-popconfirm  nz-button nzType="danger"  style="margin-left: 5px">删除</button>
+                            </nz-popconfirm>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </nz-tab> -->
+        <!-- <nz-tab nzTitle="详图深化计划">
+            <nz-table #nzTable [nzData]="plans.detailPlan" [nzShowPagination]="false">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>区域划分</th>
+                        <th>轴线或标高</th>
+                        <th>开始时间</th>
+                        <th>计划结束时间</th>
+                        <th>计划用时(天)</th>
+                        <th>说明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of plans.detailPlan;let i = index;">
+                        <td>
+                            {{ i + 1 }}
+                        </td>
+                        <td>
+                            {{ item.areaDivision && item.areaDivision.areaName }}
+                        </td>
+                        <td>
+                            {{ item.areaDivision && item.areaDivision.coordinates }}
+                        </td>
+                        <td>
+                            {{ item.startDate | date: 'yyyy-MM-dd' }}
+                        </td>
+                        <td>
+                            {{ item.planedFinishDate | date: 'yyyy-MM-dd' }}
+                        </td>
+                        <td>
+                            {{ '' | duration: item.startDate:item.planedFinishDate }}
+                        </td>
+                        <td title={{item.tip}}>
+                            {{ item.tip }}
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </nz-tab> -->
+        
+        <!-- <nz-tab nzTitle="生产计划">
+            <nz-table #nzTable [nzData]="plans.rawMaterialPurchasePlan" [nzShowPagination]="false">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>区域划分</th>
+                        <th>轴线/标高</th>
+                        <th>开始时间</th>
+                        <th>计划结束时间</th>
+                        <th>计划用时(天)</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of plans.rawMaterialPurchasePlan;let i = index;">
+                        <td>
+                            {{ i + 1 }}
+                        </td>
+                        <td>
+                            {{ item.areaDivision && item.areaDivision.areaName }}
+                        </td>
+                        <td>
+                            {{ item.areaDivision && item.areaDivision.coordinates }}
+                        </td>
+                        <td>
+                            {{ item.startDate | date: 'yyyy-MM-dd' }}
+                        </td>
+                        <td>
+                            {{ item.planedFinishDate | date: 'yyyy-MM-dd' }}
+                        </td>
+                        <td>
+                            {{ '' | duration: item.startDate:item.planedFinishDate }}
+                        </td>
+                        <td>
+                            <button nz-button [nzType]="'primary'" (click)="showModal(item)"><span>修改</span></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </nz-tab> -->
+
+
+        <!-- <nz-tab nzTitle="安装计划">
+            <nz-table #nzTable [nzData]="plans.installation" [nzShowPagination]="false">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>区域划分</th>
+                        <th>轴线/标高</th>
+                        <th>开始时间</th>
+                        <th>完成时间</th>
+                        <th>用时(天)</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of plans.installation;let i = index;">
+                        <td>
+                            {{ i + 1 }}
+                        </td>
+                        <td>
+                            {{ item.areaDivision && item.areaDivision.areaName }}
+                        </td>
+                        <td>
+                            {{ item.areaDivision && item.areaDivision.coordinates }}
+                        </td>
+                        <td>
+                            {{ item.startDate | date: 'yyyy-MM-dd' }}
+                        </td>
+                        <td>
+                            {{item.planedFinishDate | date: 'yyyy-MM-dd' }}
+                        </td>
+                        <td>
+                            {{ '' | duration: item.startDate:item.planedFinishDate }}
+                        </td>
+                        <td>
+                            <button nz-button [nzType]="'primary'" (click)="showModal(item)"><span>修改</span></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </nz-tab>
+        <nz-tab nzTitle="物料采购计划">
+                <nz-table #nzTable [nzData]="plans.materialPurchasePlan" [nzShowPagination]="false">
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>任务名称</th>
+                            <th>开始时间</th>
+                            <th>计划结束时间</th>
+                            <th>计划用时(天)</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of plans.materialPurchasePlan;let i = index;">
+                            <td>
+                                {{ i + 1 }}
+                            </td>
+                            <td>
+                                {{ item.name }}
+                            </td>
+                            <td>
+                                {{ item.startDate | date: 'yyyy-MM-dd' }}
+                            </td>
+                            <td>
+                                {{ item.planedFinishDate | date: 'yyyy-MM-dd' }}
+                            </td>
+                            <td>
+                                {{ '' | duration: item.startDate:item.planedFinishDate }}
+                            </td>
+                            <td>
+                                <button nz-button [nzType]="'primary'" (click)="showModal(item)"><span>修改</span></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </nz-tab> -->
+        <!-- <nz-tab nzTitle="分包招标计划">
+            <nz-table #nzTable [nzData]="plans.subcontractPenderingPlan" [nzShowPagination]="false">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>任务名称</th>
+                        <th>开始时间</th>
+                        <th>计划结束时间</th>
+                        <th>计划用时(天)</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of plans.subcontractPenderingPlan;let i = index;">
+                        <td>
+                            {{ i + 1 }}
+                        </td>
+                        <td>
+                            {{ item.name }}
+                        </td>
+                        <td>
+                            {{ item.startDate | date: 'yyyy-MM-dd' }}
+                        </td>
+                        <td>
+                            {{ item.planedFinishDate | date: 'yyyy-MM-dd' }}
+                        </td>
+                        <td>
+                            {{ '' | duration: item.startDate:item.planedFinishDate }}
+                        </td>
+                        <td>
+                            <button nz-button [nzType]="'primary'" (click)="showModal(item)"><span>修改</span></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </nz-tab> -->
+    </nz-tabset>
+</nz-card>
+
+<nz-modal [nzVisible]="isVisible"
+[nzFooter]="true" 
+    (nzOnCancel)="handleCancel()" 
+    (nzOnOk)="handleOk()"
+>
+<form  #form="ngForm" nz-form>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24" for="areaName">
+            区域划分
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input
+                name="areaName"
+                [(ngModel)]="editForm.areaName"
+                [nzSize]="'large'"
+                required>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24" for="coordinates" nzRequired>
+            轴线或高
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input
+                name="coordinates"
+                [(ngModel)]="editForm.coordinates"
+                [nzSize]="'large'"
+                required>
+        </nz-form-control>
+    </nz-form-item>
+</form>
+</nz-modal>
+<!-- <nz-modal [nzVisible]="isVisible"
+    [nzTitle]="'修改施工区域划分'"  
+    [nzFooter]="true" 
+    (nzOnCancel)="handleCancel()" 
+    (nzOnOk)="handleOk()">
+    <ng-template #modalContent>
+        <form nz-form
+        [formGroup]="validateForm"
+        (ngSubmit)="handleOk()">
+            <nz-form-item nz-row>
+                <nz-form-label nzRequired for="areaName" >
+                    区域划分
+                </nz-form-label>
+                <nz-form-control >
+                    <nz-input-group >
+                        <input nz-input 
+                        type="text"
+                        [ngModel]="editForm.areaName"
+                        formControlName="areaName" 
+                        id="areaName">
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>  
+            <nz-form-item nz-row>
+                    <nz-form-label nzRequired for="coordinates"  >
+                        轴线或高
+                    </nz-form-label>
+                    <nz-form-control >
+                        <nz-input-group >
+                            <input nz-input 
+                            id="coordinates"
+                            type="text"
+                            [ngModel]="editForm.coordinates" 
+                            formControlName="coordinates"
+                            >
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>             
+        </form>
+    </ng-template>
+</nz-modal> -->
+<style scoped>
+.red {
+    color: red;
+    font-weight: 700;
+}
+.green {
+    color: green;
+    font-weight: 700; 
+}
+</style>

@@ -1,0 +1,95 @@
+<div class="operate-box">
+    <div class="operate-left-box">
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixButton" style="margin-right: 10px">
+            <input type="text" #input
+                nz-input placeholder="班组名称"
+                [(ngModel)]="lineUserDTO.userName"
+                (keyup)="($event.which === 13)?fetchList():0" />
+        </nz-input-group>
+        <ng-template #suffixButton>
+            <span style="cursor: pointer" (click)="fetchList()">搜索</span>
+        </ng-template>
+    </div>
+    <div class="operate-right-box">
+        
+    </div>
+</div>
+<div class="content-box">
+  <div>
+    <nz-spin [nzSpinning]="isSpinning" [nzTip]="'正在加载数据...'">
+      <full-calendar
+        #calendar
+        locale= "zh-cn"
+        [height]="600"
+        [eventLimit]="true"
+        defaultView="dayGridMonth"
+        [header]="{ left: 'prev,next, today', center: 'title', right: 'dayGridMonth,listMonth,listWeek' }"
+        [buttonText]="{ prev: '<', next: '>', today: '今天', month: '月日历', listMonth: '月清单', listWeek: '周清单' }"
+        [eventLimitText]="'更多'"
+        [allDayText]="'全天'"
+        [noEventsMessage]="'没有数据'"
+        [plugins]="calendarPlugins"
+        [weekends]="true"
+        [timeZone]="'UTC'"
+        [eventSources]="eventSources"
+        (eventClick)="eventClick($event)"
+        (datesRender)="datesRender($event)"
+      ></full-calendar>
+    </nz-spin>
+  </div>
+
+  <nz-modal [(nzVisible)]="isUserDetailDlgVisible" [nzBodyStyle]="{ 'padding':'10px'}" [nzWidth]="'1000px'" [nzTitle]="userDlgTitle" (nzOnCancel)="handleCancel()" [nzOkText]="'下载'" [nzCancelText]="'退出'" (nzOnOk)="exportExcel()">
+      <div class="operate-box">
+          <div class="operate-left-box">
+              <nz-tag [nzColor]="'#108ee9'">
+                  <span style="display: inline-block;">单体累计数量：{{ summary.totalNumber }}</span>
+              </nz-tag>
+              <nz-tag [nzColor]="'#f50'">
+                  <span style="display: inline-block;">单体累计重量：{{ summary.totalWeight }}kg</span>
+              </nz-tag>
+          </div>
+          <div class="operate-right-box">
+              
+          </div>
+      </div>
+      <div class="content-box">
+          <nz-table 
+          #userDetailTable 
+          [nzData]="userDetailData.data"
+          [(nzPageIndex)]="userDetailListDTO.page"
+          [(nzPageSize)]="userDetailListDTO.size"
+          [nzTotal]="userDetailData.totalCount"
+          (nzPageIndexChange)="getUserDetailList()"
+          (nzPageSizeChange)="getUserDetailList()"
+          [nzFrontPagination]="false"
+          [nzLoading]="isDetailSpinning"
+          [nzScroll]="{ y: '560px' }"
+          nzShowQuickJumper
+          nzShowSizeChanger
+          >
+              <thead>
+                  <tr>
+                      <th nzWidth="50px">序号</th>
+                      <th nzWidth="100px">区域</th>
+                      <th nzWidth="100px">构件名称</th>
+                      <th nzWidth="100px">构件编号</th>
+                      <th nzWidth="100px">数量</th>
+                      <th nzWidth="100px">重量（kg）</th>
+                      <th nzWidth="100px">完成时间</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let item of userDetailTable.data; let i = index">
+                      <td>{{i + 1}}</td>
+                      <td>{{item.areaDivisionName}}</td>
+                      <td>{{item.structure ? item.structure.name : ''}}</td>
+                      <td>{{item.structure ? item.structure.serialNo : ''}}</td>
+                      <td>{{item.needQuantity}}</td>
+                      <td>{{item.planWeight}}</td>
+                      <td>{{item.deadline | date: 'yyyy-MM-dd'}}</td>
+                  </tr>
+              </tbody>
+          </nz-table>
+      </div>
+  </nz-modal>
+</div>

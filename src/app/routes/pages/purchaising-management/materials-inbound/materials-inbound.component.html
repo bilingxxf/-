@@ -1,0 +1,94 @@
+
+<nz-card>
+        <form nz-form [nzLayout]="'inline'" style="margin-bottom: 15px">
+            <nz-form-item>
+                <nz-form-control>
+                    <nz-date-picker [nzSize]="'default'" nzPlaceHolder="'入库日期'"></nz-date-picker>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-control>
+                    <nz-select name="formType" style="width: 120px;" [(ngModel)]="materialInOutQuery.formType" nzPlaceHolder="'请选择物料类型'" nzAllowClear>
+                        <nz-option
+                            *ngFor="let option of materailTypes"
+                            [nzLabel]="option.label"
+                            [nzValue]="option.value">
+                        </nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-control>
+                    <nz-select name="formType" style="width: 120px;" [(ngModel)]="materialInOutQuery.bomResult" nzPlaceHolder="'请选择入库状态'" nzAllowClear>
+                        <nz-option
+                            *ngFor="let option of materialInboundStatus"
+                            [nzLabel]="option.label"
+                            [nzValue]="option.value">
+                        </nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-control>
+                    <button nz-button [nzType]="'primary'" (click)="getInboundOrderList()">
+                        <span>搜索</span>
+                    </button>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-control>
+                    <button nz-button [nzType]="'primary'"  routerLink="/materials-add-inbound"> 
+                        <span>入库</span>
+                    </button>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+        <nz-table #nzTable [nzTotal]="12" [nzPageSize]="10" (nzPageIndexChangeClick)="getInboundOrderList($event)" [nzData]="(material.materialInboundOrderList$ | async) || []">
+        <thead>
+          <tr>
+            <th><span>入库单号</span></th>
+            <th><span>入库日期</span></th>
+            <th><span>状态</span></th>
+            <th><span>入库人</span></th>
+            <th><span>操作</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of nzTable.data; index as i">
+            <td>{{data.bomNo}}</td>
+            <td>{{data.createTime}}</td>
+            <td>{{MaterialInboundStatus[data.bomResult]}}</td>
+            <td>{{data.createName}}</td>
+            <td>
+                <a *ngIf="data.bomResult === 0" routerLink="/materials-add-inbound" [queryParams]="{id: data.id}">编辑</a>
+                <a *ngIf="data.bomResult === 0" style="margin-left: 15px;" (click)="remove(data)">删除</a>
+                <a *ngIf="data.bomResult === 0" style="margin-left: 15px;" (click)="updateStatus(data)">修改状态</a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </nz-card>
+
+    <!-- <nz-modal [nzVisible]="isVisible" [nzTitle]="'第一个 Modal'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
+        <ng-template #modalContent>
+            <form nz-form  class="login-form">
+                <nz-form-item>
+                    <nz-form-control>
+                        <input nz-input name="varietiesName"  placeholder="名称" [nzSize]="'default'" [(ngModel)]="materialVariety.varietiesName">
+                        
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <input nz-input name="varietiesCode"  placeholder="名称代码" [nzSize]="'default'" [(ngModel)]="materialVariety.varietiesCode">
+                        
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <button nz-button [nzType]="'primary'" (click)="addMaterialVariety()">
+                        <span>确定</span>
+                    </button>
+                </nz-form-item>
+            </form>
+        </ng-template>
+    </nz-modal> -->

@@ -1,0 +1,13 @@
+<nz-card>
+        <nz-tabset style="min-height: 600px;margin-right:20px" [nzShowPagination]="false" [nzTabPosition]="'left'"
+            [(nzSelectedIndex)]="leftSelectedIndex">
+            <nz-tab *ngFor="let tab of leftTabs" [nzTitle]="tab.name">
+                <ng-container *ngIf="tab.value === 'structure' && tab.index == leftSelectedIndex">
+                   <app-install-detail-struc [currentMonomer]="currentMonomer.monomer.id"></app-install-detail-struc>
+                </ng-container>
+                <ng-container *ngIf="tab.value === 'enclosure' && tab.index == leftSelectedIndex">
+                    <app-install-detail-encl [currentMonomer]="currentMonomer.monomer.id"></app-install-detail-encl>
+                </ng-container>
+            </nz-tab>
+        </nz-tabset>
+    </nz-card>

@@ -1,0 +1,105 @@
+<nz-spin [nzSpinning]="isPrintSpinning" nzTip="正在打印">
+    <div class="operate-box">
+        <div class="operate-left-box">
+            <nz-month-picker
+                #input
+                style="width: 100%"
+                [(ngModel)]="searchDate"
+                (ngModelChange)="changeDate($event)"
+                [nzFormat]="'YYYY-MM'"
+                name="date"
+                nzSize="default"></nz-month-picker>
+        </div>
+        <div class="operate-right-box">
+        </div>
+    </div>
+    <div style="padding: 10px;box-sizing:border-box;">
+        <nz-table
+            #packingTable
+            [nzData]="tableData.data"
+            [(nzPageIndex)]="packListDTO.page"
+            [(nzPageSize)]="packListDTO.size"
+            [nzTotal]="tableData.totalCount"
+            (nzPageIndexChange)="getPackingList()"
+            (nzPageSizeChange)="getPackingList()"
+            [nzFrontPagination]="false"
+            nzShowTotal
+            nzShowQuickJumper
+            nzShowSizeChanger>
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>日期</th>
+                    <th>包单号</th>
+                    <th>打包办理人</th>
+                    <th>数量</th>
+                    <th>理论重量（kg）</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of packingTable.data;let i = index;">
+                    <td> {{ 1 + i }} </td>
+                    <td> {{ item.createTime | date:'yyyy-MM-dd HH:mm' }} </td>
+                    <td> {{ item.bagSerial }} </td>
+                    <td> {{ item.userName }} </td>
+                    <td> {{ item.countResponseVO && item.countResponseVO.number ? item.countResponseVO.number : 0 }} </td>
+                    <td> {{ item.countResponseVO && item.countResponseVO.theoreticalWeight ? item.countResponseVO.theoreticalWeight : 0 }} </td>
+                    <td class="action-box">
+                        <span (click)="previewLabel(item)">查看标签</span>
+                        <span> / </span>
+                        <span (click)="printLabel(item)">打印标签</span>
+                        <span> / </span>
+                        <span (click)="showPackDetail(item)">查看</span>
+                        <span> / </span>
+                        <span (click)="exportExcelPackDetail(item)">下载</span>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</nz-spin>
+<nz-modal [(nzVisible)]="isPackingDetailDlgVisible" [nzWidth]="'1000px'" [nzTitle]="currentPack.bagSerial" (nzOnCancel)="handleCancel()" [nzCancelText]="null" (nzOnOk)="handleOk()">
+    <div style="width: 100%;padding: 0 10px;box-sizing: border-box;">
+        <nz-table 
+        #packDetailTable 
+        [nzData]="packDetailData.productBagLinkList"
+        [nzLoading]="isDetailSpinning"
+        [nzShowPagination]="'false'"
+        [nzFrontPagination]="false"
+        [nzScroll]="{ y: '600px' }"
+        >
+            <thead>
+                <tr>
+                    <th nzWidth="150px">序号</th>
+                    <th nzWidth="150px">构件名称</th>
+                    <th nzWidth="150px">编号</th>
+                    <th nzWidth="150px">单位</th>
+                    <th nzWidth="150px">规格</th>
+                    <th nzWidth="150px">数量</th>
+                    <th nzWidth="150px">重量（kg）</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of packDetailTable.data; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ item.productName }}</td>
+                    <td>{{ item.serialNo }}</td>
+                    <td>{{ item.unit }}</td>
+                    <td>{{ item.specification }}</td>
+                    <td>{{ item.productNumber }}</td>
+                    <td>{{ item.totalWeight }}</td>
+                </tr>
+                <tr>
+                    <td>合计</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ packDetailData.countResponseVO && packDetailData.countResponseVO.number ? packDetailData.countResponseVO.number : 0 }}</td>
+                    <td>{{ packDetailData.countResponseVO && packDetailData.countResponseVO.number ? packDetailData.countResponseVO.theoreticalWeight : 0 }}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</nz-modal>

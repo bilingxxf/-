@@ -1,0 +1,48 @@
+<div class="content__title">
+    <h1>{{projectId ? '修改项目':'新建项目'}}</h1>
+</div>
+<nz-card
+    [nzBordered]="false">
+    <app-project-c-steps [current]="current"></app-project-c-steps>
+    <app-project-info-c-u
+        [hidden]="current !== 0"
+        [dto]="projectInfoCDto"
+        (onSubmitted)="goNextStep()"
+        btnText="下一步"></app-project-info-c-u>
+    <app-project-customer-c-u
+        *ngIf="current === 1"
+        [dto]="projectCustomerCreateDto"
+        btnText="保存"
+        (onSubmitted)="ok()" 
+        >
+        <button
+            nz-button
+            (click)="goPreStep()"
+            type="button"
+            nzSize="default">上一步</button>
+    </app-project-customer-c-u>
+    <!-- <app-project-payment-remind-c-u
+        *ngIf="current === 2"
+        [dto]="projectPaymentRemindCDto"
+        [projectInfo]="projectInfoCDto"
+        btnText="下一步"
+        (onSubmitted)="projectPaymentRemindCDto = $event;goNextStep()">
+        <button
+            nz-button
+            (click)="goPreStep()"
+            type="button"
+            nzSize="default">上一步</button>
+    </app-project-payment-remind-c-u> -->
+    <!-- <app-project-workload-c-u
+        *ngIf="current === 3"
+        [monomers]="projectInfoCDto.monomers"
+        btnText="保存"
+        (onSubmitted)="ok()"
+        >
+        <button
+            nz-button
+            (click)="goPreStep()"
+            type="button"
+            nzSize="default">上一步</button>
+    </app-project-workload-c-u> -->
+</nz-card>

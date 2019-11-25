@@ -1,0 +1,96 @@
+<div class="operate-box">
+    <div class="operate-left-box">
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixButton" style="margin-right: 10px">
+            <input type="text" [(ngModel)]="dto.productName" nz-input placeholder="产品名称"
+                (keyup)="($event.which === 13)?search():0" />
+        </nz-input-group>
+        <ng-template #suffixButton>
+            <span style="cursor: pointer" (click)="search()">搜索</span>
+        </ng-template>
+    </div>
+    <div class="operate-right-box">
+        <div class="total-info">
+            <span>
+                清单量: {{ sum.totalQuantity || 0 }} |
+                {{ sum.totalArea || 0 }} ㎡
+            </span>
+            <span>
+                入库: {{ sum.inStockQuantity || 0 }} |
+                {{ sum.inStockArea || 0 }} ㎡
+            </span>
+            <span>
+                出库：{{ sum.outStockQuantity || 0 }} |
+                {{ sum.outStockArea || 0 }} ㎡
+            </span>
+            <span>
+                库存：{{ ((sum.inStockQuantity || 0) - (sum.outStockQuantity || 0)) }}
+                | {{ ((sum.inStockArea || 0) - (sum.outStockArea || 0)).toFixed(2)  }}
+                ㎡
+            </span>
+        </div>
+    </div>
+</div>
+<div class="content-box">
+    <nz-table #enclTable [nzData]="data.data" [(nzPageIndex)]="dto.page" [(nzPageSize)]="dto.size" [nzTotal]="data.totalCount"
+        (nzPageIndexChange)="getData()" (nzPageSizeChange)="getData()" [nzFrontPagination]="false" [nzLoading]="isSpinning"
+        nzShowTotal nzShowQuickJumper nzShowSizeChanger>
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>产品名称</th>
+                <th>颜色</th>
+                <th>厚度(mm)</th>
+                <th>板型</th>
+                <th>有效宽度(mm)</th>
+                <th>长度(mm)</th>
+                <th>数量(张)</th>
+                <th>总长度(m)</th>
+                <th>总面积(㎡)</th>
+                <th>使用部位</th>
+                <th>入库数量</th>
+                <th>出库数量</th>
+                <th>库存数量</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of enclTable.data;let i = index">
+                <td>{{ i + 1 }}</td>
+                <td class="tip-parent">
+                    <div *ngIf="item.containmentType !== undefined" class="td-tip"
+                        [ngStyle]="{'background-color': item.containmentType === 0 ? 'green':'orange'}">
+                        {{ item.containmentType === 0 ? '车间' : '工地' }}</div>
+                    {{ item.name }}
+                </td>
+                <td>{{ item.color }}</td>
+                <td>{{ item.thickness }}</td>
+                <td>{{ item.modelNum }}</td>
+                <td>{{ item.width }}</td>
+                <td>{{ item.length }}</td>
+                <td>{{ item.totalQuantity }}</td>
+                <td>{{ item.totalMeter }}</td>
+                <td>{{ item.surfaceArea }}</td>
+                <td>{{ item.useArea }}</td>
+                <td>{{ item.inStockQuantity }}</td>
+                <td>{{ item.outStockQuantity }}</td>
+                <td>{{ item.inStockQuantity - item.outStockQuantity }}</td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>
+
+<style scoped>
+.total-info {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-content: center
+}
+
+.total-info >span {
+    /* flex: 1; */
+    margin-left: 30px;
+    color: #5B9BD5;
+    font-weight: 600;
+}
+</style>

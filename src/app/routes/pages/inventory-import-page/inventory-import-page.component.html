@@ -1,0 +1,121 @@
+<app-project-pro-header [projectId]="projectId" [showCalendar]="true" [remainNumber]='remainNumber'>
+    <nz-tabset>
+        <nz-tab nzTitle="{{ monomer.name }}" *ngFor="let monomer of monomers" (nzClick)="currentMonomer = monomer">
+        </nz-tab>
+    </nz-tabset>
+</app-project-pro-header>
+<ng-container *ngIf="currentMonomer">
+
+    <nz-card>
+        <!-- <div nz-row style="margin-bottom: 10px">
+            <div nz-col [nzSpan]="3">
+                <nz-upload style="display: inline;margin-left: 10px;" (nzChange)="uploadChange($event, currentMonomer)"
+                    nzAction="/engine/fileupload">
+                    <button nz-button nzType="primary" nzSize="default">
+                        <i class="anticon anticon-upload"></i><span>导入模型</span>
+                    </button>
+                </nz-upload>
+            </div>
+        </div> -->
+        <nz-tabset style="min-height: 600px;margin-right:20px" [nzShowPagination]="false" [nzTabPosition]="'left'"
+            [(nzSelectedIndex)]="leftSelectedIndex">
+            <nz-tab *ngFor="let tab of leftTabs" [nzTitle]="tab.name">
+                <ng-container *ngIf="tab.value === 'structure' && tab.index == leftSelectedIndex && currentMonomer">
+                    <nz-tabset>
+                        <nz-tab nzTitle="合计" [acl]="1181" *ngIf="areas && summary" (nzClick)="currentArea = null">
+                            <nz-table [acl]="1181" #nzTable [nzData]="summary.items" [nzShowPagination]="false"
+                                [nzTotal]="summary.items.length" nzShowTotal>
+                                <thead>
+                                    <tr>
+                                        <th><span>序号</span></th>
+                                        <th><span>区域</span></th>
+                                        <th><span>数量(支)</span></th>
+                                        <th><span>重量(t)</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data of summary.items;let i = index;">
+                                        <td>{{ i + 1 }}</td>
+                                        <td>{{ data.areaName }}</td>
+                                        <td>{{ data.totalQuantity }}</td>
+                                        <td>{{ data.totalWeight | kgToT }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>合计</td>
+                                        <td></td>
+                                        <td>{{totalQuailty}}</td>
+                                        <td>{{totalWeight}}</td>
+                                    </tr>
+                                </tbody>
+                            </nz-table>
+                        </nz-tab>
+                        <ng-container *ngIf="areas && summary">
+                            <nz-tab nzTitle="{{area.areaName}} {{area.id? '('+ area.coordinates +')' : ''}}"
+                                *ngFor="let area of areas" (nzClick)="currentArea = area">
+                            </nz-tab>
+                        </ng-container>
+                    </nz-tabset>
+                    <app-component-table *ngIf="currentArea" [area]="currentArea" [monomerId]="currentMonomer.id"
+                        #componentList>
+                    </app-component-table>
+                </ng-container>
+                <ng-container *ngIf="tab.value === 'enclosure' && tab.index == leftSelectedIndex">
+                    <div style="position: relative">
+                    <nz-tabset>
+                        <ng-container *ngIf="enclosureTab">
+                            <nz-tab nzTitle="{{area.areaName}}" *ngFor="let area of enclosureTab"
+                                (nzClick)="currentArea = area">
+                            </nz-tab>
+                        </ng-container>
+                    </nz-tabset>
+                    <div *ngIf="enclosureTab" style="position: absolute;right: 0;top: 8px;">
+                        <!-- <app-tag [options]="options"></app-tag> -->
+                        <div class="total-info">
+                                <span>
+                                    合计长度：{{ summaryEncl.totalMeter || 0 }}m
+                                </span>
+                                <span>
+                                    合计数量：{{ summaryEncl.totalQuantity || 0 }}张
+                                </span>
+                                <span>
+                                    合计面积：{{ summaryEncl.totalSurfaceArea || 0 }}㎡
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <app-enclosure-table [monomerId]="currentMonomer.id" [area]="currentArea" #enclosureList>
+                    </app-enclosure-table>
+                </ng-container>
+                <ng-container *ngIf="tab.value === 'material' && tab.index == leftSelectedIndex">
+                    <nz-tabset>
+                        <ng-container *ngIf="materialTab">
+                            <nz-tab nzTitle="{{area.areaName}}" *ngFor="let area of materialTab"
+                                (nzClick)="currentArea = area">
+                            </nz-tab>
+                        </ng-container>
+                    </nz-tabset>
+                    <app-support-material-table [monomerId]="currentMonomer.id" [area]="currentArea"
+                        #supportMaterialList>
+                    </app-support-material-table>
+                </ng-container>
+            </nz-tab>
+        </nz-tabset>
+    </nz-card>
+</ng-container>
+<style scoped>
+    .total-info {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-content: center
+    }
+
+    .total-info>span {
+        /* flex: 1; */
+        margin-left: 30px;
+        color: #5B9BD5;
+        font-weight: 600;
+    }
+
+</style>

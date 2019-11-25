@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="top">
+        <div class="head">
+            <a [routerLink]="['/']">
+                <img class="logo" src="./assets/img/logo.png">
+                <!-- <span class="title">HotBIM</span> -->
+            </a>
+        </div>
+        <!-- <p class="desc">最有影响力的装配式建筑系统</p> -->
+    </div>
+    <router-outlet></router-outlet>
+    <global-footer>
+        <ng-template #copyright>
+            <!-- Copyright <nz-icon nzType="copyright"></nz-icon> 2018 building出品 -->
+                    <img src="../../../assets/img/bg.png" style="height: 100%; width: 100%">
+                    cmbim@2018.2.1
+        </ng-template>
+    </global-footer>
+</div>

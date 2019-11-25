@@ -1,0 +1,92 @@
+<nz-table 
+    nzBordered
+    [nzShowPagination]="false"
+    [nzData]="[1]"
+    >
+    <tbody>
+        <tr>
+            <td colspan="2" rowspan="2">施工日志</td>
+            <td>工程名称</td>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <td>日期</td>
+            <td colspan="2">{{date}}</td>
+        </tr>
+        <tr>
+            <td>时间</td>
+            <td>天气状况</td>
+            <td colspan="2">最高最低温度(℃)</td>
+            <td>记录人</td>
+        </tr>
+        <tr>
+            <td>上午</td>
+            <td>
+                {{detail.morningWeather}}
+            </td>
+            <td colspan="2">
+                {{detail.morningTemperature}}
+            </td>
+            <td rowspan="2">
+                {{detail.userName}}
+            </td>
+        </tr>
+        <tr>
+            <td>下午</td>
+            <td>
+                {{detail.afternoonWeather}}
+            </td>
+            <td colspan="2">
+                {{detail.afternoonTemperature}}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5" rowspan="5">
+                {{detail.content}} 
+            </td>
+        </tr>
+    </tbody>
+    <div noResult>..</div>
+</nz-table>
+
+<!-- <table cellspacing="0" cellpadding="0">
+        <tr >
+            <td colspan="2" rowspan="2">施工日志</td>
+            <td>工程名称</td>
+            <td colspan="2"></td>
+        </tr>
+        <tr >
+            <td>日期</td>
+            <td colspan="2">{{date}}</td>
+        </tr>
+        <tr >
+            <td>时间</td>
+            <td>天气状况</td>
+            <td colspan="2">最高/最低温度</td>
+            <td>记录人</td>
+        </tr>
+        <tr >
+            <td>上午</td>
+            <td>
+                {{weather[detail.morningWeather]}}
+            </td>
+            <td colspan="2">
+                {{detail.morningTemperature}}
+            </td>
+            <td colspan="2" rowspan="2"></td>
+        </tr>
+        <tr >
+            <td>下午</td>
+            <td>
+                {{weather[detail.afternoonWeather]}}
+            </td>
+            <td colspan="2">
+                {{detail.afternoonTemperature}}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5" rowspan="5">
+                {{detail.content}} 
+            </td>
+        </tr>
+    </table> -->

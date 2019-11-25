@@ -1,0 +1,205 @@
+<app-project-pro-header [projectId]="projectId">
+    <nz-tabset>
+        <nz-tab nzTitle="{{ pm.monomer.name }}"
+            *ngFor="let pm of pageMonomers"
+            (nzClick)="currentMonomers = pm">
+        </nz-tab>
+    </nz-tabset>
+</app-project-pro-header>
+
+<div
+    *ngFor="let pm of pageMonomers"
+    [acl]="994"
+    [hidden]="pm !== currentMonomers">
+    <nz-card
+        [nzTitle]="'结构'" class="panel">
+        <nz-tabset>
+            <nz-tab nzTitle="{{ area.area.areaName + '(' + area.area.coordinates + ')' }}"
+                *ngFor="let area of pm.areas">
+                <nz-tabset>
+                    <nz-tab nzTitle="{{ item.subcontractor.subcontractorName }}"
+                        *ngFor="let item of area.subcontractDetail">
+                        <nz-table
+                            #nzTable
+                            [nzData]="item.detail.products"
+                            [nzShowPagination]="false"
+                            [nzTotal]="item.detail.products.length"
+                            nzShowTotal>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <span>序号</span>
+                                    </th>
+                                    <!-- <th>
+                                        <span>区域</span>
+                                    </th> -->
+                                    <th>
+                                        <span>构件名称</span>
+                                    </th>
+                                    <th>
+                                        <span>构件编号</span>
+                                    </th>
+                                    <th>
+                                        <span>规格</span>
+                                    </th>
+                                    <th>
+                                        <span>长度</span>
+                                    </th>
+                                    <th>
+                                        <span>材质</span>
+                                    </th>
+                                    <th>
+                                        <span>数量</span>
+                                    </th>
+                                    <th>
+                                        <span>单重(kg)</span>
+                                    </th>
+                                    <th>
+                                        <span>总重(kg)</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of item.detail.products;let i = index;">
+                                    <td>{{ i + 1 }}</td>
+                                    <!-- <td>{{ area.area.areaName }}</td> -->
+                                    <td>{{ data.name }}</td>
+                                    <td>{{ data.serialNo }}</td>
+                                    <td>{{ data.specification }}</td>
+                                    <td>{{ data.length }}</td>
+                                    <td>{{ data.material }}</td>
+                                    <td>{{ data.quantity }}</td>
+                                    <td>{{ data.pieceWeight | number }}</td>
+                                    <td>{{ data.pieceWeight * data.quantity | number }}</td>
+                                </tr>
+                                <tr>
+                                    <td>合计</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{ item.detail.totalQuantity }}</td>
+                                    <td></td>
+                                    <td>{{ item.detail.totalWeight | kgToT }}t</td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                        <div style="height: 10px;"></div>
+                        <app-upload-files
+                            (changes)="productSubcontractService.updateAttachments(item.subcontractor.id ,$event)"
+                            [originalFiles]="item.originalFiles"
+                            [fileType]="11"
+                            [attachments]="item.attachments"></app-upload-files>
+                        <div style="margin-top: 10px;" class="buttons text-right">
+                            <button nz-button nzType="primary" attahcmentDownload [path]="productSubcontractService.genExportFileUrl(area.area.id, productTypes['结构'])"><span>下载</span></button>
+                            <button nz-button nzType="primary" (click)="productSubcontractService.send(item.subcontractor.id)"><span>发送</span></button>
+                        </div>
+                    </nz-tab>
+                </nz-tabset>
+            </nz-tab>
+        </nz-tabset>
+    </nz-card>
+
+    <!--<nz-card
+        class="panel"
+        [nzTitle]="'围护'">
+        <nz-tabset>
+            <nz-tab nzTitle="{{ item.subcontractor.subcontractorName }}"
+                *ngFor="let item of pm.enclosureSubcontractDetail">
+                <nz-table
+                    #nzTable
+                    [nzData]="item.detail.products"
+                    [nzShowPagination]="false"
+                    [nzTotal]="item.detail.products.length"
+                    nzShowTotal>
+                    <thead>
+                        <tr>
+                            <th>
+                                <span>序号</span>
+                            </th>
+                            <th>产品名称</th>
+                            <th>颜色</th>
+                            <th>厚度(mm)</th>
+                            <th>板型</th>
+                            <th>有效宽度(mm)</th>
+                            <th>长度(m)</th>
+                            <th>数量(张)</th>
+                            <th>总长度(m)</th>
+                            <th>总面积</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of item.detail.products;let i = index;">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ data.name }}</td>
+                            <td>{{ data.color }}</td>
+                            <td>{{ data.thickness }}</td>
+                            <td>{{ data.modelNum }}</td>
+                            <td>{{ data.width }}</td>
+                            <td>{{ data.length }}</td>
+                            <td>{{ data.quantity }}</td>
+                            <td>{{ data.totalMeter }}</td>
+                            <td>{{ data.surfaceArea }}</td>
+                        </tr>
+                        <tr>
+                            <td>合计</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{{ item.detail.totalQuantity }}</td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+                <div style="margin-top: 10px;" class="buttons text-right">
+                    <button nz-button nzType="primary" attahcmentDownload [path]="productSubcontractService.genExportFileUrl(pm.monomer.id, productTypes['围护'])"><span>下载</span></button>
+                </div>
+            </nz-tab>
+        </nz-tabset>
+    </nz-card>-->
+
+    <!--<nz-card
+        class="panel"
+        [nzTitle]="'辅材'">
+        <nz-tabset>
+            <nz-tab nzTitle="{{ item.subcontractor.subcontractorName }}"
+                *ngFor="let item of pm.supportMaterialSubcontractDetail">
+                <nz-table
+                    #nzTable
+                    [nzData]="item.detail.products"
+                    [nzShowPagination]="false"
+                    [nzTotal]="item.detail.products.length"
+                    nzShowTotal>
+                    <thead>
+                        <tr>
+                            <th>
+                                <span>序号</span>
+                            </th>
+                            <th>产品名称</th>
+                            <th>单位</th>
+                            <th>规格</th>
+                            <th>材质</th>
+                            <th>数量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of item.detail.products;let i = index;">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ data.name }}</td>
+                            <td>{{ data.unit }}</td>
+                            <td>{{ data.specification }}</td>
+                            <td>{{ data.material }}</td>
+                            <td>{{ data.quantity }}</td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+                <div style="margin-top: 10px;" class="buttons text-right">
+                    <button nz-button nzType="primary" attahcmentDownload [path]="productSubcontractService.genExportFileUrl(pm.monomer.id, productTypes['辅材'])"><span>下载</span></button>
+                </div>
+            </nz-tab>
+        </nz-tabset>
+    </nz-card>-->
+</div>

@@ -1,0 +1,58 @@
+<div class="operate-box">
+    <div class="operate-left-box">
+        <nz-month-picker #input style="width: 100%" [(ngModel)]="month" [nzFormat]="'YYYY/MM'"
+            (ngModelChange)="onDateChange($event)" name="date" nzSize="default"></nz-month-picker>
+        <div>
+            <nz-radio-group [(ngModel)]="listQuery.type" (ngModelChange)="onTypeChange($event)" style="width: 240px">
+                <label nz-radio-button [nzValue]="">全部</label>
+                <label nz-radio-button [nzValue]="1">结构</label>
+                <label nz-radio-button [nzValue]="2">围护</label>
+                <label nz-radio-button [nzValue]="3">辅材</label>
+            </nz-radio-group>
+        </div>
+        <div>
+            <ng-container *ngIf="listQuery.type">
+                <nz-input-group nzSearch [nzAddOnAfter]="suffixButton" style="width: 300px">
+                    <input type="text" [(ngModel)]="listQuery.productName" nz-input placeholder="请输入产品名称或构件编号"
+                        (keyup)="($event.which === 13)?searchData(true):0" />
+                </nz-input-group>
+                <ng-template #suffixButton>
+                    <span style="cursor: pointer" (click)="searchData(true)">搜索</span>
+                </ng-template>
+            </ng-container>
+        </div>
+    </div>
+    <div class="operate-right-box">
+
+    </div>
+</div>
+<div class="content-box">
+    <nz-table #logisticsTable [nzData]="data.data" [(nzPageIndex)]="listQuery.page" [(nzPageSize)]="listQuery.size"
+        [nzTotal]="data.totalCount" (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)"
+        [nzFrontPagination]="false" [nzLoading]="listQuery.loading" nzShowTotal nzShowQuickJumper nzShowSizeChanger>
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>发运日期</th>
+                <th>车牌号</th>
+                <th>装载数量</th>
+                <th>装载重量(t)</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of logisticsTable.data;let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.recordDate }}</td>
+                <td>{{ item.licensePlate }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ (item.theoreticalWeight).toFixed(2) }}</td>
+                <td nz-td class="action-box">
+                    <span (click)="openDetail(item.id)">查看</span>
+                    <span>/</span>
+                    <span (click)="exportReport(item.id)">下载</span>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>

@@ -1,0 +1,171 @@
+<!-- <form nz-form [nzLayout]="'inline'">
+    <div nz-row [nzType]="'flex'" [nzJustify]="'start'" [nzAlign]="'middle'" style="margin-bottom: 10px">
+        <nz-form-item>
+            <nz-form-control>
+                <input nz-input #input placeholder="构件编号" [nzSize]="'default'">
+            </nz-form-control>
+        </nz-form-item>
+        <button nz-button nzSize="default" (click)="getData(input.nzValue)">搜索</button>
+    </div>
+</form> -->
+
+<div class="operate-box">
+        <div style="display: flex;flex-direction: row;align-items:center;justify-content:flex-start">
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixButton" style="margin-right: 10px">
+                <input type="text" 
+                [(ngModel)]="dto.serialNo"
+                    nz-input placeholder="构件编号"
+                    (keyup)="($event.which === 13)?search():0" />
+            </nz-input-group>
+            <ng-template #suffixButton>
+                <span style="cursor: pointer" (click)="search()">搜索</span>
+            </ng-template>
+        </div>
+        <div></div>
+    </div>
+
+<!-- <nz-table
+    [acl]="1125"
+    [nzData]="data.data"
+    [(nzPageIndex)]="dto.page"
+    [(nzPageSize)]="dto.size"
+    [nzTotal]="data.totalCount"
+    (nzPageIndexChange)="getData()"
+    (nzPageSizeChange)="getData()"
+    [nzFrontPagination]="false"
+    nzShowTotal
+    nzShowQuickJumper
+    nzShowSizeChanger>
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>构件名称</th>
+            <th>构件编号</th>
+            <th>规格</th>
+            <th>长度(mm)</th>
+            <th>材质</th>
+            <th>数量</th>
+            <th>单重(kg)</th>
+            <th>总重(kg)</th>
+            <!-- <th>半成品未通过数量</th> -->
+            <!--<th>总装</th>-->
+            <!-- <th>成品未通过的数量</th> -->
+            <!--<th>涂装</th>-->
+        <!--</tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of data.data;let i = index">
+            <td>{{ (dto.page - 1) * dto.size + 1 + i }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.serialNo }}</td>
+            <td>{{ item.specification }}</td>
+            <td>{{ item.length }}</td>
+            <td>{{ item.material }}</td>
+            <td>{{ item.totalQuantity }}</td>
+            <td>{{ item.pieceWeight }}</td>
+            <td>{{ item.totalWeight }}</td>-->
+            <!-- <td>{{ item.inspectionStats.semiFinishedFailedQuantity }}/{{ item.totalQuantity }}</td> -->
+            <!--<td>{{ item.inspectionStats.semiFinishedPassedQuantity }}/{{ item.totalQuantity }}</td>-->
+            <!-- <td>{{ item.inspectionStats.finishedFailedQuantity }}/{{ item.totalQuantity }}</td> -->
+            <!--<td>{{ item.inspectionStats.finishedPassedQuantity }}/{{ item.totalQuantity }}</td>-->
+        <!--</tr>-->
+    <!--</tbody>-->
+<!--</nz-table>--> 
+<nz-table
+    [acl]="1125"
+    [nzData]="data.data"
+    [(nzPageIndex)]="dto.page"
+    [(nzPageSize)]="dto.size"
+    [nzTotal]="data.totalCount"
+    (nzPageIndexChange)="getData()"
+    (nzPageSizeChange)="getData()"
+    [nzFrontPagination]="false"
+    [nzLoading]="isSpinning"
+    nzShowTotal
+    nzBordered
+    nzShowQuickJumper
+    nzShowSizeChanger>
+    <thead>
+        <tr>
+            <th rowspan="2">序号</th>
+            <th nzWidth="90px" rowspan="2">构件名称</th>
+            <th nzWidth="90px"  rowspan="2">构件编号</th>
+            <th nzWidth="130px" rowspan="2">规格</th>
+            <th  rowspan="2">长度(mm)</th>
+            <th rowspan="2">材质</th>
+            <th rowspan="2">数量</th>
+            <th rowspan="2">单重(kg)</th>
+            <th rowspan="2">总重(kg)</th>
+            <th colspan="4">工序状态</th>
+        </tr>
+        <tr style="background: #0070C0;">
+        	<th>总装</th>
+            <th>总装检验</th>
+            <th>涂装</th>
+            <th>涂装检验</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of data.data;let i = index">
+            <!-- <td>{{ i + 1 }}</td> -->
+            <td class="tip-parent">
+                <div *ngIf="item.status > 1" class="td-tip"  [ngStyle]="{'background-color': ComponentColors[item.status-1]}">{{ ProductStatus[item.status] }}</div>
+                {{ i + 1 }}
+            </td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.serialNo }}</td>
+            <!-- {{ item.specification }} -->
+            <td>HN250*125*6*9</td>
+            <td>{{ item.length }}</td>
+            <td>{{ item.material }}</td>
+            <td>{{ item.totalQuantity }}</td>
+            <td>{{ item.pieceWeight }}</td>
+            <td>{{ item.totalWeight }}</td>
+            
+            <td *ngIf="item.semiFinishedPassedQuantity === item.totalQuantity" ><span style="color: green;">&#10004;</span></td>
+            <td *ngIf="item.semiFinishedPassedQuantity != item.totalQuantity && item.semiFinishedPassedQuantity!=0" ><span style="color: red;">{{item.semiFinishedPassedQuantity}}</span></td>
+            <td *ngIf="item.semiFinishedPassedQuantity == 0" ><span style="color: red;font-weight: 700;">-</span></td>
+           
+            <td *ngIf="item.inspectionStats.semiFinishedPassedQuantity === item.totalQuantity" ><span style="color: green;">&#10004;</span></td>
+            <td *ngIf="item.inspectionStats.semiFinishedPassedQuantity != item.totalQuantity && item.inspectionStats.semiFinishedPassedQuantity!=0" ><span style="color: red;">{{item.inspectionStats.semiFinishedPassedQuantity}}</span></td>
+            <td *ngIf="item.inspectionStats.semiFinishedPassedQuantity == 0" ><span style="color: red;font-weight: 700;">-</span></td>
+            
+            <td *ngIf="item.finishedPassedQuantity === item.totalQuantity" ><span style="color: green;">&#10004;</span></td>
+            <td *ngIf="item.finishedPassedQuantity != item.totalQuantity && item.finishedPassedQuantity!=0" ><span style="color: red;">{{item.finishedPassedQuantity}}</span></td>
+            <td *ngIf="item.finishedPassedQuantity == 0" ><span style="color: red;font-weight: 700;">-</span></td>
+            
+            <td *ngIf="item.inspectionStats.finishedPassedQuantity === item.totalQuantity" ><span style="color: green;">&#10004;</span></td>
+            <td *ngIf="item.inspectionStats.finishedPassedQuantity != item.totalQuantity && item.inspectionStats.finishedPassedQuantity!=0" ><span style="color: red;">{{item.inspectionStats.finishedPassedQuantity}}</span></td>
+            <td *ngIf="item.inspectionStats.finishedPassedQuantity == 0" ><span style="color: red;font-weight: 700;">-</span></td>
+            
+            <!--<td>{{ item.semiFinishedInspectionQuantity }}/{{ item.totalQuantity }}</td>-->
+            <!--<td>{{ item.finishedRecordQuantity }}/{{ item.totalQuantity }}</td>-->
+            <!--<td>{{ item.finishedInspectionQuantity }}/{{ item.totalQuantity }}</td>-->
+        	
+        </tr>
+    </tbody>
+   </nz-table>
+<style type="text/css" scoped>
+.ant-table-thead > tr > th {
+	background: #D9D9D9;
+	padding: 8px 12px;
+	/* text-align: center; */
+	/*color: #FFFFFF;*/
+}
+.ant-table table {
+	border-spacing: 1px !important;
+}
+.ant-table-tbody > tr > td {
+	padding: 12px 14px;
+	/* text-align: center; */
+}
+.ant-table-tbody tr:nth-of-type(2n) {
+ 	background: #D9D9D9;
+}
+.ant-table-tbody tr:nth-of-type(odd) {
+ 	background: #f7f7f7;
+}
+.ant-table-tbody > tr > td {
+	border: 0;
+}
+</style>

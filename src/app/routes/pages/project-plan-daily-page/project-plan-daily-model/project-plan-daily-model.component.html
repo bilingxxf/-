@@ -1,0 +1,29 @@
+<nz-table 
+    [nzShowPagination]="false"
+    nzBordered
+    [nzData]="data">
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>产品名称</th>
+            <th>编号</th>
+            <th>单位</th>
+            <th>规格</th>
+            <th>长度 (m)</th>
+            <th>数量</th>
+            <th>需求时间</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of data; let i = index">
+            <td>{{i + 1}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.serialNo}}</td>
+            <td>{{item.unit}}</td>
+            <td>{{item.specification}}</td>
+            <td>{{item.length / 1000}}</td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.demandDate}}</td>
+        </tr>
+    </tbody>
+</nz-table>

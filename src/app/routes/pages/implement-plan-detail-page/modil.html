@@ -1,0 +1,8 @@
+
+
+<form nz-form [nzLayout]="'inline'" [formGroup]="validateForm" (ngSubmit)="submitForm()">
+        <div style="width:'600px';height: '80px'">
+            <nz-date-picker [nzSize]="'default'" nzPlaceHolder="'入库日期'" formControlName="datePicker"></nz-date-picker>
+        </div>
+<button  nz-button nzType="primary" [disabled]="!validateForm.value.datePicker">确定</button>
+</form>

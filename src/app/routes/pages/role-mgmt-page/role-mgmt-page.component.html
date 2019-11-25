@@ -1,0 +1,57 @@
+<div class="content__title">
+    <h1>角色管理</h1>
+</div>
+<nz-card>
+    <form nz-form (keydown.enter)="$event.preventDefault()">
+        <nz-form-item nz-row [nzGutter]="16">
+            <div nz-col [nzSm]="5" [nzOffset]="16">
+                <button
+                    [acl]="1059"
+                    (click)="c()"
+                    nzType="primary"
+                    nz-button>添加角色</button>
+            </div>
+        </nz-form-item>
+    </form>
+    <nz-table
+        [acl]="1060"
+        [nzData]="data.data"
+        [(nzPageIndex)]="dto.page"
+        [(nzPageSize)]="dto.size"
+        [nzTotal]="data.totalCount"
+        (nzPageIndexChange)="getData()"
+        (nzPageSizeChange)="getData()"
+        [nzFrontPagination]="false"
+        nzShowTotal
+        nzShowQuickJumper
+        nzShowSizeChanger>
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>角色全称</th>
+                <th>创建日期</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data.data;let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.createTime | date: 'yyyy-MM-dd' }}</td>
+                <td>
+                    <button nz-button nzType="default" style="margin-left: 5px" (click)="openSetPermissionModal(item)">
+                        权限设置
+                    </button>
+
+                    <button nz-button nzType="primary" style="margin-left: 5px" (click)="c(item)">
+                        编辑
+                    </button>
+
+                    <nz-popconfirm [nzTitle]="'确定要删除这个角色么'" (nzOnConfirm)="remove(item)" >
+                        <button nz-popconfirm  nz-button nzType="danger"  style="margin-left: 5px">删除</button>
+                    </nz-popconfirm>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-card>

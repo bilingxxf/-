@@ -1,0 +1,38 @@
+<app-project-pro-header [projectId]="projectId">
+    <nz-tabset>
+        <nz-tab nzTitle="{{ pm.monomer.name }}"
+            *ngFor="let pm of pageMonomers"
+            (nzClick)="currentMonomers = pm">
+        </nz-tab>
+    </nz-tabset>
+</app-project-pro-header>
+
+<nz-card class="panel" *ngIf="currentMonomers">
+    <nz-tabset>
+        <nz-tab nzTitle="成品需求计划" (nzClick)="active = 1">
+            <app-material-demand-page
+                *ngIf="active === 1"
+                [pm]="currentMonomers"
+                [projectId]="projectId"></app-material-demand-page>
+        </nz-tab>
+        <nz-tab nzTitle="需求计划动态" (nzClick)="active = 2">
+            <app-project-plan-detail 
+                *ngIf="active === 2"
+                [projectId]="projectId" 
+                [monomerId]="currentMonomers.monomer.id"></app-project-plan-detail>
+        </nz-tab>
+        <nz-tab nzTitle="安装计划" (nzClick)="active = 3">
+            <app-fix-plan-page
+                *ngIf="active === 3"
+                [pm]="currentMonomers"
+                [projectId]="projectId"></app-fix-plan-page>
+        </nz-tab>
+        <nz-tab nzTitle="安装计划动态" (nzClick)="active = 4">
+            <app-fix-plan-detail 
+                *ngIf="active === 4"
+                [projectId]="projectId" 
+                [pm]="currentMonomers" 
+                [monomerId]="currentMonomers.monomer.id"></app-fix-plan-detail>
+        </nz-tab>
+    </nz-tabset>
+</nz-card>

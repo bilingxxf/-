@@ -1,0 +1,45 @@
+<form #form="ngForm" nz-form>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="flag" nzRequired>审批结果</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <nz-select
+                name="flag"
+                placeholder="请选择"
+                [(ngModel)]="dto.flag"
+                nzSize="default"
+                required>
+                <nz-option
+                    nzLabel="通过"
+                    [nzValue]="true">
+                </nz-option>
+                <nz-option
+                    nzLabel="不通过"
+                    [nzValue]="false">
+                </nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="tip" nzRequired>备注</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <textarea nz-input
+                row="3"
+                name="content"
+                [(ngModel)]="dto.tip"
+                nzSize="default"
+                required></textarea>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="customize-footer">
+        <button [disabled]="form.form.invalid" (click)="ok()" nz-button [nzType]="'primary'" [nzLoading]="submitting">
+            确定
+        </button>
+        <button nz-button [nzType]="'default'" (click)="cancel()">
+            取消
+        </button>
+    </div>
+</form>

@@ -1,0 +1,48 @@
+<nz-card
+    [acl]="1035"
+    nzTitle="工程量"
+    [nzBordered]="false">
+    <nz-tabset>
+        <nz-tab nzTitle="{{ m.name }}" *ngFor="let m of monomers" (nzClick)="currentMonomers = m"></nz-tab>
+    </nz-tabset>
+
+    <nz-table
+        #nzTable
+        [nzData]="currentMonomers.monomersWithWorkload"
+        *ngIf="currentMonomers"
+        [nzShowPagination]="false">
+        <thead>
+            <tr>
+            <th><span>序号</span></th>
+            <th><span>类型</span></th>
+            <th><span>单位</span></th>
+            <th><span>中标工作量</span></th>
+            <th><span>实际工作量</span></th>
+            <th><span>差异值</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of currentMonomers.workloads;let i = index;">
+                <td>
+                    {{ i + 1 }}
+                </td>
+                <td>
+                    {{ item.productName }}
+                </td>
+                <td>
+                    {{ item.unit }}
+                </td>
+                <td>
+                    {{ item.biddingQuantity }}
+                </td>
+                <td>
+                    {{item.actualFinishedQuantity}}
+                </td>
+                <td>
+                    <span style="color: red" *ngIf="item.biddingQuantity < item.actualFinishedQuantity">{{(item.biddingQuantity - item.actualFinishedQuantity).toFixed(2)}}</span>
+                    <span *ngIf="item.biddingQuantity >= item.actualFinishedQuantity"> + {{(item.biddingQuantity - item.actualFinishedQuantity).toFixed(2)}}</span>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-card>

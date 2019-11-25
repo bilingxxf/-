@@ -1,0 +1,42 @@
+<div class="operate-box">
+        <div>
+            <form nz-form [nzLayout]="'inline'">
+                <nz-form-item>
+                    <nz-form-control>
+                        <nz-month-picker
+                            #input
+                            style="width: 100%"
+                            [(ngModel)]="date"
+                            [nzFormat]="'YYYY/MM'"
+                            name="date"
+                            nzSize="default"></nz-month-picker>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </div>
+        <div>
+            <app-tag [options]="[{color: '#00CC83', label: '生产计划'}]"></app-tag>
+        </div>
+    </div>
+    <div
+    nz-row style="margin-top: 20px;">
+        <div
+            style="margin: 0 4px;padding: 0 8px 4px;"
+            nz-col
+            [nzSpan]="3"
+            *ngFor="let dayOfWeek of weeks"
+            class="text-right">
+            {{ dayOfWeek }}
+        </div>
+    </div>
+<div class="content-box">
+    <nz-tabset style="min-height: 600px;margin-right:20px" [nzShowPagination]="false" [nzTabPosition]="'left'"
+        [(nzSelectedIndex)]="leftSelectedIndex">
+        <nz-tab *ngFor="let tab of leftTabs" [nzTitle]="tab.name">
+            <ng-container *ngIf="tab.value === 'structure' && tab.index == leftSelectedIndex">
+                <app-line-board  [data]="data" [date]="date" (detail)="go($event)"></app-line-board>
+            </ng-container>
+        </nz-tab>
+    </nz-tabset>
+</div>
+

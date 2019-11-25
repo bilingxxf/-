@@ -1,0 +1,37 @@
+<div class="operate-box">
+    <div class="operate-left-box">
+        <nz-month-picker #input style="width: 100%" [(ngModel)]="month" [nzFormat]="'YYYY/MM'"
+            (ngModelChange)="onDateChange($event)" name="date" nzSize="default"></nz-month-picker>
+    </div>
+    <div class="operate-right-box">
+
+    </div>
+</div>
+<div class="content-box">
+    <nz-table #strucDetail [nzData]="data" [nzShowPagination]="false" [nzScroll]="{ y: '600px' }" [nzLoading]="listQuery.loading">
+        <thead>
+            <tr>
+                <th nzWidth="150px">序号</th>
+                <th nzWidth="150px">统计日期</th>
+                <th nzWidth="150px">安装数量</th>
+                <th nzWidth="150px">安装重量(t)</th>
+                <th nzWidth="150px">安装产值(万元)</th>
+                <th nzWidth="150px">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of strucDetail.data;let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.recordDate }}</td>
+                <td>{{ item.structureQuantity }}</td>
+                <td>{{ (item.totalWeight / 1000).toFixed(2) }}</td>
+                <td>{{ item.totalUnitFixPrice }}</td>
+                <td nz-td class="action-box">
+                    <span (click)="openDetailModal(item.recordDate)">查看</span>
+                    <span>/</span>
+                    <span (click)="exportReport(item.recordDate)">下载</span>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>

@@ -1,0 +1,71 @@
+<nz-table
+    [acl]="1110"
+    [nzData]="data.data"
+    [(nzPageIndex)]="dto.page"
+    [(nzPageSize)]="dto.size"
+    [nzTotal]="data.totalCount"
+    (nzPageIndexChange)="getData()"
+    (nzPageSizeChange)="getData()"
+    [nzFrontPagination]="false"
+    nzShowTotal
+    nzShowQuickJumper
+    nzShowSizeChanger
+    nzBordered>
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>发起方</th>
+            <th>日期</th>
+            <th>事件属性</th>
+            <th>事件描述</th>
+            <th>整改期限</th>
+            <th>整改反馈</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of data.data;let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.getSenderDepartmentName() }}</td>
+            <td>{{ item.createTime | date: 'yyyy-MM-dd' }}</td>
+            <td>{{ item.getTypeLabel() }}</td>
+            <td style="padding: 0;">
+                <div nz-row style="height: 54px;line-height: 54px;">
+                    <div nz-col [nzSpan]="12" style="border-right: 1px solid #E9E9E9;height: 100%;">
+                        <img
+                            *ngFor="let img of item.pictures;let ii = index;"
+                            (click)="preview(item.pictures, ii)"
+                            [src]="img.getPath()"
+                            style="height: 100%;cursor: pointer;">
+                    </div>
+                    <div nz-col [nzSpan]="12" style="padding-left: 8px;">{{ item.content }}</div>
+                </div>
+            </td>
+            <td>{{ item.endDate }}</td>
+            <td style="padding: 0;">
+                <div nz-row style="height: 54px;line-height: 54px;">
+                    <div nz-col [nzSpan]="12" style="border-right: 1px solid #E9E9E9;height: 100%;">
+                        <img
+                            *ngFor="let img of item.feedback.pictures;let ii = index;"
+                            (click)="preview(item.pictures, ii)"
+                            [src]="img.getPath()"
+                            style="height: 100%;cursor: pointer;">
+                    </div>
+                    <div nz-col [nzSpan]="12" style="padding-left: 8px;">{{ item.feedback.content }}</div>
+                </div>
+            </td>
+            <td>{{ problemStatus[item.status] }}</td>
+            <td>
+                <span *ngIf="item.status === problemStatus['未处理']">
+                    <nz-popconfirm
+                        [acl]="1184"
+                        [nzTitle]="'确定要关闭这个问题吗?'"
+                        (nzOnConfirm)="close(item.id)">
+                        <a nz-popconfirm>关闭</a>
+                    </nz-popconfirm>
+                </span>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>

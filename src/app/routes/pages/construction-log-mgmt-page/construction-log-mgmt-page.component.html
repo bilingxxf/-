@@ -1,0 +1,113 @@
+<!-- <button
+    (click)="openCreateModal()"
+    nzType="primary"
+    nz-button>
+    写日志
+</button> -->
+<div style="height: 10px;"></div>
+
+<form nz-form [nzLayout]="'inline'">
+    <nz-form-item>
+        <nz-form-control>
+            <nz-select
+                style="width: 100px;"
+                [(ngModel)]="year"
+                placeholder="请选择"
+                (ngModelChange)="setCurrentMonthData()"
+                name="type"
+                nzAllowClear>
+                <nz-option *ngFor="let y of years" [nzLabel]="y" [nzValue]="y"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control>
+            <nz-select
+                style="width: 100px;"
+                [(ngModel)]="month"
+                (ngModelChange)="setCurrentMonthData()"
+                placeholder="请选择"
+                name="type"
+                nzAllowClear>
+                <nz-option *ngFor="let m of months" [nzLabel]="m + '月'" [nzValue]="m"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control>
+            <button
+                nz-button
+                [acl]="1154"
+                nzType="primary"
+                (click)="export()">导出</button>
+        </nz-form-control>
+    </nz-form-item>
+</form>
+
+<div
+    nz-row style="margin-top: 20px;"
+    [acl]="951">
+    <div
+        style="margin: 0 4px;padding: 0 8px 4px;"
+        nz-col
+        [nzSpan]="3"
+        *ngFor="let dayOfWeek of weeks"
+        class="text-right">
+        {{ dayOfWeek }}
+    </div>
+</div>
+<div nz-row
+    *ngFor="let week of dataFormatWeek"
+    [acl]="951">
+    <div
+        nz-col
+        [nzSpan]="3"
+        *ngFor="let day of week"
+        class="text-right item"
+        (click)="dataPerDayClick(day)"
+        [ngClass]="{
+            'item-disabled': day.disabled,
+            'item-wrote': day.hadWrote,
+            'item-unwrote': !day.hadWrote && !day.disabled
+        }">
+        {{ day.date | date: 'dd' }}
+    </div>
+</div>
+
+<button nz-button [nzType]="'primary'" (click)="exportAll()">
+    <span>导出</span>
+</button>
+
+
+<!-- <nz-table
+    [nzData]="data.data"
+    [(nzPageIndex)]="dto.page"
+    [(nzPageSize)]="dto.size"
+    [nzTotal]="data.totalCount"
+    (nzPageIndexChange)="getData()"
+    (nzPageSizeChange)="getData()"
+    [nzFrontPagination]="false"
+    nzShowTotal
+    nzShowQuickJumper
+    nzShowSizeChanger>
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>日期</th>
+            <th>时段</th>
+            <th>天气</th>
+            <th>温度</th>
+            <th>内容</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of data.data;let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.createTime | date: 'yyyy-MM-dd' }}</td>
+            <td>{{ dayPart[item.dayPart] }}</td>
+            <td>{{ weather[item.weather] }}</td>
+            <td>{{ item.temperature }}</td>
+            <td>{{ item.content }}</td>
+        </tr>
+    </tbody>
+</nz-table> -->

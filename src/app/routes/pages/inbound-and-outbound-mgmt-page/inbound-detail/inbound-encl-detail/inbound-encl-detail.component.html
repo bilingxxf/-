@@ -1,0 +1,51 @@
+<div class="operate-box">
+    <div class="operate-left-box">
+        <nz-month-picker #input style="width: 100%" [(ngModel)]="date" (ngModelChange)="onChange($event)"
+            [nzFormat]="'YYYY/MM'" name="date" nzSize="default"></nz-month-picker>
+    </div>
+    <div class="operate-right-box">
+
+    </div>
+</div>
+<div class="content-box">
+    <nz-table [acl]="938" [nzData]="data" [nzTotal]="totalCount" [(nzPageIndex)]="dto.page" [(nzPageSize)]="dto.size"
+        (nzPageIndexChange)="getData()" (nzPageSizeChange)="getData(true)" [nzFrontPagination]="false"
+        [nzLoading]="isSpinning" nzShowQuickJumper nzShowSizeChanger nzShowTotal>
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>入库时间</th>
+                <th>入库数量</th>
+                <!-- <th>入库重量(kg)</th> -->
+                <th>入库面积</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngIf="data">
+                <tr *ngFor="let item of data;let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ item.recordDate  }}</td>
+                    <td>{{ item.goStorageCount }}</td>
+                    <td>{{ item.goStorageArea }}</td>
+                    <td class="action-box">
+                        <span (click)="openDetailModal(item.monomerId, item.recordDate)">查看</span>
+                        <span> / </span>
+                        <span (click)="exportExcel(item.monomerId, item.recordDate)">下载</span>
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </nz-table>
+    <a *ngIf="data.length>0" (click)="monthExportExcel()" class="export-style">月度汇总下载</a>
+</div>
+
+
+<style scoped>
+    .export-style {
+        display: inline-block;
+        margin: 20px 0 20px 20px;
+        font-size: 16px;
+    }
+
+</style>

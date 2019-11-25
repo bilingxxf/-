@@ -1,0 +1,27 @@
+<app-project-pro-header
+    [projectId]="projectId">
+    
+</app-project-pro-header>
+
+<nz-card *ngIf="scanTypes === '收货'">
+    <ng-template #title>
+        {{scanTypes}}
+    </ng-template>
+    <app-receipt-daily-table [projectId]="projectId" [date]="date"></app-receipt-daily-table>
+</nz-card>
+
+<nz-card  *ngIf="scanTypes === '安装'">
+    <div class="vertical-tabs">
+        <div class="vertical-tabs__header">
+            <div class="vertical-tab" (click)="active = 1" [ngClass]="{'is-active': active === 1}">结构</div>
+            <div class="vertical-tab" (click)="active = 2" [ngClass]="{'is-active': active === 2}">围护</div>
+        </div>
+        <div class="vertical-tabs__content"  *ngIf="active === 1">
+            <app-finished-detail-table [monomerId]="monomerId" [date]="date" [projectId]="projectId"></app-finished-detail-table>
+
+        </div>
+        <div class="vertical-tabs__content"  *ngIf="active === 2">
+            <app-finished-detail-table [monomerId]="monomerId" [date]="date" [productType]="2" [projectId]="projectId"></app-finished-detail-table>
+        </div>
+    </div>
+</nz-card>

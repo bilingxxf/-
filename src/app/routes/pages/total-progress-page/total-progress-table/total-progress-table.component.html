@@ -1,0 +1,320 @@
+<!-- <input nz-input
+    [nzType]="'search'"
+    placeholder="请输入构件编号"
+    style="width: 200px;margin-bottom: 10px"
+    (nzOnSearch)="getData()"> -->
+<!-- <nz-input-group nzSuffixIcon="anticon anticon-search" style="width: 200px;margin-bottom: 10px">
+    <input type="text" nz-input placeholder="请输入构件编号" (nzOnSearch)="getData()">
+</nz-input-group> -->
+
+<ng-template #suffixButton>
+    <span style="cursor: pointer" (click)="search()">搜索</span>
+</ng-template>
+<ng-container *ngIf="productType == 3">
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixButton" style="width: 200px;margin-bottom: 10px">
+        <input type="text" [(ngModel)]="dto.productName" nz-input placeholder="请输入产品名称"
+            (keyup)="($event.which === 13)?search():0" />
+    </nz-input-group>
+    <nz-table [nzData]="data.data" [(nzPageIndex)]="dto.page" [(nzPageSize)]="dto.size" [nzTotal]="data.totalCount"
+        (nzPageIndexChange)="getData()" (nzPageSizeChange)="getData()" [nzFrontPagination]="false"
+        [nzLoading]="isSpinning" nzShowTotal nzBordered nzShowQuickJumper nzShowSizeChanger>
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>产品名称</th>
+                <th>单位</th>
+                <th>规格</th>
+                <th>材质</th>
+                <th>数量</th>
+                <th>备注</th>
+                <th>入库状态</th>
+                <th>出库状态</th>
+                <th>收货状态</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data.data;let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.unit }}</td>
+                <td>{{ item.specification }}</td>
+                <td>{{ item.material }}</td>
+                <td>{{ item.totalQuantity }}</td>
+                <td>{{ item.materialTip }}</td>
+
+                <td *ngIf="item.inStockQuantity === item.totalQuantity"><span class="spanSty">&#10004;</span></td>
+                <td *ngIf="item.inStockQuantity != item.totalQuantity && item.inStockQuantity!=0"><span
+                        class="fontSty">{{item.inStockQuantity}}</span></td>
+                <td *ngIf="item.inStockQuantity == 0"><span class="fontSty">-</span></td>
+
+                <td *ngIf="item.outStockQuantity === item.totalQuantity"><span class="spanSty">&#10004;</span></td>
+                <td *ngIf="item.outStockQuantity != item.totalQuantity && item.outStockQuantity!=0"><span
+                        class="fontSty">{{item.outStockQuantity}}</span></td>
+                <td *ngIf="item.outStockQuantity == 0"><span class="fontSty">-</span></td>
+
+                <td *ngIf="item.receiptQuantity === item.totalQuantity"><span class="spanSty">&#10004;</span></td>
+                <td *ngIf="item.receiptQuantity != item.totalQuantity && item.receiptQuantity!=0"><span
+                        class="fontSty">{{item.receiptQuantity}}</span></td>
+                <td *ngIf="item.receiptQuantity == 0"><span class="fontSty">-</span></td>
+
+
+
+            </tr>
+        </tbody>
+    </nz-table>
+</ng-container>
+<ng-container *ngIf="productType == 2">
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixButton" style="width: 200px;margin-bottom: 10px">
+        <input type="text" [(ngModel)]="dto.productName" nz-input placeholder="请输入产品名称"
+            (keyup)="($event.which === 13)?search():0" />
+    </nz-input-group>
+    <nz-table [nzData]="data.data" [(nzPageIndex)]="dto.page" [(nzPageSize)]="dto.size" [nzTotal]="data.totalCount"
+        (nzPageIndexChange)="getData()" (nzPageSizeChange)="getData()" [nzFrontPagination]="false"
+        [nzLoading]="isSpinning" nzShowTotal nzBordered nzShowQuickJumper nzShowSizeChanger>
+        <thead>
+            <tr>
+                <th rowspan="2">序号</th>
+                <th rowspan="2">产品名称</th>
+                <th rowspan="2">颜色</th>
+                <th rowspan="2">厚度</th>
+                <th rowspan="2">板型</th>
+                <th rowspan="2">有效宽度(mm)</th>
+                <th rowspan="2">长度(mm)</th>
+                <th rowspan="2">数量(张)</th>
+                <th rowspan="2">总长度(m)</th>
+                <th rowspan="2">总面积(㎡)</th>
+                <th rowspan="2">使用部位</th>
+                <th colspan="8">工序状态</th>
+            </tr>
+            <tr style="background: #0070C0;">
+                <th>制成品</th>
+                <th>检验</th>
+                <th>收货</th>
+                <th>安装</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data.data;let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.color }}</td>
+                <td>{{ item.thickness }}</td>
+                <td>{{ item.modelNum }}</td>
+                <td>{{ item.width }}</td>
+                <td>{{ item.length }}</td>
+                <td>{{ item.totalQuantity }}</td>
+                <td>{{ item.totalMeter }}</td>
+                <td>{{ item.surfaceArea }}</td>
+                <td>{{ item.useArea }}</td>
+
+
+                <td *ngIf="item.finishedRecordQuantity === item.totalQuantity"><span class="spanSty">&#10004;</span>
+                </td>
+                <td *ngIf="item.finishedRecordQuantity != item.totalQuantity && item.finishedRecordQuantity!=0"><span
+                        class="fontSty">{{item.finishedRecordQuantity}}</span></td>
+                <td *ngIf="item.finishedRecordQuantity == 0"><span class="fontSty">-</span></td>
+
+                <td *ngIf="item.inspectionStats.finishedPassedQuantity === item.totalQuantity"><span
+                        class="spanSty">&#10004;</span></td>
+                <td
+                    *ngIf="item.inspectionStats.finishedPassedQuantity != item.totalQuantity && item.inspectionStats.finishedPassedQuantity!=0">
+                    <span class="fontSty">{{item.inspectionStats.finishedPassedQuantity}}</span></td>
+                <td *ngIf="item.inspectionStats.finishedPassedQuantity == 0"><span class="fontSty">-</span></td>
+
+                <td *ngIf="item.receiptQuantity === item.totalQuantity"><span class="spanSty">&#10004;</span></td>
+                <td *ngIf="item.receiptQuantity != item.totalQuantity && item.receiptQuantity!=0"><span
+                        class="fontSty">{{item.receiptQuantity}}</span></td>
+                <td *ngIf="item.receiptQuantity == 0"><span class="fontSty">-</span></td>
+
+                <td *ngIf="item.setupQuantity === item.totalQuantity"><span class="spanSty">&#10004;</span></td>
+                <td *ngIf="item.setupQuantity != item.totalQuantity && item.setupQuantity!=0"><span
+                        class="fontSty">{{item.setupQuantity}}</span></td>
+                <td *ngIf="item.setupQuantity == 0"><span class="fontSty">-</span></td>
+
+            </tr>
+        </tbody>
+    </nz-table>
+</ng-container>
+
+<ng-container *ngIf="productType == 1">
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixButton" style="width: 200px;margin-bottom: 10px">
+        <input type="text" [(ngModel)]="dto.serialNo" nz-input placeholder="请输入构件编号"
+            (keyup)="($event.which === 13)?search():0" />
+    </nz-input-group>
+    <nz-table [nzData]="data.data" [(nzPageIndex)]="dto.page" [(nzPageSize)]="dto.size" [nzTotal]="data.totalCount"
+        (nzPageIndexChange)="getData()" (nzPageSizeChange)="getData()" [nzFrontPagination]="false"
+        [nzLoading]="isSpinning" nzShowTotal nzBordered nzShowQuickJumper nzShowSizeChanger>
+        <thead>
+            <tr>
+                <th rowspan="2">序号</th>
+                <th rowspan="2" *ngIf="productType === types['结构']">区域</th>
+                <th rowspan="2">名称</th>
+                <th rowspan="2" *ngIf="productType === types['围护']">颜色</th>
+                <th rowspan="2" *ngIf="productType === types['围护']">厚度</th>
+                <th rowspan="2" *ngIf="productType === types['围护']">板型</th>
+                <th rowspan="2" *ngIf="productType === types['围护']">有效宽度(mm)</th>
+                <th rowspan="2" *ngIf="productType === types['围护']">长度(m)</th>
+                <th rowspan="2" *ngIf="productType === types['围护']">数量(张)</th>
+                <th rowspan="2" *ngIf="productType === types['围护']">总长度(m)</th>
+                <th rowspan="2" *ngIf="productType === types['围护']">总面积</th>
+                <th nzWidth="120px" rowspan="2" *ngIf="productType === types['结构']">编号</th>
+                <th rowspan="2" *ngIf="productType === types['结构']">数量</th>
+                <th rowspan="2" *ngIf="productType === types['结构']">单重</th>
+                <th rowspan="2" *ngIf="productType === types['结构']">总重</th>
+                <th colspan="8">工序状态</th>
+            </tr>
+            <tr style="background: #0070C0;">
+                <th>总装</th>
+                <th>总装检验</th>
+                <th>涂装</th>
+                <th>涂装检验</th>
+                <th>入库</th>
+                <th>出库</th>
+                <th>收货</th>
+                <th>安装</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data.data;let i = index">
+                <td>{{ i + 1 }}</td>
+                <td *ngIf="productType === types['结构']">{{ item.areaDivisionName }}</td>
+                <td>{{ item.name }}</td>
+                <td *ngIf="productType === types['围护']">{{ item.color }}</td>
+                <td *ngIf="productType === types['围护']">{{ item.thickness }}</td>
+                <td *ngIf="productType === types['围护']">{{ item.modelNum }}</td>
+                <td *ngIf="productType === types['围护']">{{ item.width }}</td>
+                <td *ngIf="productType === types['围护']">{{ item.length }}</td>
+                <td *ngIf="productType === types['围护']">{{ item.totalQuantity }}</td>
+                <td *ngIf="productType === types['围护']">{{ item.totalMeter }}</td>
+                <td *ngIf="productType === types['围护']">{{ item.surfaceArea }}</td>
+                <td *ngIf="productType === types['结构']">{{ item.serialNo }}</td>
+                <td *ngIf="productType === types['结构']">{{ item.totalQuantity }}</td>
+                <td *ngIf="productType === types['结构']">{{ item.pieceWeight }}</td>
+                <td *ngIf="productType === types['结构']">{{ item.totalWeight }}</td>
+
+                <td *ngIf="item.semiFinishedRecordQuantity === item.totalQuantity"><span class="spanSty">&#10004;</span>
+                </td>
+                <td *ngIf="item.semiFinishedRecordQuantity != item.totalQuantity && item.semiFinishedRecordQuantity!=0">
+                    <span class="fontSty">{{item.semiFinishedRecordQuantity}}</span></td>
+                <td *ngIf="item.semiFinishedRecordQuantity == 0"><span class="fontSty">-</span></td>
+
+                <td *ngIf="item.semiFinishedInspectionQuantity === item.totalQuantity"><span
+                        class="spanSty">&#10004;</span></td>
+                <td
+                    *ngIf="item.semiFinishedInspectionQuantity != item.totalQuantity && item.semiFinishedInspectionQuantity!=0">
+                    <span class="fontSty">{{item.semiFinishedInspectionQuantity}}</span></td>
+                <td *ngIf="item.semiFinishedInspectionQuantity == 0"><span class="fontSty">-</span></td>
+
+                <td *ngIf="item.finishedRecordQuantity === item.totalQuantity"><span class="spanSty">&#10004;</span>
+                </td>
+                <td *ngIf="item.finishedRecordQuantity != item.totalQuantity && item.finishedRecordQuantity!=0"><span
+                        class="fontSty">{{item.finishedRecordQuantity}}</span></td>
+                <td *ngIf="item.finishedRecordQuantity == 0"><span class="fontSty">-</span></td>
+
+                <td *ngIf="item.finishedInspectionQuantity === item.totalQuantity"><span class="spanSty">&#10004;</span>
+                </td>
+                <td *ngIf="item.finishedInspectionQuantity != item.totalQuantity && item.finishedInspectionQuantity!=0">
+                    <span class="fontSty">{{item.finishedInspectionQuantity}}</span></td>
+                <td *ngIf="item.finishedInspectionQuantity == 0"><span class="fontSty">-</span></td>
+
+
+
+                <!--<td>{{ item.semiFinishedRecordQuantity }}/{{ item.totalQuantity }}</td> 
+            <td>{{ item.semiFinishedInspectionQuantity }}/{{ item.totalQuantity }}</td> 
+            <td>{{ item.finishedRecordQuantity }}/{{ item.totalQuantity }}</td>
+            <td>{{ item.finishedInspectionQuantity }}/{{ item.totalQuantity }}</td>-->
+
+                <td *ngIf="item.inStockQuantity === item.totalQuantity"><span class="spanSty">&#10004;</span></td>
+                <td *ngIf="item.inStockQuantity != item.totalQuantity && item.inStockQuantity!=0"><span
+                        class="fontSty">{{item.inStockQuantity}}</span></td>
+                <td *ngIf="item.inStockQuantity == 0"><span class="fontSty">-</span></td>
+
+                <td *ngIf="item.outStockQuantity === item.totalQuantity"><span class="spanSty">&#10004;</span></td>
+                <td *ngIf="item.outStockQuantity != item.totalQuantity && item.outStockQuantity!=0"><span
+                        class="fontSty">{{item.outStockQuantity}}</span></td>
+                <td *ngIf="item.outStockQuantity == 0"><span class="fontSty">-</span></td>
+
+                <td *ngIf="item.receiptQuantity === item.totalQuantity"><span class="spanSty">&#10004;</span></td>
+                <td *ngIf="item.receiptQuantity != item.totalQuantity && item.receiptQuantity!=0"><span
+                        class="fontSty">{{item.receiptQuantity}}</span></td>
+                <td *ngIf="item.receiptQuantity == 0"><span class="fontSty">-</span></td>
+
+                <td *ngIf="item.setupQuantity === item.totalQuantity"><span class="spanSty">&#10004;</span></td>
+                <td *ngIf="item.setupQuantity != item.totalQuantity && item.setupQuantity!=0"><span
+                        class="fontSty">{{item.setupQuantity}}</span></td>
+                <td *ngIf="item.setupQuantity == 0"><span class="fontSty">-</span></td>
+
+                <!--<td>{{ item.inStockQuantity }}/{{ item.totalQuantity }}</td>-->
+                <!--<td>{{ item.outStockQuantity }}/{{ item.totalQuantity }}</td>-->
+                <!--<td>{{ item.receiptQuantity }}/{{ item.totalQuantity }}</td>-->
+                <!--<td>{{ item.setupQuantity }}/{{ item.totalQuantity }}</td>-->
+            </tr>
+
+            <!-- <tr *ngIf="productType === types['结构']">
+            <td [attr.colspan]="4">汇总</td>
+            <td></td>
+            <td></td>
+            <td>{{sum.finishedRecordQuantity}}</td>
+            <td>{{sum.finishedInspectionQuantity}}</td>
+            <td>{{sum.inStockQuantity}}</td>
+            <td>{{sum.outStockQuantity}}</td>
+            <td>{{sum.receiptQuantity}}</td>
+            <td>{{sum.setupQuantity}}</td>
+            <td></td>
+            <td></td>
+        </tr> -->
+
+            <!-- <tr *ngIf="productType === types['围护']">
+            <td [attr.colspan]="7">汇总</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{sum.finishedRecordQuantity}}</td>
+            <td>{{sum.finishedInspectionQuantity}}</td>
+            <td>{{sum.inStockQuantity}}</td>
+            <td>{{sum.outStockQuantity}}</td>
+            <td>{{sum.receiptQuantity}}</td>
+            <td>{{sum.setupQuantity}}</td>
+        </tr> -->
+        </tbody>
+    </nz-table>
+</ng-container>
+<style type="text/css" scoped>
+    .ant-table-thead>tr>th {
+        background: #D9D9D9;
+        padding: 8px 12px;
+        /* text-align: center; */
+        /*color: #FFFFFF;*/
+    }
+
+    .ant-table table {
+        border-spacing: 1px !important;
+    }
+
+    .ant-table-tbody>tr>td {
+        padding: 12px 18px;
+        /* text-align: center; */
+    }
+
+    .ant-table-tbody tr:nth-of-type(2n) {
+        background: #D9D9D9;
+    }
+
+    .ant-table-tbody tr:nth-of-type(odd) {
+        background: #f7f7f7;
+    }
+
+    .ant-table-tbody>tr>td {
+        border: 0;
+    }
+
+    .spanSty {
+        color: green;
+    }
+
+    .fontSty {
+        font-weight: 600;
+        color: red;
+    }
+
+</style>

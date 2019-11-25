@@ -1,0 +1,73 @@
+<nz-card>
+    <!-- <form nz-form [nzLayout]="'inline'">
+        <nz-form-item>
+            <nz-form-control>
+                <nz-date-picker
+                    #input
+                    style="width: 100%"
+                    [(ngModel)]="date"
+                    name="date"
+                    nzSize="default"
+                    nzPlaceHolder="请选择"></nz-date-picker>
+            </nz-form-control>
+        </nz-form-item>
+        <button nz-button nzSize="default" (click)="search(input.nzValue)">搜索</button>
+    </form> -->
+    <div style="height: 10px;"></div>
+    <nz-table
+        [acl]="1125"
+        [nzData]="data.data"
+        [(nzPageIndex)]="dto.page"
+        [(nzPageSize)]="dto.size"
+        [nzTotal]="data.totalCount"
+        (nzPageIndexChange)="getData()"
+        (nzPageSizeChange)="getData()"
+        [nzFrontPagination]="false"
+        [nzLoading]="isSpinning"
+        nzShowTotal
+        nzShowQuickJumper
+        nzShowSizeChanger>
+        <thead>
+            <tr>
+                <th rowspan="2">序号</th>
+                <th rowspan="2">产品名称</th>
+                <th rowspan="2">颜色</th>
+                <th rowspan="2">厚度(mm)</th>
+                <th rowspan="2">板型</th>
+                <th rowspan="2">有效宽度(mm)</th>
+                <th rowspan="2">长度(mm)</th>
+                <th rowspan="2">数量(张)</th>
+                <th rowspan="2">总长度(m)</th>
+                <th rowspan="2">总面积(㎡)</th>
+                <th rowspan="2">使用部位</th>
+                <th colspan="2">工序状态</th>
+            </tr>
+            <tr>
+                <th>制成品</th>
+                <th>检验</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data.data;let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.color }}</td>
+                <td>{{ item.thickness }}</td>
+                <td>{{ item.modelNum }}</td>
+                <td>{{ item.width }}</td>
+                <td>{{ item.length }}</td>
+                <td>{{ item.totalQuantity }}</td>
+                <td>{{ item.totalMeter }}</td>
+                <td>{{ item.surfaceArea }}</td>
+                <td>{{ item.useArea }}</td>
+                <td *ngIf="item.finishedRecordQuantity === item.totalQuantity" ><span style="color: green;">&#10004;</span></td>
+                <td *ngIf="item.finishedRecordQuantity != item.totalQuantity && item.finishedRecordQuantity!=0" ><span style="color: red;">{{item.finishedRecordQuantity}}</span></td>
+                <td *ngIf="item.finishedRecordQuantity == 0" ><span style="color: red;font-weight: 700;">-</span></td>
+                
+                <td *ngIf="item.finishedInspectionQuantity === item.totalQuantity" ><span style="color: green;">&#10004;</span></td>
+                <td *ngIf="item.finishedInspectionQuantity != item.totalQuantity && item.finishedInspectionQuantity!=0" ><span style="color: red;">{{item.finishedInspectionQuantity}}</span></td>
+                <td *ngIf="item.finishedInspectionQuantity == 0" ><span style="color: red;font-weight: 700;">-</span></td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-card>

@@ -1,0 +1,36 @@
+<div class="ant-table">
+    <table align="center">
+        <thead class="ant-table-thead">
+            <tr>
+                <th width="80">{{indexs[index]}}</th>
+                <th width="200">{{permissionModule.moduleName}}</th>
+                <th width="120">
+                    <!-- <label nz-checkbox >
+                        <span></span>
+                    </label> -->
+                </th>
+                <th width="120">
+                    <!-- <label nz-checkbox >
+                        <span></span>
+                    </label> -->
+                </th>
+            </tr>
+        </thead>
+        <tbody class="ant-table-tbody">
+            <tr *ngFor="let group of permissionModule.groups; let i = index;" >
+                <td>{{i + 1}}</td>
+                <td>{{group.name}}</td>
+                <td>
+                    <label nz-checkbox [(ngModel)]="group.editChecked" (ngModelChange)="link(group, $event, 1)">
+                        <span></span>
+                    </label>
+                </td>
+                <td>
+                    <label nz-checkbox [(ngModel)]="group.queryChecked" (ngModelChange)="link(group, $event, 2)">
+                        <span></span>
+                    </label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

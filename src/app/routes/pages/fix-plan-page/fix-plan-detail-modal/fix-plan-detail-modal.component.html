@@ -1,0 +1,74 @@
+
+<nz-table 
+[nzShowPagination]="false"
+nzBordered
+[nzData]="data">
+<thead>
+    <tr>
+        <th colspan="7">安装计划对比表</th>
+    </tr>
+    <tr>
+        <th rowspan="2">序号</th>
+        <th rowspan="2">产品名称</th>
+        <th rowspan="2">编号</th>
+        <th colspan="2">计划完成数量</th>
+        <th colspan="2">实际完成数量</th>
+    </tr>
+    <tr>
+        <th>计划数量</th>
+        <th>计划总量</th>
+        <th>实际数量</th>
+        <th>实际总量</th>
+    </tr>
+</thead>
+<tbody>
+    <tr *ngFor="let item of data.productList; let i = index">
+        <td>{{i + 1}}</td>
+        <td>{{item.productName}}</td>
+        <td>{{item.serialNo}}</td>
+        <!-- <td>{{item.specification}}</td> -->
+        <td>{{item.planQuantity}}</td>
+        <td>{{item.planWeightOrArea}}</td>
+        <td>{{item.actualWeightOrArea}}</td>
+        <td>{{item.actualQuantity}}</td>
+    </tr>
+</tbody>
+</nz-table>
+
+<nz-table 
+[nzShowPagination]="false"
+nzBordered
+[nzData]="data">
+    <thead>
+        <tr>
+            <th colspan="3">计划汇总</th>
+            <th colspan="2">实际汇总</th>
+            <th colspan="2" rowspan="2">完成率</th>
+        </tr>
+        <tr>
+            <th></th>
+            <th>总量</th>
+            <th>产值(万元)</th>
+            <th>总量</th>
+            <th>产值(万元)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>结构</td>
+            <td>{{data.planTotalWeight}}</td>
+            <td>{{data.structurePlanTotalAmount}}</td>
+            <td>{{data.actualTotalWeight}}</td>
+            <td>{{data.structureActualTotalAmount}}</td>
+            <td>{{data.fixedWeightPercent}}</td>
+        </tr>
+        <tr>
+            <td>围护</td>
+            <td>{{data.planTotalArea}}</td>
+            <td>{{data.containmentPlanTotalAmount}}</td>
+            <td>{{data.actualTotalArea}}</td>
+            <td>{{data.containmentActualTotalAmount}}</td>
+            <td>{{data.fixedAreaPercent}}</td>
+        </tr>
+    </tbody>
+</nz-table>

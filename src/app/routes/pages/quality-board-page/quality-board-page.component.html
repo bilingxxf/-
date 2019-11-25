@@ -1,0 +1,99 @@
+<!-- <nz-card style="margin-top: 10px" *ngIf="type === 'table'">
+        <div class="vertical-tabs">
+            <div class="vertical-tabs__header">
+                <div class="vertical-tab" (click)="active = 1" [ngClass]="{'is-active': active === 1}">结构</div>
+                <div class="vertical-tab" (click)="active = 2" [ngClass]="{'is-active': active === 2}">围护</div>
+            </div>
+            <div class="vertical-tabs__content"  *ngIf="active === 1">
+                <nz-tabset>
+                    <nz-tab nzTitle="{{ area.areaName + '(' + area.coordinates + ')' }}"
+                        *ngFor="let area of pm.areas" (nzClick)="currentArea = area">
+                    </nz-tab>
+                </nz-tabset>
+                <app-component-quality-board-table
+                        *ngIf="currentArea"
+                        [monomerId]="currentArea.id"
+                    ></app-component-quality-board-table>
+            </div>
+            <div class="vertical-tabs__content"  *ngIf="active === 2">
+                <app-enclosure-quality-board-table
+                    [monomerId]="pm.monomer.id"></app-enclosure-quality-board-table>
+            </div>
+        </div>
+</nz-card> -->
+
+<div *ngIf="type === 'table'">
+    <nz-card>
+        <nz-tabset style="min-height: 600px;margin-right:20px" [nzShowPagination]="false" [nzTabPosition]="'left'"
+            [(nzSelectedIndex)]="leftSelectedIndex">
+            <nz-tab *ngFor="let tab of leftTabs" [nzTitle]="tab.name">
+                <ng-container *ngIf="tab.value === 'structure' && tab.index == leftSelectedIndex">
+                    <nz-tabset>
+                        <nz-tab nzTitle="{{ area.areaName + '(' + area.coordinates + ')' }}"
+                            *ngFor="let area of pm.areas" (nzClick)="currentArea = area">
+                        </nz-tab>
+                    </nz-tabset>
+                    <app-component-quality-board-table
+                            *ngIf="currentArea"
+                            [monomerId]="currentArea.id"
+                            ></app-component-quality-board-table>
+                </ng-container>
+                <ng-container *ngIf="tab.value === 'enclosure' && tab.index == leftSelectedIndex">
+                        <app-enclosure-quality-board-table
+                        [monomerId]="pm.monomer.id"></app-enclosure-quality-board-table>
+                </ng-container>
+            </nz-tab>
+        </nz-tabset>
+    </nz-card>
+</div>
+
+<div *ngIf="type === 'board'">
+    <nz-card>
+        <nz-tabset style="min-height: 600px;margin-right:20px" [nzShowPagination]="false" [nzTabPosition]="'left'"
+            [(nzSelectedIndex)]="leftSelectedIndex">
+            <nz-tab *ngFor="let tab of leftTabsBoard" [nzTitle]="tab.name">
+                <ng-container *ngIf="tab.value === 'structure' && tab.index == leftSelectedIndex">
+                    <nz-tabset>
+                        <nz-tab nzTitle="{{ area.areaName + '(' + area.coordinates + ')' }}"
+                            *ngFor="let area of pm.areas" (nzClick)="currentArea = area">
+                        </nz-tab>
+                    </nz-tabset>
+                    <app-component-board 
+                        *ngIf="currentArea"
+                        [processType]="processType"
+                        [monomerId]="currentArea.id"
+                        ></app-component-board>
+                </ng-container>
+                <!-- <ng-container *ngIf="tab.value === 'enclosure' && tab.index == leftSelectedIndex">
+                        <app-enclosure-board 
+                        [monomerId]="pm.monomer.id"></app-enclosure-board>
+                </ng-container> -->
+            </nz-tab>
+        </nz-tabset>
+    </nz-card>
+</div>
+<!-- <nz-card style="margin-top: 10px" *ngIf="type === 'board'">
+    <div class="vertical-tabs">
+        <div class="vertical-tabs__header">
+            <div class="vertical-tab" (click)="active = 1" [ngClass]="{'is-active': active === 1}">结构</div>
+            <div class="vertical-tab" (click)="active = 2" [ngClass]="{'is-active': active === 2}">围护</div>
+        </div>
+        <div class="vertical-tabs__content"  *ngIf="active === 1">
+            <nz-tabset>
+                <nz-tab nzTitle="{{ area.areaName + '(' + area.coordinates + ')' }}"
+                    *ngFor="let area of pm.areas" (nzClick)="currentArea = area">
+                </nz-tab>
+            </nz-tabset>
+            <app-component-board 
+                *ngIf="currentArea"
+                [processType]="processType"
+                [monomerId]="currentArea.id"
+                ></app-component-board>
+        </div>
+        <div class="vertical-tabs__content"  *ngIf="active === 2">
+            <app-enclosure-board 
+            
+            [monomerId]="pm.monomer.id"></app-enclosure-board>
+        </div>
+    </div>
+</nz-card> -->

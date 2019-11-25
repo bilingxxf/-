@@ -1,0 +1,10 @@
+<div
+    [acl]="1042"
+    class="image-wrapper"
+    *ngFor="let image of images">
+    <img
+        [src]="image.url">
+    <span>
+        {{ image.createTime | date: 'yyyy-MM-dd' }}
+    </span>
+</div>

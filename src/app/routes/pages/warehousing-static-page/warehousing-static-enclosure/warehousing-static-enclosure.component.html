@@ -1,0 +1,72 @@
+<nz-card>
+    <form nz-form [nzLayout]="'inline'">
+        <nz-form-item>
+            <nz-form-control>
+                <nz-date-picker
+                    style="width: 100%"
+                    [(ngModel)]="date"
+                    name="date"
+                    nzSize="default"
+                    nzPlaceHolder="请选择"></nz-date-picker>
+            </nz-form-control>
+        </nz-form-item>
+        <button
+            nz-button
+            nzSize="default"
+            nzType="primary"
+            (click)="search()">搜索</button>
+    </form>
+
+    <div style="height: 10px;"></div>
+
+    <nz-table
+        [nzData]="data.data"
+        [(nzPageIndex)]="dto.page"
+        [(nzPageSize)]="dto.size"
+        [nzTotal]="data.totalCount"
+        (nzPageIndexChange)="getData()"
+        (nzPageSizeChange)="getData()"
+        [nzFrontPagination]="false"
+        nzShowTotal
+        nzShowQuickJumper
+        nzShowSizeChanger>
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>产品名称</th>
+                <th>颜色</th>
+                <th>厚度(mm)</th>
+                <th>板型</th>
+                <th>有效宽度(mm)</th>
+                <th>长度(m)</th>
+                <th>数量(张)</th>
+                <th>总长度(m)</th>
+                <th>总面积</th>
+                <th>出库数量</th>
+                <th>收货数量</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data.data;let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.productInfo.name }}</td>
+                <td>{{ item.productInfo.color }}</td>
+                <td>{{ item.productInfo.thickness }}</td>
+                <td>{{ item.productInfo.modelNum }}</td>
+                <td>{{ item.productInfo.width }}</td>
+                <td>{{ item.productInfo.length }}</td>
+                <td>{{ item.productInfo.quantity }}</td>
+                <td>{{ item.productInfo.totalMeter }}</td>
+                <td>{{ item.productInfo.surfaceArea }}</td>
+                <td>{{ item.outStockQuantity }}</td>
+                <td>{{ item.recordQuantity }}</td>
+            </tr>
+            <tr *ngIf="data.data.length">
+                <td>合计</td>
+                <td [colSpan]="9"></td>
+                <td>{{ total.outboundQuantity }}</td>
+                <td>{{ total.receiptQuantity }}</td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-card>

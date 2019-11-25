@@ -1,0 +1,18 @@
+{
+  "/api": {
+    "target": "http://192.168.10.120:8082",
+    "secure": false
+  },
+  "/bim": {
+    "target": "http://192.168.10.120:8082",
+    "secure": false
+  },
+  "/engine": {
+    "target": "http://192.168.10.120:8082",
+    "secure": false
+  },
+  "/files": {
+    "target": "http://192.168.10.120:8082",
+    "secure": false
+  }
+}

@@ -1,0 +1,56 @@
+<app-project-pro-header
+    [projectId]="projectId"
+    >
+    <nz-tabset>
+        <nz-tab nzTitle="{{ monomer.name }}"
+            *ngFor="let monomer of monomers"
+            (nzClick)="currentMonomers = monomer">
+        </nz-tab>
+    </nz-tabset>
+</app-project-pro-header>
+
+<nz-card class="panel" *ngIf="currentMonomers">
+    <nz-tabset>
+        <nz-tab nzTitle="出库看板">
+            <app-outbound-board 
+                [currentMonomer]="currentMonomers"></app-outbound-board>
+        </nz-tab>
+        <nz-tab nzTitle="入库看板">
+            <app-inbound-board 
+                [currentMonomer]="currentMonomers"
+                ></app-inbound-board>
+        </nz-tab>
+        <nz-tab nzTitle="出入库状态" (nzClick)="active = 1"><!-- *hasPermission="1119" -->
+            <app-warehousing-board
+                [currentMonomer]="currentMonomers"></app-warehousing-board>
+        </nz-tab> 
+        <!-- <nz-tab (nzClick)="active = 2" >
+            <ng-template #nzTabHeading>
+                入库详情
+            </ng-template>
+            <app-warehousing-mgmt-page 
+            [currentMonomer]="currentMonomers"
+            ></app-warehousing-mgmt-page>
+        </nz-tab> -->
+        <nz-tab [nzTitle]="'入库详情'">
+            <app-inbound-detail 
+            [currentMonomer]="currentMonomers"
+            ></app-inbound-detail>
+        </nz-tab>
+        <nz-tab nzTitle="出库详情">
+            <app-history-outbound-list [currentMonomer]="currentMonomers"> </app-history-outbound-list>
+            <!-- <app-outbound-detail [currentMonomer]="currentMonomers"></app-outbound-detail> -->
+        </nz-tab>
+        <nz-tab nzTitle="打包清单">
+            <app-packing-list [currentMonomer]="currentMonomers"></app-packing-list>
+        </nz-tab>
+        <nz-tab nzTitle="供应商状态">
+            <app-supplie-mgmt-page [currentMonomer]="currentMonomers"  [factoryAble]="true"></app-supplie-mgmt-page>
+        </nz-tab>
+    </nz-tabset>
+</nz-card>
+            <!-- <app-warehousing-mgmt-page 
+            [warehouseType]="1"
+            [pageMonomers]="pageMonomers"
+            [currentMonomer]="currentMonomers"
+            [projectId]="projectId"></app-warehousing-mgmt-page> -->

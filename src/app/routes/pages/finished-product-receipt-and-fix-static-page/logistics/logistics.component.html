@@ -1,0 +1,15 @@
+<div class="content-box">
+    <nz-tabset [nzTabPosition]="'top'" [nzShowPagination]="false">
+        <nz-tab nzTitle="工厂直发">
+            <app-factory-logistics [projectId]="currentMonomer.monomer.projectId"></app-factory-logistics>
+        </nz-tab>
+        <nz-tab nzTitle="供应商直发">
+            <app-supplie-mgmt-page [currentMonomer]="currentMonomer.monomer" [factoryAble]="false"></app-supplie-mgmt-page>
+        </nz-tab>
+    </nz-tabset>
+</div>
+<style scoped>
+    .content-box {
+        min-height: 500px;
+    }
+</style>

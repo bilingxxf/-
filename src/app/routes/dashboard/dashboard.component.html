@@ -1,0 +1,240 @@
+<!-- <div class="content__title">
+    <h1>KPI 总览</h1>
+</div> -->
+
+<div 
+    nz-row
+    *ngIf="companyId"
+    [nzGutter]="20">
+    <div
+        nz-col
+        [nzSpan]="5">
+        <nz-card
+            class="hasborder"
+            [nzTitle]="'项目数'">
+            <h1 class="cente">{{report.totalQuantity}}</h1>
+        </nz-card>
+    </div>
+    <div 
+        nz-col
+        [acl]="1246"
+        [nzSpan]="5">
+        <nz-card
+            class="hasborder"
+            [nzTitle]="'合同额(万元)'">
+            <h1 class="cente orange">{{report.totalContactAmount}}</h1>
+        </nz-card>
+    </div>
+    <div
+        nz-col
+        [acl]="1246"
+        [nzSpan]="5">
+        <nz-card
+            class="hasborder"
+            [nzTitle]="'收款额(万元)'">
+            <h1 class="cente green">{{report.totalReceiptAmount}}</h1>
+        </nz-card>
+    </div>
+    <div
+        nz-col
+        [acl]="1246"
+        [nzSpan]="5">
+        <nz-card
+            class="hasborder"
+            [nzTitle]="'深化量(吨)'">
+            <h1 class="cente blue">{{report.totalProductWeight}}</h1>
+        </nz-card>
+    </div>
+    <div
+        nz-col
+        [acl]="1246"
+        [nzSpan]="4">
+        <nz-card
+            class="hasborder"
+            [nzTitle]="'生产量(吨)'">
+            <h1 class="cente red">{{report.finishProductWeight }}</h1>
+        </nz-card>
+    </div>
+</div>
+
+<div 
+    nz-row
+    *ngIf="companyId"
+    [nzGutter]="24">
+
+    <!-- <div
+        nz-col
+        [acl]="1246"
+        *hasPermission="1246"
+        [nzSpan]="8">
+        <nz-card
+            [nzTitle]="'收款与开票'">
+            <ng-template #extra>
+                单位: 万元
+            </ng-template>
+            <app-company-invoice-pie-chart [companyId]="companyId"></app-company-invoice-pie-chart>
+        </nz-card>
+    </div> -->
+
+    <div
+    nz-col
+    [nzSpan]="24"> 
+    <nz-card
+        [nzTitle]="'项目数统计'" >
+        <ng-template #extra>
+            <span>单位: 个</span>
+            <!-- <span>结构: t</span>    -->
+            <!-- <span style="margin-left: 15px">围护: ㎡</span> -->
+        </ng-template>
+        <app-project-setup-analyse-line-chart
+            [type]="'year'"
+            [companyId]="companyId">
+
+        </app-project-setup-analyse-line-chart>
+    </nz-card>
+    
+
+</div>
+
+<div
+    nz-col
+    [nzSpan]="24">
+    <nz-card
+        [nzTitle]="'合同额统计'">
+        <ng-template #extra>
+            <span>单位: 万元</span>   
+        </ng-template>
+        <app-company-monthly-manufacture-line-chart 
+            [companyId]="companyId"
+            [type]="'year'"></app-company-monthly-manufacture-line-chart>
+    </nz-card>
+</div>
+
+    <div
+        nz-col
+        [acl]="1246"
+        *hasPermission="1246"
+        [nzSpan]="24">
+        <nz-card
+            [nzTitle]="'收款额统计'" >
+            <ng-template #extra>
+                单位: 万元
+            </ng-template>
+            <app-company-monthly-receipt-line-chart
+                [companyId]="companyId">
+            </app-company-monthly-receipt-line-chart>
+        </nz-card>
+        
+
+    </div>
+
+    <!-- <div
+        nz-col
+        [nzSpan]="8">
+        <nz-card
+            [nzTitle]="'详图深化统计'">
+            <ng-template #extra>
+                    单位: t
+            </ng-template>
+            <app-xtsh-pie-chart
+                [companyId]="companyId"></app-xtsh-pie-chart>
+        </nz-card>
+    </div> -->
+
+    <div
+        nz-col
+        [nzSpan]="24">
+        <nz-card
+            [nzTitle]="'深化量统计'">
+            <ng-template #extra>
+                单位: t
+            </ng-template>
+            <app-xtsh-monthly-line-chart
+                [companyId]="companyId"></app-xtsh-monthly-line-chart>
+        </nz-card>
+    </div>
+
+    <!-- <div
+        nz-col
+        [nzSpan]="8">
+        <nz-card
+            [nzTitle]="'生产统计'">
+            <ng-template #extra>
+                <span>结构: t</span>  
+                <span style="margin-left: 15px">围护: ㎡</span>
+            </ng-template>
+            <app-project-production-pie-chart    
+                [companyId]="companyId">
+
+            </app-project-production-pie-chart>
+        </nz-card>
+    </div> -->
+
+    <div
+        nz-col
+        [nzSpan]="24">
+        <nz-card
+            [nzTitle]="'生产统计'" >
+            <ng-template #extra>
+                <span>单位: t</span>
+                <!-- <span>结构: t</span>   -->
+                <!-- <span style="margin-left: 15px">围护: ㎡</span> -->
+            </ng-template>
+            <app-project-production-analyse-line-chart
+                [type]="'year'"
+                [companyId]="companyId">
+
+            </app-project-production-analyse-line-chart>
+        </nz-card>
+        
+
+    </div>
+
+    <!-- <div
+        nz-col
+        [nzSpan]="8">
+        <nz-card
+            [nzTitle]="'安装统计'">
+            <ng-template #extra>
+                <span>结构: t</span>   
+                <span style="margin-left: 15px">围护: ㎡</span>
+            </ng-template>
+            <app-project-setup-pie-chart    
+                [companyId]="companyId">
+
+            </app-project-setup-pie-chart>
+        </nz-card>
+    </div> -->
+
+    <!-- <div
+        nz-col
+        [nzSpan]="8">
+        <nz-card
+            [nzTitle]="'产值统计'">
+            <ng-template #extra>
+                <span>单位: 万元</span>   
+            </ng-template>
+            <app-manufacture-pie-chart [companyId]="companyId"></app-manufacture-pie-chart>
+        </nz-card>
+    </div> -->
+
+</div>
+<style scoped>
+.cente {
+    text-align: center;
+    font-size: 48px;
+    font-weight: 100;
+}
+.orange {
+    color: #FFC000;
+}
+.green {
+    color: #00B050 ;
+}
+.blue {
+    color: #00B0F0;
+}
+.red {
+    color: #FF0000;
+}
+</style>

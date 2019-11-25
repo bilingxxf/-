@@ -1,0 +1,40 @@
+<div class="content-box">
+    <nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="data.data"
+        [nzLoading]="listQuery.loading" [nzTotal]="data.totalCount" [(nzPageIndex)]="listQuery.page"
+        [(nzPageSize)]="listQuery.size" (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>产品名称</th>
+                <th>颜色</th>
+                <th>厚度(mm)</th>
+                <th>板型</th>
+                <th>长度(mm)</th>
+                <th>数量(张)</th>
+                <th>总长度(m)</th>
+                <th>使用部位</th>
+                <th>工厂确认人</th>
+                <th>确认时间</th>
+                <th>工地确认人</th>
+                <th>确认时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of ajaxTable.data;let i = index">
+                <td>{{ i + 1}}</td>
+                <td>{{ item.productName }}</td>
+                <td>{{ item.color }}</td>
+                <td>{{ item.thickness }}</td>
+                <td>{{ item.modelNum }}</td>
+                <td>{{ item.length }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ (item.totalMeter / 1000).toFixed(2) }}</td>
+                <td>{{ item.useArea }}</td>
+                <td>{{ item.checkUserName }}</td>
+                <td>{{ item.checkTime | date:'yyyy-MM-dd' }}</td>
+                <td>{{ item.siteCheckUserName }}</td>
+                <td>{{ item.siteConfirmTime | date:'yyyy-MM-dd' }}</td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>

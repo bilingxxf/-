@@ -1,0 +1,6 @@
+<h4 *ngIf="title">{{title}}</h4>
+<app-line-board  [data]="data" [date]="date" (detail)="go($event)"></app-line-board>
+
+<button nz-button [nzType]="'primary'" style="float: right; margin-right: 30px" (click)="export()">
+  <span>月汇总下载</span>
+</button>

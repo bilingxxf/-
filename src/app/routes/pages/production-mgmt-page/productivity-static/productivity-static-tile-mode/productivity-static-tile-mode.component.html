@@ -1,0 +1,33 @@
+<!-- <nz-card
+    [nzTitle]="'结构'">
+    <app-multi-color-box-list
+        [acl]="1125"
+        [boxs]="structureBoxs"></app-multi-color-box-list>
+</nz-card>
+<nz-card
+    [nzTitle]="'围护'">
+    <app-multi-color-box-list
+        [acl]="1125"
+        [boxs]="enclosureBoxs"></app-multi-color-box-list>
+</nz-card> -->
+
+<!-- <input type="text"> -->
+
+<div class="operate-box">
+    <div class="operate-left-box">
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixButton" style="margin-right: 10px">
+            <input type="text" [(ngModel)]="serialNo" nz-input placeholder="构件编号"
+                (keyup)="($event.which === 13)?getData():0" />
+        </nz-input-group>
+        <ng-template #suffixButton>
+            <span style="cursor: pointer" (click)="getData()">搜索</span>
+        </ng-template>
+    </div>
+</div>
+<div class="content-box">
+    <nz-spin [nzSpinning]="isSpinning">
+        <div style="min-height: 100px">
+            <app-multi-color-box-list [boxs]="data"></app-multi-color-box-list>
+        </div>
+    </nz-spin>
+</div>

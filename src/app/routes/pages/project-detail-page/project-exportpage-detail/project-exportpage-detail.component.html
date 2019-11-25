@@ -1,0 +1,98 @@
+<nz-card nzTitle="项目信息" [nzBordered]="false" [acl]="1049">
+        <desc-list size="default" class="mb-lg">
+            <desc-list-item
+                term="合同编号">{{ project.contractNo }}</desc-list-item>
+            <desc-list-item
+                term="工程名称">{{ project.name }}</desc-list-item>
+            <desc-list-item
+                term="工程简称">{{ project.shortName }}</desc-list-item>
+            <desc-list-item
+                term="签订日期">{{ project.signedDate | date: 'yyyy-MM-dd' }}</desc-list-item>
+            <desc-list-item
+                term="项目创建日期">{{ project.createTime | date: 'yyyy-MM-dd' }}</desc-list-item>
+            <desc-list-item
+                term="合同金额(万元)">{{ project.amount }}</desc-list-item>
+            <desc-list-item
+                term="保证金类型">{{ marginTypes[project.marginType] }}</desc-list-item>
+            <desc-list-item
+                term="保证金金额(万元)">{{ project.marginAmount }}</desc-list-item>
+            <desc-list-item
+                term="币种">{{ project.currencyType }}</desc-list-item>
+            <desc-list-item
+                term="预付款(万元)">{{ project.advancePaymentAmount }}</desc-list-item>
+            <desc-list-item
+                term="订单类型">{{ orderTypes[project.orderType] }}</desc-list-item>
+            <desc-list-item
+                term="项目所在地区">{{ project.countryId | country | async }}{{ project.stateId | state | async }}{{ project.cityId | city | async }}{{ project.regionId | region | async }}</desc-list-item>
+            <desc-list-item
+                term="详细地址">{{ project.address }}</desc-list-item>
+            <desc-list-item
+                term="结构形式">{{ structTypes[project.structType] }}</desc-list-item>
+            <desc-list-item
+                term="合同约定工期开始时间">{{ project.startDate | date: 'yyyy-MM-dd' }}</desc-list-item>
+            <desc-list-item
+                term="合同约定结束时间">{{ project.endDate | date: 'yyyy-MM-dd' }}</desc-list-item>
+            <desc-list-item
+                term="总工期">{{ '' | duration: project.startDate:project.endDate }}</desc-list-item>
+            <desc-list-item
+                term="合同吨位量">{{ project.contractWeight }}</desc-list-item>
+            <!-- <desc-list-item
+                term="业务负责人">{{ project.managerName }}</desc-list-item>
+            <desc-list-item
+                term="负责人电话">{{ project.managerPhone }}</desc-list-item> -->
+        </desc-list>
+        <nz-divider class="mb-md"></nz-divider>
+        <!-- <h4 class="mb-md">附件</h4> -->
+        <div class="text-lg my-md">附件</div>
+        <nz-table
+            #nzTable
+            [nzData]="project.attachmentList"
+            [nzShowPagination]="false">
+            <thead>
+                <tr>
+                  <th><span>序号</span></th>
+                  <th><span>文件</span></th>
+                  <th><span>操作</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of project.attachmentList;let i = index;">
+                    <td>
+                        {{ i + 1 }}
+                    </td>
+                    <td>
+                        {{ item.fileName }}
+                    </td>
+                    <td>
+                        <a [attahcmentDownload]="item.id">下载</a>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+        <div class="text-lg my-md">单体</div>
+        <nz-table
+            #nzTable
+            [nzData]="monomers"
+            [nzShowPagination]="false">
+            <thead>
+                <tr>
+                  <th><span>序号</span></th>
+                  <th><span>单体名称</span></th>
+                  <th><span>描述</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let m of monomers;let i = index;">
+                    <td>
+                        {{ i + 1 }}
+                    </td>
+                    <td>
+                        {{ m.name }}
+                    </td>
+                    <td>
+                        {{ m.description }}
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </nz-card>

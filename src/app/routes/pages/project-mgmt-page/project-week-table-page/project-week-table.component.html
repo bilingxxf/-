@@ -1,0 +1,70 @@
+<div class="operate-box">
+    <div class="operate-left-box">
+        <nz-month-picker #input style="width: 100%" [(ngModel)]="date" (ngModelChange)="onChange($event)"
+            [nzFormat]="'YYYY/MM'" name="date" nzSize="default"></nz-month-picker>
+    </div>
+    <div class="operate-right-box">
+    </div>
+</div>
+<div class="content-box">
+    <nz-card>
+        <nz-table [acl]="1033" [nzData]="data" [nzLoading]="isSpinning" [nzShowPagination]="false">
+            <thead>
+                <tr>
+                    <th><span>序号</span></th>
+                    <th><span>统计日期</span></th>
+                    <th><span>生产数量</span></th>
+                    <th><span>生产重量(kg)</span></th>
+                    <th><span>详情</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let project of data;let i = index;">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ project.staticWeek }}</td>
+                    <td>{{ project.productQuantity }}</td>
+                    <td>{{ project.productWeight }}</td>
+                    <td>
+                        <span>
+                            <a (click)="goDetail($event, project.statisticalDate)">详情</a>&nbsp;
+                            <a (click)="exportExcel(project.statisticalDate)">下载</a>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </nz-card>
+</div>
+<nz-modal [nzVisible]="isVisible" [nzTitle]="'周报表详情'" [nzContent]="modalContent" [nzWidth]="'700px'"
+    (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <ng-template #modalContent>
+        <nz-table #nzTable style="height: 400px" [nzData]="detailExport" [nzShowPagination]="false" nzBordered>
+            <thead>
+                <tr>
+                    <th><span>序号</span></th>
+                    <th><span>项目名称</span></th>
+                    <th><span>名称</span></th>
+                    <th><span>编号</span></th>
+                    <th><span>生产数量</span></th>
+                    <th><span>生产重量(kg)</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of detailExport; let i = index;">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ user.projectName }}</td>
+                    <td>{{ user.productName }}</td>
+                    <td>{{ user.serialNo }}</td>
+                    <td>{{ user.productQuantity }}</td>
+                    <td>{{ user.productWeight }}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </ng-template>
+</nz-modal>
+<style scoped>
+    .ant-table-placeholder {
+        border: 1px solid #e9e9e9 !important;
+    }
+
+</style>

@@ -1,0 +1,78 @@
+<div class="operate-box">
+    <div class="operate-left-box">
+        <nz-month-picker #input style="width: 100%" [(ngModel)]="date" (ngModelChange)="onChange($event)"
+            [nzFormat]="'YYYY/MM'" name="date" nzSize="default"></nz-month-picker>
+    </div>
+    <div class="operate-right-box">
+
+    </div>
+</div>
+<div class="content-box">
+    <nz-table [acl]="1033" [nzData]="data" [nzShowPagination]="false" [nzLoading]="isSpinning" nzBordered>
+        <thead>
+            <tr>
+                <th><span>序号</span></th>
+                <th><span>日期</span></th>
+                <th><span>制作班组</span></th>
+                <th><span>生产数量</span></th>
+                <th><span>总长度(m)</span></th>
+                <th><span>总面积(㎡)</span></th>
+                <th><span>操作</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data;let i = index;">
+                <td>{{ i + 1 }}</td>
+                <td>{{ startDate + '~' + endDate}}</td>
+                <td>{{ item.username }}</td>
+                <td>{{ item.totalQuantity }}</td>
+                <td>{{ item.totalLength }}</td>
+                <td>{{ item.totalSurfaceArea }}</td>
+                <td>
+                    <span>
+                        <a (click)="openDetail(item.userId)">详情</a>&nbsp;
+                        <a (click)="exportExcel(item.userId)">下载</a>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>
+<nz-modal [nzVisible]="isVisible" [nzTitle]="'班组报表详情'" [nzContent]="modalContent" (nzOnCancel)="handleCancel()"
+    (nzOnOk)="handleOk()" nzWidth="1200">
+    <ng-template #modalContent>
+        <nz-table #nzTable style="height: 400px;" [nzData]="exportDetail" [nzShowPagination]="false"
+            [nzLoading]="isDetailSpinning" nzBordered>
+            <thead>
+                <tr>
+                    <th><span>序号</span></th>
+                    <th><span>产品名称</span></th>
+                    <th><span>颜色</span></th>
+                    <th><span>厚度(mm)</span></th>
+                    <th><span>板型</span></th>
+                    <th><span>有效宽度(mm)</span></th>
+                    <th><span>长度(mm)</span></th>
+                    <th><span>生产数量(张)</span></th>
+                    <th><span>总长度(m)</span></th>
+                    <th><span>总面积(㎡)</span></th>
+                    <th><span>使用部位</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of exportDetail;let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.color }}</td>
+                    <td>{{ item.thickness.toFixed(3) }}</td>
+                    <td>{{ item.modelNum }}</td>
+                    <td>{{ item.width }}</td>
+                    <td>{{ item.length }}</td>
+                    <td>{{ item.productQuantity }}</td>
+                    <td>{{ item.totalMeter }}</td>
+                    <td>{{ item.productSurfaceArea }}</td>
+                    <td>{{ item.useArea }}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </ng-template>
+</nz-modal>

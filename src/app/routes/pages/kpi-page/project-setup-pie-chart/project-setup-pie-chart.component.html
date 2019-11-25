@@ -1,0 +1,26 @@
+<div
+  #echart
+  style="width: 100%;margin-top: 6px;height: 100px;"></div>
+
+  <nz-table 
+  #basicTable 
+  [nzShowPagination]="false"
+  [nzData]="tableData" 
+  nzBordered>
+      <thead>
+          <tr>
+              <th>总量(吨)</th>
+              <th>已完成重量(吨)</th>
+              <th>已完成数量</th>
+              <th>完成率</th>
+          </tr>
+      </thead>
+      <tbody >
+          <tr *ngFor="let item of tableData">
+              <td> {{item.structureTotalWeight}} </td>
+              <td> {{item.setupTotalWeight}} </td>
+              <td> {{item.setupTotalQuantity}}</td>
+              <td> {{ (item.structureTotalWeight == '0'|| item.setupTotalWeight == '0') ?'0':(item.percent)}}% </td>
+          </tr>
+      </tbody>
+  </nz-table>

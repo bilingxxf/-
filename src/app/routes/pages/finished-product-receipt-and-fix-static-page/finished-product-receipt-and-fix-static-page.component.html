@@ -1,0 +1,60 @@
+<app-project-pro-header [projectId]="projectId"  [showCalendar]="true" [remainNumber]="remainNumber">
+    <nz-tabset>
+        <nz-tab nzTitle="{{ pm.monomer.name }}"
+            *ngFor="let pm of pageMonomers"
+            (nzClick)="currentMonomers = pm">
+        </nz-tab>
+    </nz-tabset>
+    
+</app-project-pro-header>
+<nz-card class="panel" *ngIf="currentMonomers">
+    <nz-tabset>
+        <nz-tab nzTitle="产品标签">
+            <app-product-label [monomer]="currentMonomers.monomer" [projectId]="projectId" ></app-product-label> 
+        </nz-tab> 
+        <nz-tab nzTitle="收安状态">
+            <app-receive-and-install [currentMonomer]="currentMonomers"></app-receive-and-install>
+        </nz-tab> 
+        <nz-tab nzTitle="物流详情">
+            <app-logistics [currentMonomer]="currentMonomers"></app-logistics>
+            <!-- <app-receive-and-install [currentMonomer]="currentMonomers"></app-receive-and-install> -->
+        </nz-tab> 
+        <nz-tab nzTitle="安装详情">
+            <app-install-detail [currentMonomer]="currentMonomers"></app-install-detail>
+        </nz-tab> 
+        <!-- <nz-tab nzTitle="收安看板">
+            <app-finished-board [currentMonomer]="currentMonomers"></app-finished-board>
+        </nz-tab>  -->
+        <!-- <nz-tab nzTitle="收货详情">
+            <app-finished-mgmt-page 
+                [projectId]="projectId"
+                scanType="收货"
+                [currentMonomer]="currentMonomers"
+                [pageMonomers]="pageMonomers"></app-finished-mgmt-page>
+        </nz-tab>
+        <nz-tab nzTitle="安装详情">
+            <app-finished-mgmt-page 
+                [projectId]="projectId"
+                scanType="安装"
+                [currentMonomer]="currentMonomers"
+                [pageMonomers]="pageMonomers"></app-finished-mgmt-page>
+        </nz-tab> -->
+
+        <!-- <nz-tab nzTitle="收货平铺看板"> -->
+            <!-- <app-finished-mgmt-page 
+                [projectId]="projectId"
+                scanType="安装"
+                [currentMonomer]="currentMonomers"
+                [pageMonomers]="pageMonomers"></app-finished-mgmt-page> -->
+            <!-- <app-receipt-panel [currentMonomer]="currentMonomers"></app-receipt-panel> -->
+        <!-- </nz-tab> -->
+        <!-- <nz-tab nzTitle="安装平铺看板"> -->
+            <!-- <app-finished-mgmt-page 
+                [projectId]="projectId"
+                scanType="安装"
+                [currentMonomer]="currentMonomers"
+                [pageMonomers]="pageMonomers"></app-finished-mgmt-page> -->
+            <!-- <app-fix-panel [currentMonomer]="currentMonomers"></app-fix-panel> -->
+        <!-- </nz-tab> -->
+    </nz-tabset>
+</nz-card>

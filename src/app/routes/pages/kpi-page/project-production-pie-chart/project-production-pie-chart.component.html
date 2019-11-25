@@ -1,0 +1,61 @@
+<div
+ *ngIf="style==11"
+  #echart
+  style="width: 100%;margin-top: 6px;height: 100px">
+</div>
+<div
+*ngIf="style==12"
+  #echart
+  style="width: 100%;margin-top: 6px;height: 100px">
+</div>
+
+<div *ngIf="style==11">
+  <nz-table  
+  #basicTable 
+  [nzShowPagination]="false"
+  [nzData]="tableData" 
+  nzBordered>
+    <thead>
+        <tr>
+            <th>总量(吨)</th>
+            <th>已完成重量(吨)</th>
+            <th>已完成数量</th>
+            <th>完成率</th>
+        </tr>
+    </thead>
+    <tbody >
+      <tr *ngFor="let item of tableData">
+          <td> {{item.totalWeight}} </td>
+          <td> {{item.manufacturedWeight}} </td>
+          <td> {{item.manufacturedQuantity}}</td>
+          <td> {{(item.totalWeight == "0"|| item.manufacturedWeight =='0') ?'0' : (item.percent)}}% </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
+
+<!-- <h1>安装产值</h1> -->
+<div  *ngIf="style==12" >
+  <nz-table
+  #basicTable 
+  [nzShowPagination]="false"
+  [nzData]="tableMake" 
+  nzBordered>
+    <thead>
+        <tr>
+            <th>合同额(万元)</th>
+            <th>安装产值(万元)</th>
+            <th>完成率</th>
+        </tr>
+    </thead>
+    <tbody >
+      <tr *ngFor="let item of tableMake">
+          <td> {{item.contactTotalAmount}} </td>
+          <td> {{item.setupTotalAmount}} </td>
+          <td> {{ (item.contactTotalAmount == '0' || item.setupTotalAmount =='0') ?'0' : (item.percent) }}% </td>
+      </tr>
+    </tbody>
+</nz-table>
+</div>
+  
+

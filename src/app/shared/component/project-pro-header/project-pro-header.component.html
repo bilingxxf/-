@@ -1,0 +1,66 @@
+
+<pro-header [title]="project.name" class="special-header header-box">
+    <ng-template #logo><img src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png"></ng-template>
+    <ng-template #action>
+    </ng-template>
+    <!-- <div nz-row>
+        <div nz-col [nzSpan]="12">
+            合同编号:{{ project.contractNo }}
+        </div>
+        <div nz-col [nzSpan]="12">
+            合同额:{{ project.amount }}万元
+        </div>
+    </div> -->
+    
+    <ng-template #tab>
+        <ng-content></ng-content>
+    </ng-template>
+
+    <nz-tooltip [nzTitle]="'距离计划完成时间（天）'" [nzPlacement]="'topLeft'">
+        <div *ngIf="showCalendar" nz-tooltip class="distance-time">
+            <div class="img-box">
+                <img src="../../../../assets/img/calendar.png">
+            </div>
+            <div class="count-down-box">
+                <span *ngIf="remainNumber || remainNumber == 0;else elseBlock" [ngStyle]="{'color': remainNumber >= 0 ? '#3dbd7d' : '#f04134'}" >
+                    {{ remainNumber }}
+                </span>
+                <ng-template #elseBlock>
+                    <span class="no-time-text">-</span>
+                </ng-template>
+            </div>
+        </div>
+    </nz-tooltip>
+</pro-header>
+<style scoped>
+    .header-box {
+        position: relative;
+    }
+    .img-box {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 70px;
+        height: 70px;
+    }
+    .img-box >img {
+        width: inherit;
+        height: inherit;
+    }
+    .count-down-box {
+        position: absolute;
+        left:50%;
+        top:50%;
+        transform:translate(-50%,-25%);
+    }
+    .distance-time {
+        font-size: 25px;
+        display: flex;
+        width: 70px;
+        height: 70px;
+        position: absolute;
+        top: 0;
+        right: 30px;
+    }
+    </style>

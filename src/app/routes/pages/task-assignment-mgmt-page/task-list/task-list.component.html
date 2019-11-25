@@ -1,0 +1,119 @@
+<block-ui>
+<div class="operate-box">
+    <div class="operate-left-box">
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixButton" style="margin-right: 10px;width:150px">
+            <input type="text" #input
+                nz-input placeholder="构件编号"
+                [(ngModel)]="taskDTO.serialNo"
+                (keyup)="($event.which === 13)?search():0" />
+        </nz-input-group>
+        <ng-template #suffixButton>
+            <span style="cursor: pointer" (click)="search()">搜索</span>
+        </ng-template>
+        <div style="width:250px;">
+            <nz-radio-group [(ngModel)]="taskDTO.type" (ngModelChange)="search()">
+                <label nz-radio-button [nzValue]="undefined">全部</label>
+                <label nz-radio-button [nzValue]="0">未分配完</label>
+                <label nz-radio-button [nzValue]="1">已分配完</label>
+            </nz-radio-group>
+        </div>
+        <!-- <app-tag [options]="options"></app-tag> -->
+    </div>
+    <div class="operate-right-box">
+        <nz-popconfirm [nzTitle]="'重新分配任务后，原有任务分配单作废，已经进入生产的产品无法归零'" (nzOnConfirm)="reassignTasks()" >
+            <button nz-popconfirm nz-button nzType="primary" style="margin-right: 10px">重新分配任务</button>
+        </nz-popconfirm>
+        <nz-select
+            style="width: 200px;margin-right: 10px"
+            nzShowSearch
+            nzAllowClear
+            nzPlaceHolder="选择要分配的班组"
+            [(ngModel)]="selectedTeamId"
+        >
+            <nz-option  *ngFor="let item of lineEmployees" [nzLabel]="item.userLineName" [nzValue]="item.id"></nz-option>
+        </nz-select>
+        <button nz-button nzType="primary" style="margin-right: 10px" (click)="allotAll()">一次性分配</button>
+        <button nz-button nzType="primary" (click)="saveOperate()">保存</button>
+    </div>
+</div>
+<div class="operate-box">
+    <nz-checkbox-wrapper style="width: 100%;" (nzOnChange)="lineChange($event)">
+        <div class="checkbox-box" nz-row [nzType]="'flex'" [nzJustify]="'start'" [nzAlign]="'middle'">
+            <div *ngFor="let item of lineEmployees"><label nz-checkbox [nzValue]="item.id" [(ngModel)]="item.showLine" [ngStyle]="{'color': item.hasData ? '#00a854':''}">{{item.userLineName}}</label></div>
+        </div>
+    </nz-checkbox-wrapper>
+</div>
+<div style="width: 100%;padding: 0 10px">
+    <nz-table #nzTable 
+    [nzData]="dataSet" 
+    [nzWidthConfig]="nzWidthConfig"
+    [nzScroll]="{ x:xWidth,y: '500px' }"
+    [(nzPageIndex)]="taskDTO.page"
+    [(nzPageSize)]="taskDTO.size"
+    [nzTotal]="totalCount"
+    (nzPageIndexChange)="getTaskList()"
+    (nzPageSizeChange)="getTaskList()"
+    [nzLoading]="isSpinning"
+    [nzFrontPagination]="false"
+    nzShowQuickJumper
+    nzShowSizeChanger
+    >
+    <thead>
+        <tr class="antTableThead">
+            <th rowspan="2" nzLeft="0px" nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
+            <th rowspan="2" nzLeft="60px">序号</th>
+            <th rowspan="2" nzLeft="120px">构件名称</th>
+            <th rowspan="2" nzLeft="220px">构件编号</th>
+            <th rowspan="2" nzLeft="320px">数量</th>
+            <th rowspan="2" nzLeft="420px">单重(KG)</th>
+            <ng-container *ngFor="let taskLine of lineEmployees">
+                <ng-container *ngIf="taskLine.showLine">
+                    <th colspan="2">{{ taskLine.userLineName }}</th>
+                </ng-container>
+            </ng-container>
+            <th rowspan="2"></th>
+            <th rowspan="2" nzRight="0px" style="text-align: center">未分配数量</th>
+        </tr>
+        <tr class="antTableThead">
+            <ng-container *ngFor="let taskLine of lineEmployees">
+                <ng-container *ngIf="taskLine.showLine">
+                    <th>数量</th>
+                    <th>时间</th>
+                </ng-container>
+            </ng-container>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- <tr class="antTableThead" *ngFor="let item of nzTable.data; let i = index" [ngStyle]="{}"> -->
+        <tr class="antTableThead" *ngFor="let item of nzTable.data;let i = index" >
+            <td style="z-index: 2" nzLeft="0px" nzShowCheckbox [(nzChecked)]="item.isChecked" (nzCheckedChange)="refreshStatus($event)" [nzDisabled]="item.maxNum != item.totalQuantity"></td>
+            <td class="tip-parent" style="z-index: 2" nzLeft="60px">
+                <div *ngIf="item.status > 1" class="td-tip"  [ngStyle]="{'background-color': ComponentColors[item.status-1]}">{{ ProductStatus[item.status] }}</div>
+                {{i+1}}
+            </td>
+            <td class="tip-parent" style="z-index: 2" nzLeft="120px">
+                <div *ngIf="item.structureType !== undefined" class="td-tip"  [ngStyle]="{'background-color': item.structureType === 0 ? 'green':'orange'}">{{ item.structureType === 0 ? '涂' : '非涂' }}</div>
+                {{ item.productName }}
+            </td>
+            <td style="z-index: 2" nzLeft="220px">{{ item.serialNo }}</td>
+            <td style="z-index: 2" nzLeft="320px">{{ item.totalQuantity }}</td>
+            <td style="z-index: 2" nzLeft="420px">{{ item.pieceWeight }}</td>
+            <ng-container *ngFor="let taskLine of lineEmployees; let j = index">
+                <ng-container *ngIf="taskLine.showLine && item.manufacturePlans[j]">
+                    <td class="mask-parent">
+                        <div [ngClass]="{'mask-red': item.manufacturePlans[j].hasChangeQuantity}"></div>
+                        <nz-input-number [(ngModel)]="item.manufacturePlans[j].needQuantity" [nzMin]="0" [nzStep]="1"  (ngModelChange)="setTaskNum(item,j)"></nz-input-number>
+                    </td><!--(keyup)="keyUpSearch($event)" -->
+                    <td class="mask-parent">
+                        <div [ngClass]="{'mask-red': item.manufacturePlans[j].hasChangeDeadline}"></div>
+                        <nz-date-picker (keyup)="keyUpSearch($event)" [(ngModel)]="item.manufacturePlans[j].deadline" (ngModelChange)="changeDate(item,j)" nzFormat="YYYY/MM/dd" nzPlaceHolder="完成日期"></nz-date-picker>
+                    </td>
+                </ng-container>
+            </ng-container>
+            <td></td>
+            <td nzRight="0px" style="text-align: center">{{ item.maxNum }}</td>
+        </tr>
+    </tbody>
+    </nz-table>
+</div>
+</block-ui>

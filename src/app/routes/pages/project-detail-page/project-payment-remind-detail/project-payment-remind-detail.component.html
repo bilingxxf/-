@@ -1,0 +1,52 @@
+<nz-card
+    nzTitle="付款提醒"
+    [nzBordered]="false">
+    <desc-list size="default" class="mb-lg">
+        <desc-list-item
+            term="付款方式">{{ types[type] }}</desc-list-item>
+    </desc-list>
+    <nz-table
+        *ngIf="type === types['节点付款']"
+        #nzTable
+        [nzData]="reminds"
+        [nzShowPagination]="false">
+        <thead>
+            <tr>
+              <th><span>付款节点设定</span></th>
+              <th><span>付款金额(万元)</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of reminds">
+                <td>
+                    {{ item.name }}
+                </td>
+                <td>
+                    {{ item.presetValue }}
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+    <nz-table
+        *ngIf="type === types['进度付款']"
+        #nzTable
+        [nzData]="reminds"
+        [nzShowPagination]="false">
+        <thead>
+            <tr>
+              <th><span>序号</span></th>
+              <th><span>付款时间</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of reminds;let i = index;">
+                <td>
+                    {{ i + 1 }}
+                </td>
+                <td>
+                    {{ item.presetValue }}
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-card>

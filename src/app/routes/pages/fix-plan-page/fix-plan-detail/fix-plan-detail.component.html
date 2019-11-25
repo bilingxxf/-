@@ -1,0 +1,49 @@
+<div class="operate-box">
+    <div class="operate-left-box">
+        <nz-select style="width: 120px;" name="type" [(ngModel)]="type" nzAllowClear placeholder="选择月">
+            <nz-option [nzValue]="1" nzLabel="周计划"></nz-option>
+            <nz-option [nzValue]="2" nzLabel="月计划"></nz-option>
+        </nz-select>
+        <nz-month-picker *ngIf="query.type === 1"
+        #input
+        style="width: 100%"
+        [(ngModel)]="query.month"
+        [nzFormat]="'YYYY/MM'"
+        name="date"
+        nzSize="default"></nz-month-picker>
+        <nz-select style="width: 120px;" [(ngModel)]="query.year" name="type" nzAllowClear nzPlaceHolder="选择年">
+            <nz-option [nzValue]="year" [nzLabel]="year" *ngFor="let year of years"></nz-option>
+        </nz-select>
+        <button nz-button nzSize="default" (click)="search()">搜索</button>
+    </div>
+    <div class="operate-right-box">
+        
+    </div>
+</div>
+
+<nz-card>
+    <nz-table
+    [nzShowPagination]="false"
+    [nzData]="data">
+    <thead>
+        <tr>
+            <!-- <th>序号</th> -->
+            <th>时间</th>
+            <th>提交人</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr  *ngFor="let item of data;let i = index">
+            <!-- <td>{{ i + 1 }}</td> -->
+            <td>第{{item.orderNum}}{{query.type === 2 ? '月' : '周'}}</td>
+            <td>{{ item.submitUsers }}</td>
+            <td>
+                <a (click)="getDetail(item)">详情</a>
+                <a (click)="export(item)" style="margin-left: 15px">导出</a>
+            </td>
+        </tr>
+    </tbody>
+
+</nz-table>
+</nz-card>

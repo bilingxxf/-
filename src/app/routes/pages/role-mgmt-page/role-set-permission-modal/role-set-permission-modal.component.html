@@ -1,0 +1,39 @@
+<!-- <nz-card
+    *ngFor="let ps of permissions"
+    [acl]="1062"
+    [nzTitle]="ps[0].name">
+    <nz-form-label
+        *ngFor="let permission of ps"
+        nz-checkbox
+        [(ngModel)]="permission.checked"
+        (ngModelChange)="change(permission.id, $event)">
+        <span>{{ permission.name }}</span>
+    </nz-form-label>
+</nz-card> -->
+
+<nz-card [acl]="1062">
+    <table align="center">
+        <thead class="ant-table-thead">
+            <tr>
+                <th width="80" rowspan="2">序号</th>
+                <th width="200" rowspan="2">项目</th>
+                <th colspan="2" width="80">
+                    权限设置
+                </th>
+                <!-- <th width="80"></th> -->
+            </tr>
+            <tr>
+                <!-- <th width="80"></th> -->
+                <!-- <th width="200"></th> -->
+                <th width="120">编辑权</th>
+                <th width="120">查看权</th>
+            </tr>
+        </thead>
+    </table>
+    <app-role-set-permisssion-table 
+        *ngFor="let module of modules; let i = index"
+        [permissionModule] = "module"
+        [index]="i"
+        [roleId]="role.id"
+        ></app-role-set-permisssion-table>
+</nz-card>

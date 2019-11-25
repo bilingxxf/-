@@ -1,0 +1,83 @@
+<form nz-form [nzLayout]="'inline'">
+    <nz-form-item>
+        <nz-form-control>
+            <nz-date-picker
+                #input
+                [(ngModel)]="date"
+                name="date"
+                nzSize="default"
+                nzPlaceHolder="请选择"></nz-date-picker>
+        </nz-form-control>
+    </nz-form-item>
+    <button nz-button nzSize="default" (click)="search(input.nzValue)">查询</button>
+</form>
+<nz-tabset>
+    <nz-tab nzTitle="周计划">
+        <nz-table
+            [nzData]="weekData.data"
+            [(nzPageIndex)]="weekDto.page"
+            [(nzPageSize)]="weekDto.size"
+            [nzTotal]="weekData.totalCount"
+            (nzPageIndexChange)="getWeekData()"
+            (nzPageSizeChange)="getWeekData()"
+            [nzFrontPagination]="false"
+            nzShowTotal
+            nzShowQuickJumper
+            nzShowSizeChanger>
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>名称</th>
+                    <th>编号</th>
+                    <th>数量</th>
+                    <th>总量</th>
+                    <th>合计金额</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of weekData.data;let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ item.productName }}</td>
+                    <td>{{ item.serialNo }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.amount }}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </nz-tab>
+    <nz-tab nzTitle="月计划">
+        <nz-table
+            [nzData]="monthData.data"
+            [(nzPageIndex)]="monthDto.page"
+            [(nzPageSize)]="monthDto.size"
+            [nzTotal]="monthData.totalCount"
+            (nzPageIndexChange)="getMonthData()"
+            (nzPageSizeChange)="getMonthData()"
+            [nzFrontPagination]="false"
+            nzShowTotal
+            nzShowQuickJumper
+            nzShowSizeChanger>
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>构件名称</th>
+                    <th>构件编号</th>
+                    <th>数量</th>
+                    <th>总量</th>
+                    <th>合计金额</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of monthData.data;let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ item.productName }}</td>
+                    <td>{{ item.serialNo }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.amount }}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </nz-tab>
+</nz-tabset>

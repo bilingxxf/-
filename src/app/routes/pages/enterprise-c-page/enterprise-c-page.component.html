@@ -1,0 +1,279 @@
+<div class="content__title">
+    <h1>新建企业</h1>
+</div>
+<form
+    nz-form
+    #form="ngForm"
+    (ngSubmit)="save()"
+    [nzLayout]="'vertical'">
+
+    <nz-card
+        [nzBordered]="false"
+        nzTitle="企业信息">
+        <div
+            nz-row
+            [nzGutter]="96">
+            <div
+                nz-col
+                [nzMd]="8"
+                nzSm="24"
+                nzXs="24">
+                <nz-form-item
+                    nz-row>
+                    <nz-form-label nz-col>
+                        <nz-form-label nzRequired>企业名称</nz-form-label>
+                    </nz-form-label>
+                    <nz-form-control nz-col
+                        nzHasFeedback>
+                        <input nz-input
+                            name="enterpriseName"
+                            [(ngModel)]="enterpriceCDto.name"
+                            nzSize="default"
+                            required>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div
+                nz-col
+                [nzMd]="8"
+                nzSm="24"
+                nzXs="24">
+                <nz-form-item
+                    nz-row>
+                    <nz-form-label nz-col>
+                        <nz-form-label>简称</nz-form-label>
+                    </nz-form-label>
+                    <nz-form-control nz-col
+                        nzHasFeedback>
+                        <input nz-input
+                            name="shortName"
+                            [(ngModel)]="enterpriceCDto.shortName"
+                            nzSize="default">
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </nz-card>
+
+    <nz-card
+        [nzBordered]="false"
+        nzTitle="企业管理员信息">
+        <div
+            nz-row
+            [nzGutter]="96">
+            <div
+                nz-col
+                [nzMd]="8"
+                nzSm="24"
+                nzXs="24">
+                <nz-form-item
+                    nz-row>
+                    <nz-form-label nz-col>
+                        <nz-form-label nzRequired>姓名</nz-form-label>
+                    </nz-form-label>
+                    <nz-form-control nz-col
+                        nzHasFeedback>
+                        <input nz-input
+                            name="firstContact"
+                            [(ngModel)]="enterpriceCDto.firstContact"
+                            nzSize="default"
+                            required>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div
+                nz-col
+                [nzMd]="8"
+                nzSm="24"
+                nzXs="24">
+                <nz-form-item
+                    nz-row>
+                    <nz-form-label nz-col>
+                        <nz-form-label nzRequired>手机</nz-form-label>
+                    </nz-form-label>
+                    <nz-form-control nz-col
+                        nzHasFeedback>
+                        <input nz-input
+                            name="firstContactPhone"
+                            [(ngModel)]="enterpriceCDto.firstContactPhone"
+                            nzSize="default"
+                            required>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div
+                nz-col
+                [nzMd]="8"
+                nzSm="24"
+                nzXs="24">
+                <nz-form-item
+                    nz-row>
+                    <nz-form-label nz-col>
+                        <nz-form-label>邮箱</nz-form-label>
+                    </nz-form-label>
+                    <nz-form-control nz-col
+                        nzHasFeedback>
+                        <input nz-input
+                            type="email"
+                            name="firstContactEmai"
+                            [(ngModel)]="enterpriceCDto.firstContactEmai"
+                            nzSize="default">
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </nz-card>
+
+    <nz-card
+        [nzBordered]="false"
+        nzTitle="用量信息">
+        <div
+            nz-row
+            [nzGutter]="96">
+            <div
+                nz-col
+                [nzMd]="8"
+                nzSm="24"
+                nzXs="24">
+                <nz-form-item
+                    nz-row>
+                    <nz-form-label nz-col>
+                        <nz-form-label nzRequired>项目数上限</nz-form-label>
+                    </nz-form-label>
+                    <nz-form-control nz-col
+                        nzHasFeedback>
+                        <nz-input-number
+                            style="width: 100%"
+                            name="projectLimit"
+                            [(ngModel)]="enterpriceCDto.projectLimit"
+                            nzSize="default"
+                            required></nz-input-number>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div
+                nz-col
+                [nzMd]="8"
+                nzSm="24"
+                nzXs="24">
+                <nz-form-item
+                    nz-row>
+                    <nz-form-label nz-col>
+                        <nz-form-label nzRequired>合同累计金额上限</nz-form-label>
+                    </nz-form-label>
+                    <nz-form-control nz-col
+                        nzHasFeedback>
+                        <nz-input-number
+                            style="width: 100%"
+                            name="contactAmountLimit"
+                            [(ngModel)]="enterpriceCDto.contactAmountLimit"
+                            nzSize="default"
+                            required></nz-input-number>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div
+                nz-col
+                [nzMd]="8"
+                nzSm="24"
+                nzXs="24">
+                <nz-form-item
+                    nz-row>
+                    <nz-form-label nz-col>
+                        <nz-form-label>模型储存上限</nz-form-label>
+                    </nz-form-label>
+                    <nz-form-control nz-col
+                        nzHasFeedback>
+                        <nz-input-number
+                            style="width: 100%"
+                            name="modelStorageLimit"
+                            [(ngModel)]="enterpriceCDto.modelStorageLimit"
+                            required
+                            nzSize="default"></nz-input-number>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div
+            nz-row
+            [nzGutter]="96">
+            <div
+                nz-col
+                [nzMd]="8"
+                nzSm="24"
+                nzXs="24">
+                <nz-form-item
+                    nz-row>
+                    <nz-form-label nz-col>
+                        <nz-form-label nzRequired>开始日期</nz-form-label>
+                    </nz-form-label>
+                    <nz-form-control nz-col
+                        nzHasFeedback>
+                        <!-- <input nz-input
+                            name="startDate"
+                            [(ngModel)]="enterpriceCDto.startDate"
+                            nzSize="default"
+                            required> -->
+                            <nz-date-picker style="width: 100%"  [(ngModel)]="enterpriceCDto.startDate"  nzPlaceHolder="'开始日期'"></nz-date-picker>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div
+                nz-col
+                [nzMd]="8"
+                nzSm="24"
+                nzXs="24">
+                <nz-form-item
+                    nz-row>
+                    <nz-form-label nz-col>
+                        <nz-form-label nzRequired>结束日期</nz-form-label>
+                    </nz-form-label>
+                    <nz-form-control nz-col
+                        nzHasFeedback>
+                        <nz-date-picker style="width: 100%" [(ngModel)]="enterpriceCDto.expireDate"  nzPlaceHolder="'结束日期'"></nz-date-picker>
+
+                        <!-- <input nz-input
+
+                            name="expireDate"
+                            [(ngModel)]="enterpriceCDto.expireDate"
+                            nzSize="default"
+                            required> -->
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <!-- <div
+                nz-col
+                [nzMd]="8"
+                nzSm="24"
+                nzXs="24">
+                <nz-form-item
+                    nz-row>
+                    <nz-form-label nz-col>
+                        <nz-form-label>有效天数</nz-form-label>
+                    </nz-form-label>
+                    <nz-form-control nz-col
+                        nzHasFeedback>
+                        <input nz-input
+                            type="email"
+                            name="firstContactEmai"
+                            [(ngModel)]="enterpriceCDto.firstContactEmai"
+                            nzSize="default">
+                    </nz-form-control>
+                </nz-form-item>
+            </div> -->
+        </div>
+    </nz-card>
+
+    <footer-toolbar errorCollect>
+        <button
+            nz-button
+            type="submit"
+            [nzType]="'primary'"
+            nzSize="default"
+            [disabled]="form.form.invalid"
+            [nzLoading]="submitting">保存</button>
+    </footer-toolbar>
+</form>
+
+

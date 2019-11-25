@@ -1,0 +1,96 @@
+<form #form="ngForm" nz-form>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="name" nzRequired>生产线</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input
+                name="name"
+                [(ngModel)]="params.name"
+                [nzSize]="'large'"
+                required>
+        </nz-form-control>
+    </nz-form-item>
+    <!-- <div nz-form-item nz-row>
+        <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <label for="phone" nz-form-item-required>手机</label>
+        </div>
+        <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <nz-input
+                name="phone"
+                [(ngModel)]="dto.phone"
+                [nzSize]="'default'"
+                required>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="email">邮箱</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input
+                name="email"
+                [(ngModel)]="dto.email"
+                [nzSize]="'default'">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="password" >密码</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input
+                name="password"
+                [(ngModel)]="dto.password"
+                type="password"
+                [nzSize]="'default'"
+                >
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="roles" >角色</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <nz-select
+                name="roles"
+                placeholder="请选择"
+                [(ngModel)]="dto.roleId"
+                nzSize="default"
+                >
+                <nz-option
+                    *ngFor="let role of roles"
+                    [nzLabel]="role.name"
+                    [nzValue]="role.id">
+                </nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="roles" >部门</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <nz-select
+                name="departmentId"
+                placeholder="请选择"
+                [(ngModel)]="dto.departmentId"
+                nzSize="default"
+                >
+                <nz-option
+                    *ngFor="let o of departments"
+                    [nzLabel]="o.name"
+                    [nzValue]="o.id">
+                </nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item> -->
+    <div class="customize-footer">
+        <button [disabled]="form.form.invalid" (click)="ok()" nz-button [nzType]="'primary'" [nzLoading]="submitting">
+            确定
+        </button>
+        <button nz-button [nzType]="'default'" (click)="cancel()">
+            取消
+        </button>
+    </div>
+</form>

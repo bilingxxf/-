@@ -1,0 +1,72 @@
+<nz-card>
+    <form nz-form [nzLayout]="'inline'">
+        <nz-form-item>
+            <nz-form-control>
+                <nz-date-picker
+                    style="width: 100%"
+                    [(ngModel)]="date"
+                    name="date"
+                    nzSize="default"
+                    nzPlaceHolder="请选择"></nz-date-picker>
+            </nz-form-control>
+        </nz-form-item>
+        <button
+            nz-button
+            nzSize="default"
+            nzType="primary"
+            (click)="search()">搜索</button>
+    </form>
+
+    <div style="height: 10px;"></div>
+
+    <nz-table
+        [nzData]="data.data"
+        [(nzPageIndex)]="dto.page"
+        [(nzPageSize)]="dto.size"
+        [nzTotal]="data.totalCount"
+        (nzPageIndexChange)="getData()"
+        (nzPageSizeChange)="getData()"
+        [nzFrontPagination]="false"
+        nzShowTotal
+        nzShowQuickJumper
+        nzShowSizeChanger>
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>区域</th>
+                <th>构件名称</th>
+                <th>构件编号</th>
+                <th>规格</th>
+                <th>长度(mm)</th>
+                <th>材质</th>
+                <th>数量</th>
+                <th>单重(kg)</th>
+                <th>总重(kg)</th>
+                <th>安装数量</th>
+                <th>安装重量</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data.data;let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.productInfo.areaDivisionName }}</td>
+                <td>{{ item.productInfo.name }}</td>
+                <td>{{ item.productInfo.serialNo }}</td>
+                <td>{{ item.productInfo.specification }}</td>
+                <td>{{ item.productInfo.length }}</td>
+                <td>{{ item.productInfo.material }}</td>
+                <td>{{ item.productInfo.totalQuantity }}</td>
+                <td>{{ item.productInfo.pieceWeight }}</td>
+                <td>{{ item.productInfo.totalWeight }}</td>
+                <td>{{ item.recordQuantity }}</td>
+                <td>{{ item.recordQuantity * item.productInfo.pieceWeight }}</td>
+            </tr>
+            <tr *ngIf="data.data.length">
+                <td>合计</td>
+                <td [colSpan]="11"></td>
+                <td>{{ total.receiptQuantity }}</td>
+                <td>{{ total.receiptWeight }}</td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-card>

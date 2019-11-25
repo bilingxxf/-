@@ -1,0 +1,26 @@
+<nz-card style="margin-top: 10px">
+    <nz-tabset style="min-height: 600px;margin-right:20px" [nzShowPagination]="false" [nzTabPosition]="'left'"
+        [(nzSelectedIndex)]="leftSelectedIndex">
+        <nz-tab *ngFor="let tab of leftTabs" [nzTitle]="tab.name">
+            <ng-container *ngIf="tab.value === 'structure' && tab.index == leftSelectedIndex">
+                <nz-tabset>
+                    <nz-tab nzTitle="{{ area.areaName }}{{area.id? '('+ area.coordinates +')' : ''}}"
+                        *ngFor="let area of areas" (nzClick)="currentArea = area">
+                    </nz-tab>
+                </nz-tabset>
+                <app-product-label-struc *ngIf="currentArea && currentArea.id" [projectId]="projectId"
+                    [areaId]="currentArea.id" [areaName]="currentArea.areaName"
+                    [monomerName]="monomer.name">
+                </app-product-label-struc>
+            </ng-container>
+            <ng-container *ngIf="tab.value === 'enclosure' && tab.index == leftSelectedIndex">
+                    <app-product-label-encl [projectId]="projectId" [monomerName]="monomer.name"
+                    [monomerId]="monomer.id"></app-product-label-encl>
+            </ng-container>
+            <ng-container *ngIf="tab.value === 'material' && tab.index == leftSelectedIndex">
+                    <app-product-label-mat [projectId]="projectId" [monomerName]="monomer.name"
+                    [monomerId]="monomer.id"></app-product-label-mat>
+            </ng-container>
+        </nz-tab>
+    </nz-tabset>
+</nz-card>

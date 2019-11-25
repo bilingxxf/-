@@ -1,0 +1,121 @@
+<div class="content__title">
+    <h1>短信配置</h1>
+</div>
+<button nz-button [nzType]="'primary'" style="margin-bottom: 15px" (click)="isVisible = true">
+    <span>新增</span>
+</button>
+<nz-card>
+    <nz-table
+        [nzData]="list"
+        nzBordered
+        [nzShowPagination]="false">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>工作</th>
+                <th>信息接收人</th>
+                <th>接收电话</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of list;let i = index;">
+                <td>{{i+1}}</td>
+                <td>{{data.type == '1' ? '过磅超标': ''}}</td>
+                <td>{{data.userName}}</td>
+                <td>{{data.phone}}</td>
+                <td>
+                    <a (click)="editHandle(data)">
+                        修改
+                    </a>
+                </td>            
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-card>
+<!-- <ng-container *ngIf="isVisible"> -->
+<nz-modal [nzVisible]="isVisible" [nzTitle]="'新增'"  
+[nzContent]="modalContent" 
+[nzFooter]="true" 
+(nzOnCancel)="handleCancel()" 
+(nzOnOk)="handleOk()">
+    <ng-template #modalContent>
+        <form nz-form 
+        [formGroup]="validateForm">
+            <nz-form-item nz-row>
+                <nz-form-label nzRequired nz-col for="userId" [nzSm]="6" [nzXs]="24">用户
+                </nz-form-label>
+                <nz-form-control nz-col [nzSm]="14" [nzXs]="24">
+                    <nz-select style="width: 200px;" 
+                    [nzPlaceHolder]="'请选择用户'" 
+                    id="userId"
+                    formControlName="userId"
+                    [(ngModel)]="addMemberForm.userId"
+                    nzAllowClear>
+                        <nz-option
+                            *ngFor="let option of userList"
+                            [nzLabel]="option.name"
+                            [nzValue]="option.id"
+                            >
+                        </nz-option>
+                    </nz-select>
+                    <nz-form-explain *ngIf="validateForm.get('userId').dirty && validateForm.get('userId').errors">请选择用户</nz-form-explain>
+                </nz-form-control>
+            </nz-form-item>            
+           
+            <nz-form-item nz-row>
+                <nz-form-label nz-col for="type" [nzSm]="6" [nzXs]="24" nzRequired>类型</nz-form-label>
+                <nz-form-control nz-col [nzSm]="14" [nzXs]="24">
+                    <nz-select style="width: 200px;" 
+                    [nzPlaceHolder]="'请选择类型'"
+                    id="type"
+                    formControlName="type" 
+                    [(ngModel)]="addMemberForm.type"
+                    nzAllowClear>
+                        <nz-option
+                            *ngFor="let option of typeList"
+                            [nzLabel]="option.name"
+                            [nzValue]="option.type">
+                        </nz-option>
+                    </nz-select>
+                    <nz-form-explain *ngIf="validateForm.get('type').dirty && validateForm.get('type').errors">请选择类型</nz-form-explain>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+    </ng-template>
+</nz-modal>
+<!-- </ng-container> -->
+
+<!-- <ng-container *ngIf="editVisible"> -->
+<nz-modal [nzVisible]="editVisible" [nzTitle]="'修改'"  
+[nzFooter]="true" 
+(nzOnCancel)="handleCancel()" 
+(nzOnOk)="editHandleOk()">
+    <!-- <ng-template #modalContent> -->
+        <form nz-form 
+        [formGroup]="validateForm1">
+            <nz-form-item nz-row>
+                <nz-form-label nzRequired for="uId" nz-col [nzSm]="6" [nzXs]="24">
+                   用户
+                </nz-form-label>
+                <nz-form-control nz-col [nzSm]="14" [nzXs]="24">
+                    <nz-select style="width: 200px;" 
+                    [nzPlaceHolder]="'请选择用户'" 
+                    id="uId"
+                    formControlName="uId"
+                    [(ngModel)]="editForm.uId"
+                    nzAllowClear>
+                        <nz-option
+                            *ngFor="let option of userList"
+                            [nzLabel]="option.name"
+                            [nzValue]="option.id"
+                            >
+                        </nz-option>
+                    </nz-select>
+                    <!-- <nz-form-explain *ngIf="validateForm.get('uId').dirty && validateForm.get('uId').errors">请选择用户</nz-form-explain> -->
+                </nz-form-control>
+            </nz-form-item>            
+        </form>
+    <!-- </ng-template> -->
+</nz-modal>
+<!-- </ng-container> -->

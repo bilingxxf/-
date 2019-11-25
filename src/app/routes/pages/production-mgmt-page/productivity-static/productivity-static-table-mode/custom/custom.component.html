@@ -1,0 +1,82 @@
+<div class="operate-box">
+    <div class="operate-left-box">
+        <ng-container *ngIf="recordType != 3">
+            <nz-month-picker #input style="width: 100%" [(ngModel)]="date" (ngModelChange)="onChange($event)"
+                [nzFormat]="'YYYY/MM'" name="date" nzSize="default"></nz-month-picker>
+        </ng-container>
+        <ng-container *ngIf="recordType == 3">
+            <nz-month-picker #input style="width: 100%" [(ngModel)]="date" (ngModelChange)="onChange($event)"
+                [nzFormat]="'YYYY'" name="date" nzSize="default"></nz-month-picker>
+        </ng-container>
+    </div>
+    <div class="operate-right-box">
+
+    </div>
+</div>
+<div class="content-box">
+    <nz-card>
+        <nz-table [acl]="1033" [nzData]="data" [nzShowPagination]="false" [nzLoading]="isSpinning" nzBordered>
+            <thead>
+                <tr>
+                    <th><span>序号</span></th>
+                    <th *ngIf="recordType == 4"><span>工序</span></th>
+                    <th *ngIf="recordType == 4"><span>制作班组</span></th>
+                    <th *ngIf="recordType != 4"><span>统计日期</span></th>
+                    <th><span>生产数量</span></th>
+                    <th><span>生产重量（KG）</span></th>
+                    <th><span>详情</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let project of data;let i = index;">
+                    <td>{{ i + 1 }}</td>
+                    <td *ngIf="recordType == 4">{{ project.isFinished ? '涂装' : '总装' }}</td>
+                    <td *ngIf="recordType == 4">{{ project.username }}</td>
+                    <td *ngIf="recordType != 4">{{ project.statisticalDate }}</td>
+                    <td>{{ project.productQuantity }}</td>
+                    <td>{{ project.productWeight }}</td>
+                    <td>
+                        <span>
+                            <a (click)="goDetail($event, project.statisticalDate, project.userId, project.isFinished)">详情</a>&nbsp;
+                            <a (click)="exportExcel(project.statisticalDate, project.userId, project.isFinished)">下载</a>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </nz-card>
+</div>
+<nz-modal nzWidth="800" [nzVisible]="isVisible"
+    [nzTitle]="recordType == 1 ? '日报表详情' : recordType == 2 ? '周报表详情' : recordType == 3 ?  '月报表详情' : '班组报表详情'"
+    [nzContent]="modalContent" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <ng-template #modalContent>
+        <nz-table #nzTable style="height: 400px" [nzData]="detailExport" [nzShowPagination]="false"
+            [nzLoading]="isDetailSpinning" [nzScroll]="{ y: '500px' }" nzBordered>
+            <thead>
+                <tr>
+                    <th nzWidth="150px"><span>区域名称</span></th>
+                    <th nzWidth="150px"><span>名称</span></th>
+                    <th nzWidth="150px"><span>编号</span></th>
+                    <th nzWidth="150px"><span>生产数量</span></th>
+                    <th nzWidth="150px"><span>生产重量（KG）</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of detailExport">
+                    <td>{{ user.areaDivisionName }}</td>
+                    <td>{{ user.productName }}</td>
+                    <td>{{ user.serialNo }}</td>
+                    <td>{{ user.productQuantity }}</td>
+                    <td>{{ user.productWeight }}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </ng-template>
+</nz-modal>
+<style scoped>
+    .ant-modal-content {
+        height: 550px;
+        overflow: auto;
+    }
+
+</style>

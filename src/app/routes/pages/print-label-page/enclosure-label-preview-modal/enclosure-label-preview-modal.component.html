@@ -1,0 +1,39 @@
+<table border="1"
+    style="font-family:\'微软雅黑\';border-collapse:collapse;border:solid 1pt;text-align: left;font-size: 9pt;color: black;"
+    bordercolor="#000000">
+    <tr>
+        <td style="padding: 0 8pt;box-sizing:border-box;height: 26pt;width: 180pt;" colspan="2">
+            {{ labelContent.projectShortName }}</td>
+        <td style="padding: 0 8pt;box-sizing:border-box;height: 26pt;width: 90pt;word-break: break-all;">
+            {{ labelContent.monomerName }}</td>
+    </tr>
+    <tr>
+        <td style="padding: 0 8pt;box-sizing:border-box;height: 52pt;width: 180pt;" colspan="3">
+            <div style="font-size: 26pt;padding-left: 25pt;box-sizing: border-box;line-height: 16pt;font-weight:bold;">
+                {{ labelContent.cmptName }}</div>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 0 8pt;box-sizing:border-box;height: 26pt;width: 180pt;" colspan="2">
+            使用部位：{{ labelContent.applicationArea }}</td>
+        <td style="padding: 0 8pt;box-sizing:border-box;height: 26pt;width: 90pt;">规格：{{ labelContent.cmptSpec }}</td>
+    </tr>
+    <tr>
+        <td style="padding: 0 8pt;box-sizing:border-box;height: 26pt;width: 90pt;">颜色：{{ labelContent.cmptColor }}</td>
+        <td style="padding: 0 8pt;box-sizing:border-box;height: 26pt;width: 90pt;">数量(张)：{{ labelContent.cmptNum }}</td>
+        <td style="padding: 0 8pt;box-sizing:border-box;height: 78pt;width: 78pt;" rowspan="3">
+            <div
+                style="display: flex;flex-direction: row;justify-content: center;align-items: center;width:100%;height:100%">
+                <ngx-qrcode [qrc-value]="labelContent.qrCode" qrc-errorCorrectionLevel="L"></ngx-qrcode>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 0 8pt;box-sizing:border-box;height: 26pt;width: 90pt;" colspan="2">
+            长度(mm)：{{ labelContent.cmptLength }}</td>
+    </tr>
+    <tr>
+        <td style="padding: 0 8pt;box-sizing:border-box;height: 26pt;" colspan="2">{{ labelContent.manufacturerName }}
+        </td>
+    </tr>
+</table>

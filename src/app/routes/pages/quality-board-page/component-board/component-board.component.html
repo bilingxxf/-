@@ -1,0 +1,19 @@
+<div class="operate-box">
+    <div class="operate-left-box">
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixButton" style="margin-right: 10px">
+            <input type="text" [(ngModel)]="dto.serialNo" nz-input placeholder="构件编号"
+                (keyup)="($event.which === 13)?getData():0" />
+        </nz-input-group>
+        <ng-template #suffixButton>
+            <span style="cursor: pointer" (click)="getData()">搜索</span>
+        </ng-template>
+    </div>
+    <div></div>
+</div>
+<div class="content-box">
+    <nz-spin [nzSpinning]="isSpinning">
+        <div style="min-height: 100px">
+            <app-multi-color-box-list [boxs]="data"></app-multi-color-box-list>
+        </div>
+    </nz-spin>
+</div>

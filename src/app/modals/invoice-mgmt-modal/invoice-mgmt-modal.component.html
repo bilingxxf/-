@@ -1,0 +1,146 @@
+<desc-list size="default" class="mb-lg" title="项目信息">
+    <desc-list-item term="工程名称">杭州华龙大厦一期</desc-list-item>
+    <desc-list-item term="合同编号">2038761232</desc-list-item>
+    <desc-list-item term="合同金额">55000</desc-list-item>
+</desc-list>
+<nz-table
+    [nzShowPagination]="false"
+    [nzData]="data">
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>开票日期</th>
+            <th>开票金额</th>
+            <th>备注</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of data;let i = index">
+            <ng-container *ngIf="item.editting">
+                <td>
+                    {{ i + 1 }}
+                </td>
+                <td>
+                    <nz-date-picker
+                        style="width: 100%"
+                        [(ngModel)]="item.date"
+                        [ngModelOptions]="{standalone: true}"
+                        nzSize="default"
+                        ></nz-date-picker>
+                </td>
+                <td>
+                    <nz-input-number
+                        style="width: 100%"
+                        [(ngModel)]="item.amount"
+                        [ngModelOptions]="{standalone: true}"
+                        nzSize="default"
+                        ></nz-input-number>
+                </td>
+                <td>
+                    <input nz-input
+                        style="width: 100%"
+                        [(ngModel)]="item.remark"
+                        [ngModelOptions]="{standalone: true}"
+                        nzSize="default">
+                </td>
+                <td>
+                    <span>
+                        <a (click)="item.editting = false">保存</a>
+                    </span>
+                    <span nz-table-divider></span>
+                    <span>
+                        <a (click)="item.editting = false">取消</a>
+                    </span>
+                </td>
+            </ng-container>
+            <ng-container *ngIf="!item.editting">
+                <td>
+                    {{ i + 1 }}
+                </td>
+                <td>
+                    {{ item.date | date: 'yyyy-MM-dd' }}
+                </td>
+                <td>
+                    {{ item.amount }}
+                </td>
+                <td>
+                    {{ item.remark }}
+                </td>
+                <td>
+                    <span>
+                        <a (click)="item.editting = true">修改</a>
+                    </span>
+                    <span nz-table-divider></span>
+                    <span>
+                        <nz-popconfirm [nzTitle]="'确定要删除这条记录吗？'" (nzOnConfirm)="data.splice(i, 1)">
+                            <a nz-popconfirm>删除</a>
+                        </nz-popconfirm>
+                    </span>
+                </td>
+            </ng-container>
+        </tr>
+        <tr *ngIf="!o.show">
+            <td>
+                合计
+            </td>
+            <td>
+            </td>
+            <td>
+                22000 / 30%
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr *ngIf="o.show">
+            <td>
+                {{ data.length + 1 }}
+            </td>
+            <td>
+                <nz-date-picker
+                    style="width: 100%"
+                    [(ngModel)]="o.date"
+                    [ngModelOptions]="{standalone: true}"
+                    nzSize="default"
+                    ></nz-date-picker>
+            </td>
+            <td>
+                <nz-input-number
+                    style="width: 100%"
+                    [(ngModel)]="o.amount"
+                    [ngModelOptions]="{standalone: true}"
+                    nzSize="default"
+                    ></nz-input-number>
+            </td>
+            <td>
+                <input nz-input
+                    style="width: 100%"
+                    [(ngModel)]="o.remark"
+                    [ngModelOptions]="{standalone: true}"
+                    nzSize="default">
+            </td>
+            <td>
+                <span>
+                    <a (click)="o.show = false">保存</a>
+                </span>
+                <span nz-table-divider></span>
+                <span>
+                    <a (click)="o.show = false">取消</a>
+                </span>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>
+<button
+    nz-button
+    type="button"
+    *ngIf="!o.show"
+    (click)="o.show = true"
+    [nzType]="'dashed'"
+    [nzSize]="'default'"
+    class="ant-btn__block mt-md">
+    <i class="anticon anticon-plus"></i>
+    <span>添加</span>
+</button>

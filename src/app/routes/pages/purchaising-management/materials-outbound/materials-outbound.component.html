@@ -1,0 +1,67 @@
+<nz-card>
+        <form nz-form [nzLayout]="'inline'" style="margin-bottom: 15px">
+            <nz-form-item>
+                <nz-form-control>
+                    <nz-select name="formType" style="width: 120px;" [(ngModel)]="materialDataQuery.formType" nzPlaceHolder="'请选择物料类型'" nzAllowClear>
+                        <nz-option
+                            *ngFor="let option of materailTypes"
+                            [nzLabel]="option.label"
+                            [nzValue]="option.value">
+                        </nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <input nz-input placeholder="输入关键字" [nzSize]="'default'">
+                        
+                    </nz-form-control>
+                </nz-form-item>
+                
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button [nzType]="'primary'" (click)="getMaterialOutboundOrder()">
+                            <span>搜索</span>
+                        </button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        <nz-table #nzTable [nzData]="(materialDataState.materialOutboundOrderList$ | async) || []">
+        <thead>
+          <tr>
+              <th><span>出库单编号</span></th>
+            <th><span>出库库日期</span></th>
+            <th><span>出库人</span></th>
+            <th><span>操作</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of nzTable.data; index as i">
+           
+            <td>{{data.outboundNo}}</td>
+            <td>{{data.updateTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td>{{data.createName}}</td>
+            <td>
+                <a routerLink="/materials-outbound-detail" [queryParams]="{id: data.id, formType: data.formType}">查看详情</a>
+                <!-- <a *ngIf="data.result === 0" (click)="updateStatus(data)">修改状态</a> -->
+                <!-- <a *ngIf="data.result !== 1" (click)="removeMaterialReturnOrder(data)" style="margin-left: 15px">删除</a> -->
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </nz-card>
+
+    <nz-modal [nzVisible]="isVisible" [nzTitle]="'提示'" [nzFooter]="modalFooter" [nzContent]="modalContent" (nzOnCancel)="handleCancel()" >
+        <ng-template #modalContent>
+            请确定您要执行的操作!
+        </ng-template>
+        <ng-template #modalFooter>
+            <button nz-button [nzType]="'default'" [nzSize]="'default'" (click)="updateMaterialReturnOrderStatus(2)">
+                失败
+            </button>
+            <button nz-button [nzType]="'primary'" [nzSize]="'default'" (click)="updateMaterialReturnOrderStatus(1)" [nzLoading]="isConfirmLoading">
+                成功
+            </button>
+        </ng-template>
+    </nz-modal>
+

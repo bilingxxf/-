@@ -1,0 +1,33 @@
+<div class="content__title">
+    <h1>我的审批</h1>
+</div>
+<nz-card>
+    <nz-table
+        [nzData]="data.data"
+        [(nzPageIndex)]="dto.page"
+        [(nzPageSize)]="dto.size"
+        [nzTotal]="data.totalCount"
+        (nzPageIndexChange)="getData()"
+        (nzPageSizeChange)="getData()"
+        [nzFrontPagination]="false"
+        nzShowTotal
+        nzShowQuickJumper
+        nzShowSizeChanger>
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>审批类型</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data.data;let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.taskType }}</td>
+                <td>
+                    <a (click)="approvalService.go(item)">详情</a>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-card>

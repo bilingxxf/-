@@ -1,0 +1,32 @@
+<div class="operate-box" style="margin-bottom: 10px">
+    <div class="operate-left-box">
+        <nz-month-picker #input style="width: 100%" [(ngModel)]="date" (ngModelChange)="onDateChange($event)"
+            [nzFormat]="'YYYY/MM'" name="date" nzSize="default"></nz-month-picker>
+    </div>
+    <div class="operate-right-box">
+    </div>
+</div>
+<div class="content-box">
+    <nz-table #basicTable [nzData]="demandData">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>需求日期</th>
+                <th>需求产品</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of basicTable.data;let i = index;">
+                <td>{{ i + 1}}</td>
+                <td>需求日期</td>
+                <td>需求产品</td>
+                <td class="action-box">
+                        <span (click)="showDetail(item)">查看</span>
+                        <span> / </span>
+                        <span (click)="exportDetail(item)">下载</span>
+                    </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>

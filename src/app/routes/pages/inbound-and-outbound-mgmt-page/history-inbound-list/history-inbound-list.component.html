@@ -1,0 +1,64 @@
+<form nz-form [nzLayout]="'inline'">
+    <nz-form-item>
+        <nz-form-control>
+            <nz-month-picker
+                #input
+                style="width: 100%"
+                [(ngModel)]="date"
+                (ngModelChange)="onChange($event)"
+                [nzFormat]="'YYYY/MM'"
+                name="date"
+                nzSize="default"></nz-month-picker>
+        </nz-form-control>
+    </nz-form-item>
+</form>
+<nz-table
+    [acl]="938"
+    [nzData]="data"
+    [nzTotal]="totalCount"
+    [(nzPageIndex)]="dto.page"
+    [(nzPageSize)]="dto.size"
+    (nzPageIndexChange)="getData()"
+    (nzPageSizeChange)="getData()"
+    [nzFrontPagination]="false"
+    nzShowQuickJumper
+    nzShowSizeChanger
+    nzShowTotal
+    >
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>入库时间</th>
+            <th>入库数量</th>
+            <th>入库重量(kg)</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngIf="data">
+            <tr *ngFor="let item of data;let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.recorddate | date: 'yyyy-MM-dd' }}</td>
+                <td>{{ item.gostoragecount }}</td>
+                <td>{{ item.gostorageweight }}</td>
+                <td>
+                    <a (click)="openDetailModal(item.monomerid, item.recorddate)">查看</a>
+                    <a (click)="exportExcel(item.monomerid, item.recorddate)" style="margin-left: 10px;">下载</a>
+                    <!-- 没有工序使用（需要展示入库操作员） -->
+                    <!-- <a (click)="openDetailModalByUser(item.monomerid, item.recorddate)">查看</a> -->
+                    <!-- <a (click)="exportExcelByUser(item.monomerid, item.recorddate)" style="margin-left: 10px;">下载</a> -->
+                </td>
+            </tr>
+        </ng-container>
+    </tbody>
+</nz-table>
+<a *ngIf="data.length>0" (click)="monthExportExcel()" class="export-style">月度汇总下载</a>
+<!-- <a *ngIf="data.length>0" (click)="monthExportExcelByUser()" class="export-style">月度汇总下载</a> -->
+
+<style scoped>
+.export-style {
+    display: inline-block;
+    margin: 20px 0 20px 20px;
+    font-size: 16px;
+}
+</style>

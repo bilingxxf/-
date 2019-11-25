@@ -1,0 +1,55 @@
+<div class="operate-box">
+    <div class="operate-left-box">
+        <nz-month-picker #input style="width: 100%" [(ngModel)]="month" [nzFormat]="'YYYY/MM'"
+            (ngModelChange)="onDateChange($event)" name="date" nzSize="default"></nz-month-picker>
+
+        <div>
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixButton" style="width: 200px">
+                <input type="text" [(ngModel)]="listQuery.queryContent" nz-input placeholder="请输入车牌号"
+                    (keyup)="($event.which === 13)?searchData(true):0" />
+            </nz-input-group>
+            <ng-template #suffixButton>
+                <span style="cursor: pointer" (click)="searchData(true)">搜索</span>
+            </ng-template>
+        </div>
+    </div>
+    <div class="operate-right-box">
+
+    </div>
+</div>
+<div class="content-box">
+    <nz-table #logisticsTable [nzData]="data" [(nzPageIndex)]="listQuery.page" [(nzPageSize)]="listQuery.size"
+        [nzTotal]="totalCount" (nzPageIndexChange)="getFactoryList()" (nzPageSizeChange)="getFactoryList()"
+        [nzFrontPagination]="false" nzShowTotal nzShowQuickJumper nzShowSizeChanger>
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>供应商名称</th>
+                <th>产品名称</th>
+                <th>数量</th>
+                <th>工厂确认人</th>
+                <th>确认日期</th>
+                <th>工地确认人</th>
+                <th>确认日期</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of logisticsTable.data;let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>供应商名称</td>
+                <td>产品名称</td>
+                <td>数量</td>
+                <td>工厂确认人</td>
+                <td>确认日期</td>
+                <td>工地确认人</td>
+                <td>确认日期</td>
+                <td nz-td class="action-box">
+                    <span (click)="openDetail(data)">查看</span>
+                    <span>/</span>
+                    <span (click)="exportReport(data)">下载</span>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>

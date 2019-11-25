@@ -1,0 +1,183 @@
+<app-project-pro-header [projectId]="projectId">
+    <nz-tabset>
+        <nz-tab nzTitle="{{ monomer.name }}" *ngFor="let monomer of monomers" (nzClick)="currentMonomers = monomer">
+        </nz-tab>
+    </nz-tabset>
+    
+</app-project-pro-header>
+
+<!-- <nz-card *ngIf="currentMonomers">
+    <div class="vertical-tabs">
+        <div class="vertical-tabs__header">
+            <div class="vertical-tab" (click)="active = 1" [ngClass]="{'is-active': active === 1}">结构</div>
+            <div class="vertical-tab" (click)="active = 2" [ngClass]="{'is-active': active === 2}">围护</div>
+        </div>
+        <div class="vertical-tabs__content" *ngIf="active === 1">
+            <nz-tabset>
+                <nz-tab nzTitle="合计" *ngIf="areas && summary && summary.items" (nzClick)="currentArea = null">
+                    <nz-table [acl]="1182" *hasPermission="1182" #nzTable [nzData]="summary.items"
+                        [nzShowPagination]="false" [nzTotal]="summary.items.length" nzShowTotal nzBordered>
+                        <thead>
+                            <tr>
+                                <th><span>序号</span> </th>
+                                <th> <span>构件名称</span> </th>
+                                <th> <span>材质</span> </th>
+                                <th> <span>总数量</span> </th>
+                                <th> <span>总重量(kg)</span> </th>
+                                <th> <span>成品价汇总</span> </th>
+                                <th> <span>安装汇总总价</span> </th>
+                                <th> <span>完成数量</span> </th>
+                                <th> <span>完成重量(kg)</span> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of summary.items;let i = index;">
+                                <td> {{ 1 + i }} </td>
+                                <td> {{ data.name }} </td>
+                                <td> {{ data.material }} </td>
+                                <td> {{ data.totalQuantity }} </td>
+                                <td> {{ data.totalWeight }} </td>
+                                <td> {{ data.finishedProductPrice }} </td>
+                                <td>{{ data.unitFixPrice }}</td>
+                                <td>{{ data.finishSituationResponseVO.finishedQuantity }}</td>
+                                <td>{{ data.finishSituationResponseVO.finishedWeight }}</td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </nz-tab>
+                <ng-container *ngIf="areas && summary">
+                    <nz-tab nzTitle="{{ area.areaName }}({{ area.coordinates }})" *ngFor="let area of areas"
+                        (nzClick)="currentArea = area">
+                    </nz-tab>
+                </ng-container>
+            </nz-tabset>
+            <app-component-business-entry-table *ngIf="currentArea" [area]="currentArea"
+                (priceChange)="setProjectTotalPrice()"></app-component-business-entry-table>
+        </div>
+
+        <div class="vertical-tabs__content" *ngIf="active === 2">
+            <app-enclosure-business-entry-table [monomerId]="currentMonomers.id" (priceChange)="setProjectTotalPrice()">
+            </app-enclosure-business-entry-table>
+        </div>
+    </div>
+</nz-card>  -->
+
+<nz-card *ngIf="currentMonomers">
+    <nz-tabset>
+        <ng-container *ngIf="types">
+            <nz-tab nzTitle="{{ type.name }}" 
+            *ngFor="let type of types" 
+            (nzClick)="currentType = type">
+                </nz-tab>
+        </ng-container>
+    </nz-tabset>
+    <nz-tabset style="min-height: 600px;margin-right:20px"
+        [nzShowPagination]="false" 
+        [nzTabPosition]="'left'"
+        [(nzSelectedIndex)]="leftSelectedIndex">
+        <nz-tab *ngFor="let tab of leftTabs" [nzTitle]="tab.name">
+            <ng-container>
+                <div *ngIf="currentType.id ===1" class="bussiness-total" >
+                    <div class="blue">单体结构合计: {{ sumPrice.structureMonomerPrice }}万元</div>
+                    <div class="blue">单体围护合计: {{ sumPrice.containmentMonomerPrice }}万元</div>
+                    <div class="orange">单体合计: {{ sumPrice.totalMonomerPrice }}万元</div>
+                    <div class="orange">项目合计: {{ sumPrice.projectPrice }}万元</div>
+                </div>
+                <div *ngIf="currentType.id ===2" class="bussiness-total" >
+                    <div class="blue">单体结构安装合计: {{ sumPrice.structureMonomerSitePrice }}万元</div>
+                    <div class="blue">单体围护安装合计: {{ sumPrice.containmentMonomerSitePrice }}万元</div>
+                    <div class="orange">单体安装合计: {{ sumPrice.totalMonomerSitePrice }}万元</div>
+                    <div class="orange">项目安装合计: {{ sumPrice.projectSitePrice }}万元</div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="tab.value === 'structure' && tab.index == leftSelectedIndex">
+                <!-- <nz-tabset> 
+                    <nz-tab nzTitle="合计" *ngIf="areas && summary && summary.items" (nzClick)="currentArea = null">
+                       <nz-table [acl]="1182" #nzTable
+                            *hasPermission="1182"  
+                            [nzData]="summary.items"
+                            [nzShowPagination]="false"
+                            [nzTotal]="summary.items.length" 
+                            [nzLoading]="isSpinning"
+                            nzShowTotal nzBordered>
+                            <thead>
+                                <tr>
+                                    <th><span>序号</span> </th>
+                                    <th> <span>构件名称</span> </th>
+                                    <th> <span>材质</span> </th>
+                                    <th> <span>总数量</span> </th>
+                                    <th> <span>总重量(kg)</span> </th>
+                                    <th> <span>成品价汇总</span> </th>
+                                    <th> <span>安装汇总总价</span> </th>
+                                    <th> <span>完成数量</span> </th>
+                                    <th> <span>完成重量(kg)</span> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of summary.items;let i = index;">
+                                    <td> {{ 1 + i }} </td>
+                                    <td> {{ data.name }} </td>
+                                    <td> {{ data.material }} </td>
+                                    <td> {{ data.totalQuantity }} </td>
+                                    <td> {{ data.totalWeight }} </td>
+                                    <td> {{ data.finishedProductPrice }} </td>
+                                    <td>{{ data.unitFixPrice }}</td>
+                                    <td>{{ data.finishSituationResponseVO.finishedQuantity }}</td>
+                                    <td>{{ data.finishSituationResponseVO.finishedWeight }}</td>
+                                </tr>
+                            </tbody>
+                        </nz-table> 
+                    </nz-tab> 
+                   <ng-container *ngIf="areas && summary">
+                        <nz-tab nzTitle="{{ area.areaName }}({{ area.coordinates }})" *ngFor="let area of areas"
+                            (nzClick)="currentArea = area">
+                        </nz-tab>
+                    </ng-container>
+                    
+               </nz-tabset> 
+                <app-component-business-entry-table 
+                    *ngIf="currentArea" 
+                    [area]="currentArea"
+                    (priceChange)="setProjectTotalPrice()">
+                </app-component-business-entry-table> -->
+                <app-component-business-entry-table 
+                    *ngIf="currentMonomers.id"
+                    [monomerId]="currentMonomers.id"
+                    [area]="currentType"
+                    (priceChange)="setProjectTotalPrice()">
+                </app-component-business-entry-table>
+            </ng-container>
+            <ng-container *ngIf="tab.value === 'enclosure' && tab.index == leftSelectedIndex">
+                <app-enclosure-business-entry-table 
+                *ngIf="currentType"
+                [monomerId]="currentMonomers.id"
+                [area]="currentType"
+                (priceChange)="setProjectTotalPrice()">
+                </app-enclosure-business-entry-table>
+            </ng-container>
+        </nz-tab>
+    </nz-tabset>
+</nz-card> 
+<footer-toolbar [acl]="1114">
+    {{ projectPrice }}
+</footer-toolbar>
+<style scoped>
+.bussiness-total {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    text-align: center;
+    line-height: 35px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+.bussiness-total .blue {
+    background: rgb(91, 121, 173);
+    width: 24.8%;
+}
+.bussiness-total .orange {
+    background: rgb(58, 196, 111);
+    width: 24.8%;
+}
+</style>

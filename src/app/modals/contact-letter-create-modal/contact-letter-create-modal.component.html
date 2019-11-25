@@ -1,0 +1,97 @@
+<form #form="ngForm" nz-form>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="projectId" nzRequired>项目</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <nz-select
+                name="projectId"
+                placeholder="请选择"
+                [(ngModel)]="dto.projectId"
+                nzSize="default"
+                required>
+                <nz-option
+                    *ngFor="let o of projectList"
+                    [nzLabel]="o.name"
+                    [nzValue]="o.id">
+                </nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="subcontractor" nzRequired>承包单位</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input
+                name="subcontractor"
+                [(ngModel)]="dto.subcontractor"
+                [nzSize]="'default'"
+                required>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="mainSender" nzRequired>主送单位</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input
+                name="mainSender"
+                [(ngModel)]="dto.mainSender"
+                [nzSize]="'default'"
+                required>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="subSender" nzRequired>抄送单位</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input
+                name="subSender"
+                [(ngModel)]="dto.subSender"
+                [nzSize]="'default'"
+                required>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="theme" nzRequired>主题</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input
+                name="theme"
+                [(ngModel)]="dto.theme"
+                [nzSize]="'default'"
+                required>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="content" nzRequired>内容</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input
+                name="content"
+                [(ngModel)]="dto.content"
+                [nzSize]="'default'"
+                required>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="content" nzRequired>附件</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <app-upload-files [attachments]="dto.attachmentIds" [fileType]="7"></app-upload-files>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="customize-footer">
+        <button [disabled]="form.form.invalid" (click)="ok()" nz-button [nzType]="'primary'" [nzLoading]="submitting">
+            确定
+        </button>
+        <button nz-button [nzType]="'default'" (click)="cancel()">
+            取消
+        </button>
+    </div>
+</form>

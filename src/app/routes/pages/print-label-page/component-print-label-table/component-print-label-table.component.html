@@ -1,0 +1,92 @@
+<nz-spin [nzSpinning]="isPrintSpinning" [nzTip]="printTip">
+    <div class="operate-box">
+        <div class="operate-left-box">
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixButton">
+                <input type="text" [(ngModel)]="dto.serialNo" nz-input placeholder="构件编号"
+                    (keyup)="($event.which === 13)?search():0" />
+            </nz-input-group>
+            <ng-template #suffixButton>
+                <span style="cursor: pointer" (click)="search()">搜索</span>
+            </ng-template>
+        </div>
+        <div class="operate-right-box">
+            <nz-checkbox-group [(ngModel)]="checkOptionsOne" (ngModelChange)="log(checkOptionsOne)"></nz-checkbox-group>
+            <div style="width: 150px">
+                <input nz-input placeholder="替换制造商名称" [(ngModel)]="manufacturerName">
+            </div>
+            <button nz-button nzSize="default" (click)="print()" nzType="primary">打印标签</button>
+            <div>
+
+            </div>
+        </div>
+    </div>
+    <div class="content-box">
+        <nz-table [nzData]="data.data" [(nzPageIndex)]="dto.page" [(nzPageSize)]="dto.size" [nzTotal]="data.totalCount"
+            (nzPageIndexChange)="getData()" (nzPageSizeChange)="getData()" [nzFrontPagination]="false" [nzLoading]="isSpinning"
+            nzShowTotal nzShowQuickJumper nzShowSizeChanger>
+            <thead>
+                <tr>
+                    <th nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
+                        (nzCheckedChange)="checkAll($event)"></th>
+                    <th>序号</th>
+                    <th>构件名称</th>
+                    <th>构件编号</th>
+                    <th>规格</th>
+                    <th>长度(mm)</th>
+                    <th>材质</th>
+                    <th style="width: 120px">数量</th>
+                    <th>单重(kg)</th>
+                    <th>总重(kg)</th>
+                    <th>打印数量</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="text-align: center" *ngFor="let item of data.data;let i = index">
+                    <td nzShowCheckbox [(nzChecked)]="item.checked" [nzDisabled]="item.structure.status === 2"
+                        (nzCheckedChange)="refreshStatus($event)" style="background: #ffffff"></td>
+                    <td class="tip-parent">
+                        <div *ngIf="item.structure.status > 1" class="td-tip"
+                            [ngStyle]="{'background-color': ComponentColors[item.structure.status-1]}">
+                            {{ productStatus[item.structure.status] }}</div>
+                        {{ i + 1 }}
+                    </td>
+                    <td>
+                        {{ item.structure.name }}
+                    </td>
+                    <td>{{ item.structure.serialNo }}</td>
+                    <td>{{ item.structure.specification }}</td>
+                    <td>{{ item.structure.length }}</td>
+                    <td>{{ item.structure.material }}</td>
+                    <td class="tip-parent" style="position: relative">
+                        <div *ngIf="item.printNumber > 0" class="print-tip">已打印</div>
+                        <div class="number-tip" *ngIf="(item.needQuantity - item.printProductNumber) > 0">
+                            {{(item.needQuantity - item.printProductNumber > 0 ? '+' : '') + ( item.needQuantity - item.printProductNumber)}}
+                        </div>
+                        {{ item.needQuantity }}
+                    </td>
+                    <td>{{ item.structure.pieceWeight }}</td>
+                    <td>{{ item.structure.totalWeight }}</td>
+                    <td style="width: 120px">
+                        <nz-input-number style="width: 70px;" nzSize="default" [(ngModel)]="item.count"
+                            [ngModelOptions]="{standalone: true}" [nzStep]="1" [nzMin]="0"></nz-input-number>
+                    </td>
+                    <td>
+                        <a (click)="preview(item)">查看标签</a>
+                        <a (click)="history(item)" style="margin-left: 8px;">打印记录</a>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+    <style type="text/css">
+        .ant-table-thead>tr>th,
+        .ant-table-tbody>tr>td {
+            padding: 8px 8px;
+            font-weight: 600;
+        }
+
+        .ant-table table {
+            border-spacing: auto;
+        }
+    </style>

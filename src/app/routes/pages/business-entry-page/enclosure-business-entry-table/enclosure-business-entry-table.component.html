@@ -1,0 +1,75 @@
+<div class="operate-box">
+    <div style="display: flex;flex-direction: row;align-items:center;justify-content:flex-start">
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixButton" style="margin-right: 10px">
+            <input type="text" [(ngModel)]="dto.name" nz-input placeholder="围护名称"
+                (keyup)="($event.which === 13)?search():0" />
+        </nz-input-group>
+        <ng-template #suffixButton>
+            <span style="cursor: pointer" (click)="search()">搜索</span>
+        </ng-template>
+    </div>
+    <div></div>
+</div>
+<div style="height: 10px;"></div>
+<nz-table [acl]="957" [nzData]="data.data" [(nzPageIndex)]="dto.page" [(nzPageSize)]="dto.size"
+    [nzTotal]="data.totalCount" (nzPageIndexChange)="getData()" (nzPageSizeChange)="getData()"
+    [nzFrontPagination]="false" [nzLoading]="isSpinning" nzShowTotal nzShowQuickJumper nzShowSizeChanger>
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>产品名称</th>
+            <th>板厚(mm)</th>
+            <th>板型</th>
+            <th>颜色</th>
+            <th *ngIf="area.id == 1">数量(张)</th>
+            <th *ngIf="area.id == 2">已安装数量</th>
+            <th *ngIf="area.id == 1">总面积</th>
+            <th  *ngIf="area.id == 2">已安装总面积</th>
+            <th>综合单价(元/㎡)</th>
+            <th>合计(万元)</th>
+            <!-- <th>安装综合单价(元/㎡)</th>
+            <th>合计(元)</th> -->
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of data.data;let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.thickness }}</td>
+            <td>{{ item.modelNum }}</td>
+            <td>{{ item.color }}</td>
+            <td>{{ item.totalNumber }}</td>
+            <td>{{ item.totalSurfaceArea }}</td>
+            <td *ngIf="area.id === 1">
+                <input [acl]="1028" type="number" tabindex="1" style="width: 80px"
+                    [(ngModel)]="item.finishedProductPrice" [ngModelOptions]="{standalone: true}" (keyup.tab)="copy(i)"
+                    (blur)="setPrice(item)">
+
+                <span [acl]="957" *ngIf="!hasEdit">{{item.finishedProductPrice}}</span>
+
+            </td>
+            <td *ngIf="area.id === 1"> {{ ((item.finishedProductPrice * item.totalSurfaceArea)/10000).toFixed(3)  }} </td>
+            <td *ngIf="area.id === 2">{{ item.finishedProductPrice }}</td>
+            <td *ngIf="area.id === 2">{{ ((item.finishedProductPrice * item.totalSurfaceArea)/10000).toFixed(3)  }} </td>
+            <!-- <td> {{ item.finishedProductPrice * item.totalSurfaceArea | number }} </td> -->
+            
+            <!-- <td>
+                <input [acl]="1028" type="number" style="width: 80px" [(ngModel)]="item.unitFixPrice"
+                    [ngModelOptions]="{standalone: true}" (keyup.tab)="copy(i, true)" (blur)="setPrice(item)">
+
+                <span [acl]="957" *ngIf="!hasEdit">{{item.unitFixPrice}}</span>
+            </td>
+            <td> {{ item.unitFixPrice * item.totalSurfaceArea | number }} </td> -->
+        </tr>
+        <!-- <tr *ngIf="summary.totalQuantity" [acl]="1236">
+            <td colspan="2" style="text-align: center">汇总合计</td>
+            <td>{{ summary.totalQuantity }}</td>
+            <td>{{ summary.totalMeter }}</td>
+            <td>{{ summary.totalSurfaceArea }}</td>
+            <td></td>
+            <td>{{ summary.totalFinishedProductPrice }}</td>
+            <td></td>
+            <td>{{ summary.totalUnitFixPrice }}</td>
+        </tr> -->
+    </tbody>
+</nz-table>

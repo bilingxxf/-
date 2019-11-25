@@ -1,0 +1,156 @@
+<nz-card class="panel">
+    <nz-tabset style="padding: 16px 20px">
+        <nz-tab style="padding: 16px 20px" nzTitle='进行中'>
+            <app-project-mgmt-tab-page [proStatus]="1"></app-project-mgmt-tab-page>
+        </nz-tab>
+        <nz-tab nzTitle='已完工'>
+            <app-project-mgmt-tab-page [proStatus]="3"></app-project-mgmt-tab-page>
+        </nz-tab>
+        <nz-tab nzTitle='暂停中'>
+            <app-project-mgmt-tab-page [proStatus]="2"></app-project-mgmt-tab-page>
+        </nz-tab>
+        <nz-tab nzTitle='报表中心'>
+        <nz-card class="panel">
+            <nz-tabset>
+                <nz-tab nzTitle="KPI总览">
+                    <app-dashboard></app-dashboard>
+                </nz-tab>
+                <nz-tab  nzTitle="生产报表">
+                    <nz-card class="panel" style="margin: 20px 0 0 0">
+                        <nz-tabset>
+                            <nz-tab nzTitle="日报表">
+                                <app-project-table-page></app-project-table-page>
+                            </nz-tab>
+                            <nz-tab  nzTitle="周报表">
+                                <app-project-week-table></app-project-week-table>
+                            </nz-tab>
+                            <nz-tab  nzTitle="月报表">
+                                <app-project-month-table></app-project-month-table>
+                            </nz-tab>
+                            <nz-tab  nzTitle="班组报表">
+                                <app-project-group-table></app-project-group-table>
+                            </nz-tab>
+                        </nz-tabset>
+                    </nz-card>
+                </nz-tab>
+            </nz-tabset>
+        </nz-card>
+    </nz-tab>
+    </nz-tabset>
+</nz-card>
+
+<!-- <div class="content__title project-title">
+    <h1>项目信息</h1>
+</div>
+<nz-card>
+    <form nz-form (keydown.enter)="$event.preventDefault()">
+        <nz-form-item nz-row [nzGutter]="16">
+            <nz-form-label nz-col [nzSm]="2">
+                <nz-form-label>
+                    项目名称
+                </nz-form-label>
+            </nz-form-label>
+            <nz-form-control nz-col [nzSm]="5">
+                <input nz-input (ngModelChange)="resetPageAndGetData()" [ngModelOptions]="{standalone: true}" [(ngModel)]="dto.name">
+            </nz-form-control>
+            <nz-form-label nz-col [nzSm]="2">
+                <nz-form-label>
+                    项目状态
+                </nz-form-label>
+            </nz-form-label>
+            <nz-form-control nz-col [nzSm]="5">
+                <nz-select style="width: 100%;" [(ngModel)]="dto.status" (ngModelChange)="resetPageAndGetData()" [ngModelOptions]="{standalone: true}"
+                    nzPlaceHolder="请选择" nzAllowClear>
+                    <nz-option *ngFor="let o of projectStatus | enumToArray" [nzLabel]="o.label" [nzValue]="o.value">
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+            <div nz-col>
+                <button nz-button (click)="reset()">清除条件</button>
+            </div>
+        </nz-form-item>
+        <nz-form-item nz-row [nzGutter]="16">
+            <div nz-col [nzSm]="24">
+                <button nz-button nzType="primary" [routerLink]="['/project-c']" [acl]="1034">
+                    <i class="anticon anticon-plus"></i>
+                    <span>新建项目</span>
+                </button>
+            </div>
+        </nz-form-item>
+    </form>
+    <nz-table
+        [acl]="1033"
+        [nzData]="data.data"
+        [(nzPageIndex)]="dto.page"
+        [(nzPageSize)]="dto.size"
+        [nzTotal]="data.totalCount"
+        (nzPageIndexChange)="getData()"
+        (nzPageSizeChange)="getData()"
+        nzShowTotal
+        nzShowQuickJumper
+        nzShowSizeChanger>
+        <thead>
+            <tr>
+                <th><span>序号</span></th>
+                <th><span>项目名称</span></th>
+                <th><span>总工期</span></th>
+                <th><span>完工时间</span></th>
+                <th><span>当前用时</span></th>
+                <th><span>用时比例(%)</span></th>
+                <th><span>完成率</span></th>
+                <th><span>操作</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let project of data.data;let i = index;" [routerLink]="['/project-detail', project.id]">
+                <td>{{ i + 1 }}</td>
+                <td>{{ project.name }}</td>
+                <td>{{ project.totalDays }}</td>
+                <td>{{ project.endDate | date: 'yyyy-MM-dd' }}</td>
+                <td>{{ project.workDays }}</td>
+                <td>{{ project.timePercent }}</td>
+                <td>{{ project.finishedPercent }}</td>
+                <td>
+                    <span>
+                        <a (click)="getMembers($event, project)">项目成员</a>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table> 
+ </nz-card>   -->
+
+ <nz-modal [nzVisible]="isVisible" [nzTitle]="'第一个 Modal'" [nzContent]="modalContent" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <ng-template #modalContent>
+        <nz-table #nzTable [nzData]="data" [nzShowPagination]="false">
+            <thead>
+                <tr>
+                    <th><span>姓名</span></th>
+                    <th><span>职位</span></th>
+                    <th>
+                        <span>操作</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of userList">
+                    <td>{{user.name}}</td>
+                    <td>{{user.departmentName}}</td>
+                    <td>
+                        <label nz-checkbox [(ngModel)]="user.checked" (ngModelChange)="join(user)">
+                            <span></span>
+                        </label>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </ng-template>
+</nz-modal>
+<style scoped>
+.panel {
+    margin: 20px 0 0 0;
+}
+.ant-tabs-nav .ant-tabs-tab {
+    padding: 16px 20px !important;
+}
+</style>

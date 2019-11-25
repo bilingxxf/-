@@ -1,0 +1,36 @@
+<div class="content__title">
+    <h1>权限配置管理</h1>
+</div>
+
+<nz-card>
+    <button nz-button [nzType]="'primary'" (click)="addNewPermissionsModule()">
+        <span>新增权限模块</span>
+    </button>
+    <div 
+        [nzGutter]="24"
+        nz-row>
+        <div
+            nz-col
+            [nzSpan]="12">
+            <tree-root 
+                #tree
+                (moveNode)="onMoveNode($event)"
+                (toggleExpanded)="getChildren($event)"
+                [state]="state" 
+                [nodes]="nodes" 
+                [focused]="true"
+                [options]="options"></tree-root>
+        </div>
+        <div
+            nz-col
+            [nzSpan]="12">
+            <tree-root 
+                #premission
+                (moveNode)="onMoveNode($event)"
+                [state]="state" 
+                [nodes]="premissions" 
+                [focused]="true"
+                [options]="options"></tree-root>
+        </div>
+    </div>
+</nz-card>

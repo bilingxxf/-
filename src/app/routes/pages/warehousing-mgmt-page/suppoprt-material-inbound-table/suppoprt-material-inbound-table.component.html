@@ -1,0 +1,50 @@
+<form nz-form [nzLayout]="'inline'">
+    <nz-form-item>
+        <nz-form-control>
+            <nz-date-picker
+                #input
+                style="width: 100%"
+                [(ngModel)]="date"
+                name="date"
+                nzSize="default"
+                nzPlaceHolder="请选择"></nz-date-picker>
+        </nz-form-control>
+    </nz-form-item>
+    <button nz-button nzSize="default" (click)="search(input.nzValue)">搜索</button>
+</form>
+<div style="height: 10px;"></div>
+<nz-table
+    [acl]="1187"
+    [nzData]="data.data"
+    [(nzPageIndex)]="dto.page"
+    [(nzPageSize)]="dto.size"
+    [nzTotal]="data.totalCount"
+    (nzPageIndexChange)="getData()"
+    (nzPageSizeChange)="getData()"
+    [nzFrontPagination]="false"
+    nzShowTotal
+    nzShowQuickJumper
+    nzShowSizeChanger>
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>产品名称</th>
+            <th>单位</th>
+            <th>规格</th>
+            <th>材质</th>
+            <th>数量</th>
+            <th>入库数量</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of data.data;let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.productInfo.name }}</td>
+            <td>{{ item.productInfo.unit }}</td>
+            <td>{{ item.productInfo.specification }}</td>
+            <td>{{ item.productInfo.material }}</td>
+            <td>{{ item.productInfo.quantity }}</td>
+            <td>{{ item.stockQuantity }}/{{ item.productInfo.totalQuantity }}</td>
+        </tr>
+    </tbody>
+</nz-table>

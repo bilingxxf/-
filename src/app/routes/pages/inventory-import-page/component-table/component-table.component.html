@@ -1,0 +1,328 @@
+<div *ngIf="!!_area.id">
+  <div class="operate-box">
+    <div class="operate-left-box">
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixButton" style="margin-right: 10px">
+            <input type="text" 
+            [(ngModel)]="dto.serialNo"
+                nz-input placeholder="构件编号"
+                (keyup)="($event.which === 13)?search():0" />
+        </nz-input-group>
+        <ng-template #suffixButton>
+            <span style="cursor: pointer" (click)="search()">搜索</span>
+        </ng-template>
+    </div>
+    <div class="operate-right-box">
+      <!-- <nz-form-item>
+          <nz-form-control>
+              <input nz-input #input placeholder="构件编号" [nzSize]="'default'">
+          </nz-form-control>
+      </nz-form-item>
+      <button nz-button nzSize="default" (click)="search(input.nzValue)">搜索</button> -->
+      <nz-upload style="display: inline;margin-left: 10px;" (nzChange)="uploadChange($event, monomerId)"
+          nzAction="engine/fileupload">
+          <button nz-button nzType="primary" nzSize="default">
+              <i class="anticon anticon-upload"></i><span>导入模型</span>
+          </button>
+      </nz-upload>
+      <nz-upload
+        style="display: inline;margin-left: 10px;"
+        [acl]="954"
+        [nzData]="{
+            monomerId: monomerId,
+            areaDivisionId: area.id,
+            type: '1'
+        }"
+        [nzHeaders]="headers"
+        nzAction="/api/structures/actions/upload"
+        (nzChange)="uploadComponentChange($event, componentList)">
+        <button nz-button nzType="warning" nzSize="default" >
+          <i class="anticon anticon-upload"></i><span>清单导入</span>
+        </button>
+      </nz-upload>
+       
+      <nz-upload
+        style="margin-left: 10px;float: right;margin-right: 30px"
+        [acl]="954"
+        [nzData]="{
+            monomerId: monomerId,
+            areaDivisionId: area.id,
+            type: '2'
+        }"
+        [nzHeaders]="headers"
+        nzAction="/api/structures/actions/upload"
+        (nzChange)="uploadComponentChange($event, componentList)">
+        <button nz-button nzType="warning" nzSize="default" >
+            <i class="anticon anticon-upload"></i><span>变更修改添加</span>
+        </button>
+      </nz-upload>  
+      
+      <button nz-button nzSize="default" (click)="beforeClear()" nzType="danger" style="float: right;margin-right: 100px">一键清空</button>
+      <ng-content></ng-content>
+        <!-- <p>请确认上传清单是否正确(包括: 项目名称, 项目单体, 项目区域信息), 上传后将无法进行撤销</p> -->
+    </div>
+  </div>
+    
+    <nz-table
+        [acl]="1076"
+        [nzData]="data.data"
+        [(nzPageIndex)]="dto.page"
+        [(nzPageSize)]="dto.size"
+        [nzTotal]="data.totalCount"
+        (nzPageIndexChange)="getData()"
+        (nzPageSizeChange)="getData()"
+        [nzFrontPagination]="false"
+        [nzLoading]="isSpinning"
+        nzShowTotal
+        nzShowQuickJumper
+        nzShowSizeChanger>
+        <thead>
+            <tr>
+                <!-- <th nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th> -->
+                <th>序号</th>
+                <th>区域</th>
+                <th>构件名称</th>
+                <th>构件编号</th>
+                <th>规格</th>
+                <th>长度(mm)</th>
+                <th>材质</th>
+                <th>数量</th>
+                <th>单重(kg)</th>
+                <th>总重(kg)</th>
+                <th>图号</th>
+                <!-- <th>状态</th> -->
+                <th>操作</th>
+                <!-- <th>备注</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data.data;let i = index">
+                <td class="tip-parent">
+                    <div *ngIf="item.status > 1" class="td-tip"
+                        [ngStyle]="{'background-color': ComponentColors[item.status-1]}">
+                        {{ ProductStatus[item.status] }}</div>
+                    {{ i + 1 }}
+                </td>
+                <td>{{ area.areaName }}</td>
+                <td class="tip-parent">
+                    <div *ngIf="item.structureType !== undefined" class="td-tip"
+                        [ngStyle]="{'background-color': item.structureType === 0 ? 'green':'orange'}">
+                        {{ item.structureType === 0 ? '涂' : '非涂' }}</div>
+                    {{ item.name }}
+                </td>
+                <td>{{ item.serialNo }}</td>
+                <td>{{ item.specification }}</td>
+                <td>{{ item.length }}</td>
+                <td>{{ item.material }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.pieceWeight }}</td>
+                <td>{{ item.totalWeight }}</td>
+                <td>{{ item.figureNo }}</td>
+                <!-- <td>
+                  <span class="span-style" [ngStyle]="{'border': item.status === 1 ? '1px solid #d9d9d9' : ''}" >{{ ProductStatus[item.status] }}</span>
+                </td> -->
+                <td>
+                    <ng-container *ngIf="item.status !== 5">
+                        <button nz-button nzType="primary"
+                            *ngIf="item.status === 1 || item.status === 0 || item.status === 3 || item.status == 4"
+                            (click)="updateProductStatus(item, 2)">暂停</button>
+                        <button nz-button nzType="primary" *ngIf="item.status === 2"
+                            (click)="updateProductStatus(item, 1)">开始</button>
+                        <button nz-button nzType="default" style="margin-left: 5px"
+                            (click)="openEditForm(item)">修改</button>
+
+                        <nz-popconfirm [nzTitle]="'确定要删除这个清单吗？'" (nzOnConfirm)="removeProducts(item)">
+                            <button nz-popconfirm nz-button nzType="danger" style="margin-left: 5px">删除</button>
+                        </nz-popconfirm>
+                    </ng-container>
+                </td>
+                <!-- <td>{{ item.tip }}</td> -->
+            </tr>
+        </tbody>
+    </nz-table>
+
+    <nz-modal [(nzVisible)]="isDeleteVisible" nzTitle="删除" [nzContent]="clearContent" (nzOnCancel)="cancel()"
+        (nzOnOk)="onDelete()">
+        <ng-template #clearContent>
+            <form nz-form [formGroup]="productForm">
+                <nz-form-item nz-row>
+                    <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                        <nz-form-label for="name">执行原因描述</nz-form-label>
+                    </nz-form-label>
+                    <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+                        <input nz-input [nzSize]="'default'" formControlName="name" id="areaName">
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </ng-template>
+    </nz-modal>
+
+    <nz-modal [(nzVisible)]="isClearVisible" nzTitle="编辑" [nzContent]="clearContent" (nzOnCancel)="onCancel()"
+        (nzOnOk)="onClear()">
+        <ng-template #clearContent>
+            <form nz-form [formGroup]="productForm">
+                <nz-form-item nz-row>
+                    <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                        <nz-form-label for="name">执行原因描述</nz-form-label>
+                    </nz-form-label>
+                    <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+                        <input nz-input [nzSize]="'default'" formControlName="name" id="areaName">
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </ng-template>
+    </nz-modal>
+     
+    <nz-modal [(nzVisible)]="isVisible" nzTitle="编辑" [nzContent]="modalContent" (nzOnCancel)="cancel()" (nzOnOk)="submit()">
+      <ng-template #modalContent>
+        <form nz-form [formGroup]="productForm" >
+          <nz-form-item nz-row>
+            <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+              <nz-form-label for="name" >构件名称</nz-form-label>
+            </nz-form-label>
+            <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+              <input nz-input [nzSize]="'default'" formControlName="name" id="'areaName'">
+            </nz-form-control>
+          </nz-form-item>
+    
+          <nz-form-item nz-row>
+            <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+              <nz-form-label for="figureNo">图号</nz-form-label>
+            </nz-form-label>
+            <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+              <input nz-input [nzSize]="'default'" formControlName="figureNo" [id]="'figureNo'">
+            </nz-form-control>
+          </nz-form-item>
+    
+          <nz-form-item nz-row>
+            <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+              <nz-form-label for="serialNo">构件编号</nz-form-label>
+            </nz-form-label>
+            <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+              <input nz-input [nzSize]="'default'" formControlName="serialNo" [id]="'serialNo'">
+            </nz-form-control>
+          </nz-form-item>
+    
+          <nz-form-item nz-row>
+            <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+              <nz-form-label for="specification">规格</nz-form-label>
+            </nz-form-label>
+            <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+              <input nz-input [nzSize]="'default'" formControlName="specification" [id]="'specification'">
+            </nz-form-control>
+          </nz-form-item>
+    
+          <nz-form-item nz-row>
+            <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+              <nz-form-label for="length">长度</nz-form-label>
+            </nz-form-label>
+            <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+              <input nz-input [nzSize]="'default'" formControlName="length" [id]="'length'">
+            </nz-form-control>
+          </nz-form-item>
+    
+          <nz-form-item nz-row>
+            <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+              <nz-form-label for="material">材质</nz-form-label>
+            </nz-form-label>
+            <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+              <input nz-input [nzSize]="'default'" formControlName="material" [id]="'material'">
+            </nz-form-control>
+          </nz-form-item>
+    
+          <nz-form-item nz-row>
+              <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <nz-form-label for="quantity">数量</nz-form-label>
+              </nz-form-label>
+              <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+                <input nz-input 
+                [nzSize]="'default'"
+                 formControlName="quantity" 
+                 (change)="setQuantity"
+                 [id]="'quantity'">
+              </nz-form-control>
+            </nz-form-item>
+    
+          <nz-form-item nz-row>
+            <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+              <nz-form-label for="pieceWeight">构件单重</nz-form-label>
+            </nz-form-label>
+            <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+              <input nz-input [nzSize]="'default'"  formControlName="pieceWeight" [id]="'pieceWeight'">
+            </nz-form-control>
+          </nz-form-item>
+    
+          <nz-form-item nz-row>
+            <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+              <nz-form-label for="totalWeight">总重</nz-form-label>
+            </nz-form-label>
+            <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+              <input type="text" nz-input [nzSize]="'default'"  formControlName="totalWeight"  [id]="'totalWeight'">
+            </nz-form-control>
+          </nz-form-item>
+    
+          <!-- <nz-form-item nz-row>
+            <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+              <nz-form-label for="surfaceArea">表面积</nz-form-label>
+            </nz-form-label>
+            <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+              <input nz-input [nzSize]="'default'" formControlName="surfaceArea" [id]="'surfaceArea'">
+            </nz-form-control>
+          </nz-form-item> -->
+        </form>
+      </ng-template>
+    </nz-modal>
+</div>
+<div *ngIf="_area.areaName==='删除记录' || _area.areaName==='修改记录'">
+    <nz-table [acl]="1076" [nzData]="data.data" [(nzPageIndex)]="dtoRecord.page" [(nzPageSize)]="dtoRecord.size"
+        [nzTotal]="data.totalCount" (nzPageIndexChange)="getData()" (nzPageSizeChange)="getData()"
+        [nzFrontPagination]="false" [nzLoading]="isSpinning" nzShowTotal nzShowQuickJumper nzShowSizeChanger>
+        <thead>
+            <tr>
+                <th>日期</th>
+                <th>区域</th>
+                <th>构件名称</th>
+                <th>构件编号</th>
+                <th>规格</th>
+                <th>长度(mm)</th>
+                <th>材质</th>
+                <th>数量</th>
+                <th>单重(kg)</th>
+                <th>总重(kg)</th>
+                <th>原因描述</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data.data;let i = index">
+                <td>{{ item.createTime | date: 'yyyy-MM-dd'}}</td>
+                <td>{{ item.areaDivisionName }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.serialNo }}</td>
+                <td>{{ item.specification }}</td>
+                <td>{{ item.length }}</td>
+                <td>{{ item.material }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.pieceWeight }}</td>
+                <td>{{ item.totalWeight }}</td>
+                <td>{{ item.causeDescription }}</td>
+            </tr>
+        </tbody>
+    </nz-table>
+    <a *ngIf="data.data.length>0" (click)="recordDownExcel()" class="export-style">下载</a>
+</div>
+
+<style scoped>
+    .span-style {
+        width: 70px;
+        display: inline-block;
+        text-align: center;
+        padding: 2px 10px;
+        background: #fff;
+        margin-left: 10px;
+    }
+
+    .ant-table-tbody>tr>td {
+        padding: 8px;
+        /* font-weight: 600; */
+    }
+
+</style>

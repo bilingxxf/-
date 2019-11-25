@@ -1,0 +1,10 @@
+<button nz-button [nzType]="'primary'" (click)="batch()"  *ngIf="multi" style="margin-top: 5px">
+    <span>批量设置</span>
+</button>
+<div style="margin-top: 5px">
+  <app-multi-color-box-list [boxs]="boxData" [multi]="multi"></app-multi-color-box-list>
+  <!-- <app-multi-colors-box-list1 [boxs]="boxData" [multi]="multi"></app-multi-colors-box-list1>  -->
+  
+</div>
+
+ 

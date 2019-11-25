@@ -1,0 +1,30 @@
+<nz-card>
+    <nz-tabset style="min-height: 600px;margin-right:20px" [nzShowPagination]="false" [nzTabPosition]="'left'"
+        [(nzSelectedIndex)]="leftSelectedIndex">
+        <nz-tab *ngFor="let tab of leftTabs" [nzTitle]="tab.name" >
+            <ng-container *ngIf="tab.value === 'structure' && tab.index == leftSelectedIndex">
+                <nz-tabset *ngIf="monomer" style="padding: 16px 20px">
+                    <nz-tab nzTitle="日产量">
+                        <app-custom [tabIndex]="1" [projectId]="projectId" recordType="1"></app-custom>
+                    </nz-tab>
+                    <nz-tab nzTitle="周产量">
+                        <app-custom [tabIndex]="2" [projectId]="projectId" recordType="2"></app-custom>
+                    </nz-tab>
+                    <nz-tab nzTitle="月产量">
+                        <app-custom [tabIndex]="3" [projectId]="projectId" recordType="3"></app-custom>
+                    </nz-tab>
+                    <nz-tab nzTitle="班组月产量">
+                        <app-custom [tabIndex]="4" [projectId]="projectId" recordType="4"></app-custom>
+                    </nz-tab>
+                </nz-tabset>
+            </ng-container>
+            <ng-container *ngIf="tab.value === 'enclosure' && tab.index == leftSelectedIndex">
+                <nz-tabset *ngIf="monomer" style="padding: 16px 20px">
+                    <nz-tab nzTitle="班组月产量">
+                        <app-prod-report-encl [projectId]="projectId"></app-prod-report-encl>
+                    </nz-tab>
+                </nz-tabset>
+            </ng-container>
+        </nz-tab>
+    </nz-tabset>
+</nz-card>

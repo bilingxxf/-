@@ -1,0 +1,41 @@
+<div class="content__title">
+    <h1>联系函</h1>
+</div>
+
+<nz-card>
+    <nz-table
+        [acl]="1135"
+        [nzData]="data.data"
+        [(nzPageIndex)]="dto.page"
+        [(nzPageSize)]="dto.size"
+        [nzTotal]="data.totalCount"
+        (nzPageIndexChange)="getData()"
+        (nzPageSizeChange)="getData()"
+        [nzFrontPagination]="false"
+        nzShowTotal
+        nzShowQuickJumper
+        nzShowSizeChanger>
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>项目名称</th>
+                <th>承包单位</th>
+                <th>主送单位</th>
+                <th>抄送单位</th>
+                <th>主题</th>
+                <th>内容</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data.data;let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.projectName }}</td>
+                <td>{{ item.subcontractor }}</td>
+                <td>{{ item.mainSender }}</td>
+                <td>{{ item.subSender }}</td>
+                <td>{{ item.theme }}</td>
+                <td>{{ item.content }}</td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-card>

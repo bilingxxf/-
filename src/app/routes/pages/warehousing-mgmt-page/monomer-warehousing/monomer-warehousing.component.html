@@ -1,0 +1,6 @@
+<h4 >{{title}}</h4>
+<app-line-board  [data]="data" [date]="date" (detail)="go($event)"></app-line-board>
+
+<button nz-button [nzType]="'primary'" (click)="export()" *ngIf="warehouseType === 0">
+    <span>月汇总下载</span>
+</button>

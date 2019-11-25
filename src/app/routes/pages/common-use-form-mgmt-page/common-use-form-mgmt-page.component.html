@@ -1,0 +1,35 @@
+<div class="content__title">
+    <h1>消息通知</h1>
+</div>
+<div class="operate-box">
+    <div class="operate-left-box">
+        <nz-month-picker #input style="width: 100%" [(ngModel)]="date" (ngModelChange)="onChange($event)"
+            [nzFormat]="'YYYY/MM'" name="date" nzSize="default"></nz-month-picker>
+    </div>
+    <div class="operate-right-box">
+    </div>
+</div>
+<div class="content-box">
+    <nz-card>
+        <nz-table #nzTable [(nzPageIndex)]="dto.page" [(nzPageSize)]="dto.size" [nzData]="data.data"
+            [nzTotal]="data.totalCount" [nzLoading]="isSpinning" (nzPageIndexChange)="getData()" [nzFrontPagination]="false"
+            nzBordered nzShowTotal>
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>日期</th>
+                    <th>提交人</th>
+                    <th>事件</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of data.data; index as i;">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ item.createTime | date: 'yyyy-MM-dd' }}</td>
+                    <td>{{ item.userName }}</td>
+                    <td>{{ item.message }}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </nz-card>
+</div>

@@ -1,0 +1,37 @@
+<nz-card style="margin-top: 10px">
+    <div nz-row>
+        <div nz-col [nzSpan]="10">
+            <nz-upload
+                nzAction="/api/attachments?fileType=2&name=logo"
+                nzListType="picture-card"
+                [(nzFileList)]="LogoList"
+                [nzShowButton]="LogoList.length < 1"
+                (nzChange)="handleChange($event, 1)"
+                >
+                  <i class="anticon anticon-plus"></i>
+                  <div class="ant-upload-text">上传企业logo</div>
+              </nz-upload>
+
+              <!-- <nz-form-label nz-radio [(ngModel)]="singleValue">
+                    <span>独立使用 {{ singleValue }}</span>
+                </nz-form-label> -->
+        </div>
+        <div nz-col [nzSpan]="2"></div>
+        <div nz-col [nzSpan]="10">
+            <nz-upload
+                nzAction="/api/attachments?fileType=2&name=logo"
+                nzListType="picture-card"
+                [(nzFileList)]="WxList"
+                [nzShowButton]="WxList.length < 1"
+                (nzChange)="handleChange($event, 2)"
+                >
+                  <i class="anticon anticon-plus"></i>
+                  <div class="ant-upload-text">上传企业微信公众号</div>
+              </nz-upload>
+              <!-- <nz-form-label nz-radio [(ngModel)]="singleValue">
+                <span>独立使用 {{ singleValue }}</span>
+                </nz-form-label> -->
+        </div>
+    </div>
+
+</nz-card>

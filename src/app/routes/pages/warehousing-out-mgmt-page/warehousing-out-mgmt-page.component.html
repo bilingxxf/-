@@ -1,0 +1,15 @@
+<app-project-pro-header [projectId]="projectId">
+    <nz-tabset>
+        <nz-tab  nzTitle="{{ m.name }}"
+            *ngFor="let m of monomers"
+            (nzClick)="currentMonomers = m">
+        </nz-tab>
+    </nz-tabset>
+</app-project-pro-header>
+
+<nz-card
+    *ngFor="let m of monomers"
+    [hidden]="m !== currentMonomers">
+    <app-monomer-warehousing-out
+        [monomerId]="m.id"></app-monomer-warehousing-out>
+</nz-card>

@@ -1,0 +1,112 @@
+<form nz-form [nzLayout]="'inline'">
+    <nz-form-item>
+        <nz-form-control>
+            <nz-select
+                style="width: 100px;"
+                [(ngModel)]="year"
+                placeholder="请选择"
+                (ngModelChange)="setCurrentMonthData()"
+                name="type"
+                nzAllowClear>
+                <nz-option *ngFor="let y of years" [nzLabel]="y" [nzValue]="y"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control>
+            <nz-select
+                style="width: 100px;"
+                [(ngModel)]="month"
+                (ngModelChange)="setCurrentMonthData()"
+                placeholder="请选择"
+                name="type"
+                nzAllowClear>
+                <nz-option *ngFor="let m of months" [nzLabel]="m + '月'" [nzValue]="m"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+</form>
+<!-- <div nz-row>
+
+    <div nz-col [nzSpan]="6">
+    </div>
+    <div nz-col [nzSpan]="3" *ngFor="let item of currentMonthData.slice(0, 3)">
+        <div class="day-wrapper"></div>
+    </div>
+    <div nz-col [nzSpan]="6">
+    </div>
+</div> -->
+<div style="height: 20px;"></div>
+<div>
+    <div class="offset-block"></div>
+    <div
+        class="day-wrapper"
+        *ngFor="let item of currentMonthData.slice(0, 3)"
+        [style.backgroundColor]="item.getColor()"
+        (click)="handleClick(item)">
+        {{ item.day || '' }}
+    </div>
+    <div class="offset-block"></div>
+</div>
+<div>
+    <div class="offset-block"></div>
+    <div
+        class="day-wrapper"
+        *ngFor="let item of currentMonthData.slice(3, 6)"
+        [style.backgroundColor]="item.getColor()"
+        (click)="handleClick(item)">
+        {{ item.day || '' }}
+    </div>
+    <div class="offset-block"></div>
+</div>
+<div>
+    <div
+        class="day-wrapper"
+        *ngFor="let item of currentMonthData.slice(6, 13)"
+        [style.backgroundColor]="item.getColor()"
+        (click)="handleClick(item)">
+        {{ item.day || '' }}
+    </div>
+</div>
+<div>
+    <div
+        class="day-wrapper"
+        *ngFor="let item of currentMonthData.slice(13, 20)"
+        [style.backgroundColor]="item.getColor()"
+        (click)="handleClick(item)">
+        {{ item.day || '' }}
+    </div>
+</div>
+
+<div>
+    <div
+        class="day-wrapper"
+        *ngFor="let item of currentMonthData.slice(20, 27)"
+        [style.backgroundColor]="item.getColor()"
+        (click)="handleClick(item)">
+        {{ item.day || '' }}
+    </div>
+</div>
+
+<div>
+    <div class="offset-block"></div>
+    <div
+        class="day-wrapper"
+        *ngFor="let item of currentMonthData.slice(27, 30)"
+        [style.backgroundColor]="item.getColor()"
+        (click)="handleClick(item)">
+        {{ item.day || '无' }}
+    </div>
+    <div class="offset-block"></div>
+</div>
+<div>
+    <div class="offset-block"></div>
+    <div
+        class="day-wrapper"
+        *ngFor="let item of currentMonthData.slice(30)"
+        [style.backgroundColor]="item.getColor()"
+        (click)="handleClick(item)">
+        {{ item.day || '无' }}
+    </div>
+    <div class="offset-block"></div>
+</div>

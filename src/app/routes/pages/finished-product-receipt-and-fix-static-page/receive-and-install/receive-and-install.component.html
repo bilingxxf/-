@@ -1,0 +1,59 @@
+<nz-card>
+    <nz-tabset style="min-height: 600px;margin-right:20px" [nzShowPagination]="false" [nzTabPosition]="'left'"
+        [(nzSelectedIndex)]="leftSelectedIndex">
+        <nz-tab *ngFor="let tab of leftTabs" [nzTitle]="tab.name">
+            <ng-container *ngIf="tab.value === 'structure' && tab.index == leftSelectedIndex">
+                <nz-tabset>
+                    <nz-tab nzTitle="{{ area.areaName + '(' + area.coordinates + ')' }}" *ngFor="let area of areas"
+                        (nzClick)="currentArea = area">
+                    </nz-tab>
+                </nz-tabset>
+                <div *ngIf="currentArea && currentArea.id" style="position: relative">
+                    <nz-tabset>
+                        <nz-tab nzTitle="收安列表">
+                            <app-list-struc *ngIf="currentArea" [areaId]="currentArea.id" [monomerId]="currentMonomer.monomer.id" 
+                                [productType]="1">
+                            </app-list-struc>
+                        </nz-tab>
+                        <nz-tab nzTitle="收货看板">
+                            <app-board-struc [productType]="1" [monomerId]="currentArea.id">
+                            </app-board-struc>
+                        </nz-tab>
+                        <nz-tab nzTitle="安装看板">
+                            <app-board-struc [productType]="1" [finishType]="2" [monomerId]="currentArea.id">
+                            </app-board-struc>
+                        </nz-tab>
+                    </nz-tabset>
+                    <div style="position: absolute;right: 0;top: 8px;">
+                        <app-tag [options]="options"></app-tag>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="tab.value === 'enclosure' && tab.index == leftSelectedIndex">
+                <!-- <app-outbound-encl-detail [currentMonomer]="currentMonomer"></app-outbound-encl-detail> -->
+                <nz-tabset>
+                    <nz-tab nzTitle="收安列表">
+                        <app-list-encl [monomerId]="currentMonomer.monomer.id" [productType]="2">
+                        </app-list-encl>
+                    </nz-tab>
+                    <nz-tab nzTitle="收货看板">
+                        <app-board-encl [productType]="2" [monomerId]="currentMonomer.monomer.id">
+                        </app-board-encl>
+                    </nz-tab>
+                    <nz-tab nzTitle="安装看板">
+                        <app-board-encl [productType]="2" [finishType]="2" [monomerId]="currentMonomer.monomer.id">
+                        </app-board-encl>
+                    </nz-tab>
+                </nz-tabset>
+            </ng-container>
+            <ng-container *ngIf="tab.value === 'material' && tab.index == leftSelectedIndex">
+                <nz-tabset>
+                    <nz-tab nzTitle="收安列表">
+                        <app-list-mat [monomerId]="currentMonomer.monomer.id" [productType]="3">
+                        </app-list-mat>
+                    </nz-tab>
+                </nz-tabset>
+            </ng-container>
+        </nz-tab>
+    </nz-tabset>
+</nz-card>

@@ -1,0 +1,51 @@
+<table border="1"
+    style="font-family:\'微软雅黑\';border-collapse:collapse;border:solid 1px;text-align: left;font-size: 9pt;color: black;"
+    bordercolor="#000000">
+    <tr>
+        <td style="padding: 0 10px;height: 40px;width: 360px;" colspan="2"> {{ labelContent.projectShortName }}</td>
+        <!--项目-->
+        <td style="padding: 0 10px;height: 40px;width: 180px;word-break: break-all;">{{ labelContent.monomerName }}</td>
+        <!--单体名称-->
+    </tr>
+    <tr>
+        <td style="padding: 0 10px;height: 76px;width: 480px;" colspan="3">
+            <div style="display: flex;flex-direction: row;height: 100%;">
+                <div style="margin-top: 10px;">NO:</div>
+                <div
+                    style="display: flex;flex-direction: row;justify-content: center;align-items: center;font-size: 25pt;padding-left: 40px;box-sizing: border-box;font-weight:bold;">
+                    {{ labelContent.cmptNo }}</div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 0 10px; word-break: break-all;height: 40px;width: 180px;">名称： {{ labelContent.cmptName }}
+        </td>
+        <td style="padding: 0 10px; word-break: break-all;height: 40px;width: 180px;">数量：
+            {{ labelContent.cmptNum }}</td>
+        <td style="padding: 0 10px;height: 40px;width: 180px;">单重(kg): {{ labelContent.cmptWeight }}</td>
+    </tr>
+    <tr>
+        <td style="padding: 0 10px;height: 40px;width: 360px;" colspan="2">规格： {{ labelContent.cmptSpec }}
+        </td>
+        <td style="padding: 0 10px;height: 120px;" rowspan="3">
+            <div
+                style="display: flex;flex-direction: row;justify-content: center;align-items: center;width:100%;height:100%">
+                <div
+                    style="width:180px;height:180px;display: flex;flex-direction: row;justify-content: center;align-items: center;">
+                    <ngx-qrcode [qrc-value]="labelContent.qrCode" qrc-errorCorrectionLevel="L">
+                    </ngx-qrcode>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 0 10px;height: 30px;width: 180px;">区域： {{ labelContent.cmptArea }}</td>
+        <td style="padding: 0 10px;height: 30px;width: 180px;">长度(m):
+            {{ labelContent.cmptLength ? (labelContent.cmptLength/1000).toFixed(3) : 0}}</td>
+        <!--(v11/1000).toFixed(3)-->
+    </tr>
+    <tr>
+        <td style="padding: 0 10px;height: 30px;width: 360px;" colspan="2"> {{ labelContent.manufacturerName }} </td>
+        <!--制造商-->
+    </tr>
+</table>

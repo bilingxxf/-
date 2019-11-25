@@ -1,0 +1,106 @@
+<div class="content__title">
+    <h1>用户管理</h1>
+</div>
+<nz-card>
+        <div class="operate-box">
+            <div style="display: flex;flex-direction: row;align-items:center;justify-content:flex-start">
+                <nz-input-group nzSearch [nzAddOnAfter]="suffixButton" style="margin-right: 10px">
+                    <input type="text" 
+                    [(ngModel)]="dto.username"
+                        nz-input placeholder="请输入用户名"
+                        (keyup)="($event.which === 13)?search():0" />
+                </nz-input-group>
+                <ng-template #suffixButton>
+                    <span style="cursor: pointer" (click)="search()">搜索</span>
+                </ng-template>
+                
+                <button
+                (click)="c()"
+                [acl]="1097"
+                nzType="primary"
+                nzSize="default"
+                nz-button>添加用户</button>
+            </div>
+            <div></div>
+        </div>
+    <nz-table
+        #nzTable
+        [nzData]="data.data"
+        [(nzPageIndex)]="dto.page"
+        [(nzPageSize)]="dto.size"
+        [nzTotal]="data.totalCount"
+        (nzPageIndexChange)="getData()"
+        (nzPageSizeChange)="getData()"
+        [nzFrontPagination]="false"
+        nzShowTotal
+        nzShowQuickJumper
+        nzShowSizeChanger>
+        <thead>
+            <tr>
+                <th>
+                    <span>序号</span>
+                </th>
+                <th>
+                    <span>用户名称</span>
+                </th>
+                <th>
+                    <span>手机</span>
+                </th>
+                <th>
+                    <span>邮箱</span>
+                </th>
+                <th>
+                    <span>角色</span>
+                </th>
+                <th>
+                    <span>部门</span>
+                </th>
+                <th>
+                    <span>创建时间</span>
+                </th>
+                <th>
+                    <span>状态</span>
+                </th>
+                <th>
+                    <span>操作</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data.data;let i = index;">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.phone }}</td>
+                <td>{{ item.email }}</td>
+                <td>{{ item.role?.name }}</td>
+                <td>{{ item.departmentName }}</td>
+                <td>{{ item.createTime | date: 'yyyy-MM-dd HH:mm' }}</td>
+                <td>
+                    {{item.isEnabled ? '正常' : '已禁用'}}
+                </td>
+                <td>
+                    <button nz-button nzType="default" style="margin-left: 5px" (click)="edit(item)">编辑</button>
+
+                    <nz-popconfirm [nzTitle]="'确定要启用这个用户吗？'" (nzOnConfirm)="disable(item)" *ngIf="!item.isEnabled">
+                        <button nz-popconfirm  nz-button nzType="primary"  style="margin-left: 5px">启用</button>
+                    </nz-popconfirm>
+
+                    <nz-popconfirm [nzTitle]="'确定要禁用用这个用户吗？'" (nzOnConfirm)="disable(item)" *ngIf="item.isEnabled">
+                        <button nz-popconfirm  nz-button nzType="danger"  style="margin-left: 5px">禁用</button>
+                    </nz-popconfirm>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+    <form nz-form (keydown.enter)="$event.preventDefault()" *ngIf="data.data.length >= 6">
+        <nz-form-item nz-row [nzGutter]="16">
+            <div nz-col [nzSm]="24">
+                <button
+                    (click)="c()"
+                    [acl]="1097"
+                    nzType="primary"
+                    nz-button>添加用户</button>
+            </div>
+        </nz-form-item>
+    </form>
+</nz-card>

@@ -1,0 +1,48 @@
+<app-project-pro-header
+    [projectId]="projectId">
+    <nz-tabset>
+        <nz-tab nzTitle="{{ pm.monomer.name }}"
+            *ngFor="let pm of pageMonomers"
+            (nzClick)="currentMonomers = pm">
+        </nz-tab>
+    </nz-tabset>
+</app-project-pro-header>
+
+<nz-card class="panel" *ngIf="currentMonomers">
+    <nz-tabset>
+        <nz-tab nzTitle="品质看板" (nzClick)="showMonomer = false">
+            <nz-tabset>
+                <nz-tab nzTitle="工序检验状态">
+                    <app-quality-board-page
+                        [pm]="currentMonomers"
+                        [projectId]="projectId"></app-quality-board-page>
+                </nz-tab>
+                <nz-tab nzTitle="总装检验看板">
+                    <app-quality-board-page
+                        [type]="'board'"
+                        [pm]="currentMonomers"
+                        [processType]="1"
+                        [projectId]="projectId"></app-quality-board-page>
+                </nz-tab>
+                <nz-tab nzTitle="涂装检验看板">
+                    <app-quality-board-page
+                        [type]="'board'"
+                        [processType]="2"
+                        [pm]="currentMonomers"
+                        [projectId]="projectId"></app-quality-board-page>
+                </nz-tab>
+            </nz-tabset>
+           
+        </nz-tab>
+        <nz-tab nzTitle="品质管控" (nzClick)="showMonomer = false">
+            <app-problem-feedback-mgmt-page
+                [typeList]="[4]"
+                [opt]="false"
+                [projectId]="projectId"></app-problem-feedback-mgmt-page>
+        </nz-tab>
+        <nz-tab nzTitle="品检报表" (nzClick)="showMonomer = false">
+            <app-product-ir-page
+                [currentMonomer]="currentMonomers"></app-product-ir-page>
+        </nz-tab>
+    </nz-tabset>
+</nz-card>

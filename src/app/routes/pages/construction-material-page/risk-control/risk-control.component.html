@@ -1,0 +1,57 @@
+<nz-table
+    #nzTable
+    [acl]="1180"
+    [nzData]="data"
+    [nzShowPagination]="false"
+    [nzTotal]="data.data.length"
+    nzShowTotal>
+    <thead>
+        <tr>
+            <th>
+                <span>序号</span>
+            </th>
+            <th>
+                <span>任务名称</span>
+            </th>
+            <th>
+                <span>参考文件</span>
+            </th>
+            <th>
+                <span>提醒日期</span>
+            </th>
+            <th [acl]="1178">
+                <span>上传</span>
+            </th>
+            <th>
+                <span>操作</span>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of data.data;let i = index;">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.getTypeLable() }}</td>
+            <td>
+                <a [href]="item.referenceDocPath">下载附件</a>
+            </td>
+            <td>{{ item.lastRemindDate | date: 'yyyy-MM-dd' }}</td>
+            <td
+                [acl]="1178">
+                <nz-upload
+                    style="display: inline;"
+                    (nzChange)="change($event, item)"
+                    [nzData]="{
+                        fileType: 14
+                    }"
+                    nzAction="/api/attachments">
+                    <button nz-button nzType="primary" nzSize="default">
+                        <i class="anticon anticon-upload"></i><span>上传</span>
+                    </button>
+                </nz-upload>
+            </td>
+            <td>
+                <a (click)="showUploadHistory(item)">查看历史上传文件</a>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>

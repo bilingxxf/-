@@ -1,0 +1,15 @@
+<app-project-pro-header [projectId]="projectId"></app-project-pro-header>
+
+<nz-card>
+    <nz-tabset>
+        <nz-tab nzTitle="收款管理">
+            <app-receipt-mgmt
+                [projectId]="projectId"></app-receipt-mgmt>
+        </nz-tab>
+        <nz-tab nzTitle="开票管理">
+            <app-invoice-mgmt
+                [projectId]="projectId"></app-invoice-mgmt>
+        </nz-tab>
+    </nz-tabset>
+</nz-card>
+

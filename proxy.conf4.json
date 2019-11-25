@@ -1,0 +1,18 @@
+{
+  "/api": {
+    "target": "https://mes.hzchum.com",
+    "secure": false
+  },
+  "/bim": {
+    "target": "https://mes.hzchum.com",
+    "secure": false
+  },
+  "/engine": {
+    "target": "https://mes.hzchum.com",
+    "secure": false
+  },
+  "/files": {
+    "target": "https://mes.hzchum.com",
+    "secure": false
+  }
+}

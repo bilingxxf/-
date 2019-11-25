@@ -1,0 +1,55 @@
+<button
+    [acl]="982"
+    nz-button
+    nzType="primary"
+    (click)="openCreateModal()">
+    <i class="anticon anticon-plus"></i>
+    <span>添加收款记录</span>
+</button>
+
+<div style="height: 10px;"></div>
+
+<nz-table
+    [acl]="983"
+    [nzData]="data.data"
+    [(nzPageIndex)]="dto.page"
+    [(nzPageSize)]="dto.size"
+    [nzTotal]="data.totalCount"
+    (nzPageIndexChange)="getData()"
+    (nzPageSizeChange)="getData()"
+    [nzFrontPagination]="false"
+    nzBordered
+    nzShowTotal
+    nzShowQuickJumper
+    nzShowSizeChanger>
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>收款日期</th>
+            <th>收款金额(万元)</th>
+            <th>备注</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of data.data;let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.operationDate | date: 'yyyy-MM-dd' }}</td>
+            <td>{{ item.amount / 10000 | number }}</td>
+            <td>{{ item.tip }}</td>
+            <td>
+                <a (click)="showEditDialog(item)">修改</a>
+                <nz-popconfirm [nzTitle]="'确定要删除这条记录吗？'" (nzOnConfirm)="remove(item)">
+                    <a nz-popconfirm style="margin-left: 30px">删除</a>
+                </nz-popconfirm>
+            </td>
+        </tr>
+        <tr class="gray-bg">
+            <td>累计已收款</td>
+            <td
+                class="text-center"
+               
+                colspan="4">{{ (data.sum / 10000).toFixed(2)  | number}}万元/{{ (data.sum / (totalAmount * 10000) * 100).toFixed(2) | number }}%</td>
+        </tr>
+    </tbody>
+</nz-table>

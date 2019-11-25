@@ -1,0 +1,413 @@
+<app-project-pro-header [projectId]="projectId">
+    <nz-tabset>
+        <nz-tab nzTitle="{{ pm.monomer.name }}" *ngFor="let pm of pageMonomers" (nzClick)="currentMonomer = pm">
+        </nz-tab>
+    </nz-tabset>
+</app-project-pro-header>
+
+
+
+<form nz-form #form="ngForm" (ngSubmit)="ok()" [nzLayout]="'vertical'">
+
+    <nz-card>
+        <nz-tabset *ngFor="let m of pageMonomers" [hidden]="m !== currentMonomers">
+            <nz-tab nzTitle="施工区域划分">
+                <div nz-row [nzGutter]="96">
+                    <div nz-col [nzMd]="24" nzSm="24" nzXs="24">
+                        <nz-form-item nz-row>
+                            <nz-form-label nz-col>
+                                <nz-form-label></nz-form-label>
+                            </nz-form-label>
+                            <nz-form-control nz-col>
+                                <nz-table [nzShowPagination]="false" [nzData]="m.detailPlanWithAreas">
+                                    <thead>
+                                        <tr>
+                                            <th>序号</th>
+                                            <th nzRequired>区域划分</th>
+                                            <th nzRequired>轴线或标高</th>
+                                            <!-- <th nzRequired>材料计划进场时间</th> -->
+                                            <th>说明</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of m.detailPlanWithAreas;let i = index;">
+                                            <td>
+                                                {{ i + 1 }}
+                                            </td>
+                                            <td>
+                                                <input nz-input style="width: 100%" [(ngModel)]="item.area.areaName"
+                                                    [ngModelOptions]="{standalone: true}" nzSize="default" required>
+                                                
+                                            </td>
+                                            <td>
+                                                <input nz-input style="width: 100%" [(ngModel)]="item.area.coordinates"
+                                                    [ngModelOptions]="{standalone: true}" nzSize="default" required>
+                                                
+                                            </td>
+                                            <!-- <td>
+                                                <nz-date-picker
+                                                    style="width: 100%"
+                                                    [(ngModel)]="item.area.materialApproachTime"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    nzSize="default"
+                                                    nzPlaceHolder="请选择"></nz-date-picker>
+                                            </td> -->
+                                            <td>
+                                                <input nz-input style="width: 100%" title={{item.area.tip}}
+                                                    [(ngModel)]="item.area.tip" [ngModelOptions]="{standalone: true}"
+                                                    nzSize="default">
+                                            </td>
+                                            <td>
+                                                <nz-popconfirm *ngIf="item.area.id" [nzTitle]="'确定要删除该区域吗?'" (nzOnConfirm)="deleteHandle(item.area.id)">
+                                                    <button nz-popconfirm  nz-button nzType="danger">删除</button>
+                                                </nz-popconfirm>
+                                                <a *ngIf="!item.area.id" (click)="m.detailPlanWithAreas.splice(i, 1)">删除</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </nz-table>
+                                <button type="button" nz-button [nzType]="'dashed'" [nzSize]="'default'"
+                                    (click)="addArea(m)" class="ant-btn__block mt-md">
+                                    <i class="anticon anticon-plus"></i>
+                                    <span>新增施工区域</span>
+                                </button>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </nz-tab>
+            <nz-tab nzTitle="详图深化计划">
+                <div nz-row [nzGutter]="96">
+                    <div nz-col [nzMd]="24" nzSm="24" nzXs="24">
+                        <nz-form-item nz-row>
+                            <nz-form-label nz-col>
+                                <nz-form-label></nz-form-label>
+                            </nz-form-label>
+                            <nz-form-control nz-col>
+                                <nz-table [nzShowPagination]="false" [nzData]="m.detailPlanWithAreas">
+                                    <thead>
+                                        <tr>
+                                            <th>序号</th>
+                                            <!-- <th nzRequired>任务名称</th> -->
+                                            <th>区域划分</th>
+                                            <th>轴线或标高</th>
+
+                                            <th>开始时间</th>
+                                            <th>结束时间</th>
+                                            <th>计划用时(天)</th>
+                                            <th>说明</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of m.detailPlanWithAreas;let i = index;">
+                                            <td>
+                                                {{ i + 1 }}
+                                            </td>
+                                            <!-- <td>
+                                                <input nz-input
+                                                    style="width: 100%"
+                                                    [(ngModel)]="item.detailPlan.name"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    nzSize="default">
+                                            </!-->
+                                            <td>
+                                                {{ item.area.areaName }}
+                                            </td>
+                                            <td>
+                                                <input nz-input style="width: 100%" [(ngModel)]="item.area.coordinates"
+                                                    [ngModelOptions]="{standalone: true}" nzSize="default">
+                                            </td>
+                                            <td>
+                                                <nz-date-picker style="width: 100%"
+                                                    [(ngModel)]="item.detailPlan.startDate"
+                                                    [ngModelOptions]="{standalone: true}" nzSize="default"
+                                                    nzPlaceHolder="请选择"></nz-date-picker>
+                                            </td>
+                                            <td>
+                                                <nz-date-picker style="width: 100%"
+                                                    [(ngModel)]="item.detailPlan.planedFinishDate"
+                                                    [ngModelOptions]="{standalone: true}" nzSize="default"
+                                                    nzPlaceHolder="请选择"></nz-date-picker>
+                                            </td>
+                                            <td>
+                                                {{ '' | duration: item.detailPlan.startDate:item.detailPlan.planedFinishDate }}
+                                            </td>
+                                            <td>
+                                                <input nz-input style="width: 100%" title={{item.detailPlan.tip}}
+                                                    [(ngModel)]="item.detailPlan.tip"
+                                                    [ngModelOptions]="{standalone: true}" nzSize="default">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </nz-table>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </nz-tab>
+
+            <nz-tab nzTitle="生产计划">
+                <div nz-row [nzGutter]="96">
+                    <div nz-col [nzMd]="24" nzSm="24" nzXs="24">
+                        <nz-form-item nz-row>
+                            <nz-form-label nz-col>
+                                <nz-form-label></nz-form-label>
+                            </nz-form-label>
+                            <nz-form-control nz-col>
+                                <nz-table [nzShowPagination]="false" [nzData]="m.detailPlanWithAreas">
+                                    <thead>
+                                        <tr>
+                                            <th>序号</th>
+                                            <!-- <th nzRequired>任务名称</th> -->
+                                            <th>区域划分</th>
+                                            <th>轴线或标高</th>
+
+                                            <th>开始时间</th>
+                                            <th>结束时间</th>
+                                            <th>计划用时(天)</th>
+                                            <th>说明</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of m.detailPlanWithAreas;let i = index;">
+                                            <td>
+                                                {{ i + 1 }}
+                                            </td>
+                                            <!-- <td>
+                                                <input nz-input
+                                                    style="width: 100%"
+                                                    [(ngModel)]="item.detailPlan.name"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    nzSize="default">
+                                            </!-->
+                                            <td>
+                                                {{ item.area.areaName }}
+                                            </td>
+                                            <td>
+                                                <input nz-input style="width: 100%" [(ngModel)]="item.area.coordinates"
+                                                    [ngModelOptions]="{standalone: true}" nzSize="default" required>
+                                                
+                                            </td>
+                                            <td>
+                                                <nz-date-picker style="width: 100%" [(ngModel)]="item.makePlan.startDate"
+                                                    [ngModelOptions]="{standalone: true}" nzSize="default"
+                                                    nzPlaceHolder="请选择"></nz-date-picker>
+                                            </td>
+                                            <td>
+                                                <nz-date-picker style="width: 100%"
+                                                    [(ngModel)]="item.makePlan.planedFinishDate"
+                                                    [ngModelOptions]="{standalone: true}" nzSize="default"
+                                                    nzPlaceHolder="请选择"></nz-date-picker>
+                                            </td>
+                                            <td>
+                                                {{ '' | duration: item.makePlan.startDate:item.makePlan.planedFinishDate }}
+                                            </td>
+                                            <td>
+                                                <input nz-input title={{item.makePlan.tip}} style="width: 100%"
+                                                    [(ngModel)]="item.makePlan.tip"
+                                                    [ngModelOptions]="{standalone: true}" nzSize="default">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </nz-table>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </nz-tab>
+            <nz-tab nzTitle="安装计划">
+                <div nz-row [nzGutter]="96">
+                    <div nz-col [nzMd]="24" nzSm="24" nzXs="24">
+                        <nz-form-item nz-row>
+                            <nz-form-label nz-col>
+                                <nz-form-label></nz-form-label>
+                            </nz-form-label>
+                            <nz-form-control nz-col>
+                                <nz-table [nzShowPagination]="false" [nzData]="m.detailPlanWithAreas">
+                                    <thead>
+                                        <tr>
+                                            <th>序号</th>
+                                            <th>区域划分</th>
+                                            <th>轴线或标高</th>
+                                            <th>开始时间</th>
+                                            <th>结束时间</th>
+                                            <th>计划用时(天)</th>
+                                            <th>说明</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of m.detailPlanWithAreas;let i = index;">
+                                            <td>
+                                                {{ i + 1 }}
+                                            </td>
+                                            <td>
+                                                {{ item.area.areaName }}
+                                            </td>
+                                            <td>
+                                                <input nz-input style="width: 100%" [(ngModel)]="item.area.coordinates"
+                                                    [ngModelOptions]="{standalone: true}" nzSize="default" required>
+                                                
+                                            </td>
+                                            <td>
+                                                <nz-date-picker style="width: 100%"
+                                                    [(ngModel)]="item.setupPlan.startDate"
+                                                    [ngModelOptions]="{standalone: true}" nzSize="default"
+                                                    nzPlaceHolder="请选择"></nz-date-picker>
+                                            </td>
+                                            <td>
+                                                <nz-date-picker style="width: 100%"
+                                                    [(ngModel)]="item.setupPlan.planedFinishDate"
+                                                    [ngModelOptions]="{standalone: true}" nzSize="default"
+                                                    nzPlaceHolder="请选择"></nz-date-picker>
+                                            </td>
+                                            <td>
+                                                {{ '' | duration: item.setupPlan.startDate:item.setupPlan.planedFinishDate }}
+                                            </td>
+                                            <td>
+                                                <input nz-input title={{item.setupPlan.tip}} style="width: 100%"
+                                                    [(ngModel)]="item.setupPlan.tip"
+                                                    [ngModelOptions]="{standalone: true}" nzSize="default">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </nz-table>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </nz-tab>
+
+            <!-- <nz-tab nzTitle="物料采购计划">
+                    <div nz-row [nzGutter]="96">
+                        <div nz-col [nzMd]="24" nzSm="24" nzXs="24">
+                            <nz-form-item nz-row>
+                                <nz-form-label nz-col>
+                                    <nz-form-label></nz-form-label>
+                                </nz-form-label>
+                                <nz-form-control nz-col>
+                                    <nz-table [nzShowPagination]="false" [nzData]="m.materialPurchasePlan">
+                                        <thead>
+                                            <tr>
+                                                <th>序号</th>
+                                                <th>采购任务</th>
+                                                <th>开始时间</th>
+                                                <th>结束时间</th>
+                                                <th>计划用时(天)</th>
+                                                <th>说明</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of m.materialPurchasePlan;let i = index">
+                                                <td>
+                                                    {{ i + 1 }}
+                                                </td>
+                                                <td>
+                                                    <input nz-input style="width: 100%" [(ngModel)]="item.name"
+                                                        [ngModelOptions]="{standalone: true}" nzSize="default">
+                                                </td>
+                                                <td>
+                                                    <nz-date-picker style="width: 100%" [(ngModel)]="item.startDate"
+                                                        [ngModelOptions]="{standalone: true}" nzSize="default"
+                                                        nzPlaceHolder="请选择"></nz-date-picker>
+                                                </td>
+                                                <td>
+                                                    <nz-date-picker style="width: 100%" [(ngModel)]="item.planedFinishDate"
+                                                        [ngModelOptions]="{standalone: true}" nzSize="default"
+                                                        nzPlaceHolder="请选择"></nz-date-picker>
+                                                </td>
+                                                <td>
+                                                    {{ '' | duration: item.startDate:item.planedFinishDate }}
+                                                </td>
+                                                <td>
+                                                    <input nz-input title={{item.tip}} style="width: 100%" [(ngModel)]="item.tip"
+                                                        [ngModelOptions]="{standalone: true}" nzSize="default">
+                                                </td>
+                                                <td>
+                                                    <span *ngIf="m.materialPurchasePlan.length > 1">
+                                                        <a (click)="m.materialPurchasePlan.splice(i, 1)">删除</a>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </nz-table>
+                                    <button type="button" nz-button [nzType]="'dashed'" [nzSize]="'default'"
+                                        (click)="addPlan(m, types['物料采购计划'])" class="ant-btn__block mt-md">
+                                        <i class="anticon anticon-plus"></i>
+                                        <span>新增计划</span>
+                                    </button>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                </nz-tab> -->
+            
+            <!-- <nz-tab nzTitle="分包招标计划">
+                <div nz-row [nzGutter]="96">
+                    <div nz-col [nzMd]="24" nzSm="24" nzXs="24">
+                        <nz-form-item nz-row>
+                            <nz-form-label nz-col>
+                                <nz-form-label></nz-form-label>
+                            </nz-form-label>
+                            <nz-form-control nz-col>
+                                <nz-table [nzShowPagination]="false" [nzData]="m.subcontractPenderingPlan">
+                                    <thead>
+                                        <tr>
+                                            <th>序号</th>
+                                            <th>采购任务</th>
+                                            <th>开始时间</th>
+                                            <th>结束时间</th>
+                                            <th>计划用时(天)</th>
+                                            <th>说明</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of m.subcontractPenderingPlan;let i = index">
+                                            <td>
+                                                {{ i + 1 }}
+                                            </td>
+                                            <td>
+                                                <input nz-input style="width: 100%" [(ngModel)]="item.name"
+                                                    [ngModelOptions]="{standalone: true}" nzSize="default">
+                                            </td>
+                                            <td>
+                                                <nz-date-picker style="width: 100%" [(ngModel)]="item.startDate"
+                                                    [ngModelOptions]="{standalone: true}" nzSize="default"
+                                                    nzPlaceHolder="请选择"></nz-date-picker>
+                                            </td>
+                                            <td>
+                                                <nz-date-picker style="width: 100%" [(ngModel)]="item.planedFinishDate"
+                                                    [ngModelOptions]="{standalone: true}" nzSize="default"
+                                                    nzPlaceHolder="请选择"></nz-date-picker>
+                                            </td>
+                                            <td>
+                                                {{ '' | duration: item.startDate:item.planedFinishDate }}
+                                            </td>
+                                            <td>
+                                                <input nz-input title={{item.tip}} style="width: 100%" [(ngModel)]="item.tip"
+                                                    [ngModelOptions]="{standalone: true}" nzSize="default">
+                                            </td>
+                                            <td>
+                                                <span *ngIf="m.subcontractPenderingPlan.length > 1">
+                                                    <a (click)="m.subcontractPenderingPlan.splice(i, 1)">删除</a>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </nz-table>
+                                <button type="button" nz-button [nzType]="'dashed'" [nzSize]="'default'"
+                                    (click)="addPlan(m, types['分包招标计划'])" class="ant-btn__block mt-md">
+                                    <i class="anticon anticon-plus"></i>
+                                    <span>新增计划</span>
+                                </button>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </nz-tab> -->
+        </nz-tabset>
+    </nz-card>
+
+    <footer-toolbar errorCollect>
+        <button nz-button type="submit" [nzType]="'primary'" nzSize="default" [nzLoading]="submitting">保存</button>
+    </footer-toolbar>
+</form>

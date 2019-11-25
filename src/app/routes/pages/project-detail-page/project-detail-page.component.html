@@ -1,0 +1,20 @@
+<div class="content__title">
+    <h1>项目详情</h1>
+</div>
+
+<app-project-info-detail [projectId]="projectId"></app-project-info-detail>
+
+<app-project-customer-detail [projectId]="projectId"></app-project-customer-detail>
+
+<!-- <app-project-payment-remind-detail 
+    [projectId]="projectId" 
+    [acl]="1005"
+    *hasPermission="1005"></app-project-payment-remind-detail> -->
+
+<!-- <app-project-workload-detail [projectId]="projectId"></app-project-workload-detail> -->
+
+<app-footer-approval></app-footer-approval>
+
+<button nz-button [nzType]="'primary'" style="float: right; margin-right: 120px" [routerLink]="['/project-c']" [queryParams]="{projectId: projectId}">
+    <span>修改</span>
+</button>

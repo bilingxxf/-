@@ -1,0 +1,263 @@
+<nz-card>
+    <button nz-button [nzType]="'primary'" style="margin-bottom: 15px" (click)="isVisible = true">
+        <span>新增</span>
+    </button>
+    <nz-table #nzTable [nzPageSize]="10" [nzData]="(suppliers.supplierList$ | async) || []">
+        <thead>
+            <tr>
+                <th><span>序号</span></th>
+                <th><span>供应商名称</span></th>
+                <th><span>地区</span></th>
+                <th><span>供应商分类</span></th>
+                <th><span>当前累计采购额(万元)</span></th>
+                <th><span>操作</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of nzTable.data; index as i">
+                <td>
+                    <a>{{i + 1}}</a>
+                </td>
+                <td>{{data.name}}</td>
+                <td>{{data.state + data.city}}</td>
+                <td>{{data.supplierClassification}}</td>
+                <td>{{data.totalMoney}}</td>
+                <td>
+                    <a (click)="updateSupplier(data)">编辑</a>
+                    <a style="margin-left: 15px" (click)="removeSupplier(data)">删除</a>
+                    <a style="margin-left: 15px" [routerLink]="['/transaction-record', data.id]">交易记录</a>
+                </td>
+            </tr>
+        </tbody>
+  </nz-table>
+</nz-card>
+
+<nz-modal [nzVisible]="isVisible" [nzOkText]="template === contact ? '确定' : '下一步'" [nzTitle]="'新增供应商'" [nzContent]="modalContent" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <ng-template #modalContent>
+        <form nz-form >
+            <ng-container>
+                <ng-template [ngTemplateOutlet]="template"></ng-template>
+            </ng-container>
+        </form>
+    </ng-template>
+
+</nz-modal>
+
+<ng-template #base>
+    <p>基本信息</p>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="name" nzRequired>供应商名称</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input  [nzSize]="'default'" name="name" [(ngModel)]="supplier.name">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="name" nzRequired>简称</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input [nzSize]="'default'" name="shortName" [(ngModel)]="supplier.shortName">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="name" nzRequired>供应商代码</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input [nzSize]="'default'" name="supplierCode" [(ngModel)]="supplier.supplierCode">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+        <nz-form-label for="name" nzRequired>所在地区</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <nz-cascader
+                name="division"
+                [(ngModel)]="supplier.division"
+                [nzOptions]="divisions"
+                >
+              </nz-cascader>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="name" nzRequired>详细地址</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input [nzSize]="'default'" name="address" [(ngModel)]="supplier.address">
+        </nz-form-control>
+    </nz-form-item>
+</ng-template>
+
+<ng-template #company>
+    <p>企业信息</p>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="name" nzRequired>社会统一代码</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input [nzSize]="'default'" name="socialCode" [(ngModel)]="supplier.socialCode">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="name" nzRequired>成立日期</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <nz-date-picker name="registrationDate" [(ngModel)]="supplier.registrationDate" nzPlaceHolder="'Select date'"></nz-date-picker>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="name" nzRequired>营业期限</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <nz-date-picker name="businessTerm" [(ngModel)]="supplier.businessTerm" nzPlaceHolder="'Select date'"></nz-date-picker>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="name" nzRequired>法人代表</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input [nzSize]="'default'" name="legalRepresentative" [(ngModel)]="supplier.legalRepresentative">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="name" nzRequired>企业类型</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input [nzSize]="'default'" name="enterpriseNature" [(ngModel)]="supplier.enterpriseNature">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="name" nzRequired>注册资本</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input [nzSize]="'default'" name="registeredCapital" [(ngModel)]="supplier.registeredCapital">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="name" nzRequired>开户行名称</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input [nzSize]="'default'" name="firstBankName" [(ngModel)]="supplier.firstBankName">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="name" nzRequired>银行账户</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input [nzSize]="'default'" name="firstBankAccount" [(ngModel)]="supplier.firstBankAccount">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="name" nzRequired>主营业务</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input [nzSize]="'default'" name="mainBusiness" [(ngModel)]="supplier.mainBusiness">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="name" nzRequired>供应商分类</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input [nzSize]="'default'" name="supplierClassification" [(ngModel)]="supplier.supplierClassification">
+        </nz-form-control>
+    </nz-form-item>
+</ng-template>
+
+<ng-template #contact>
+        <p>联系人</p>
+        <nz-form-item nz-row>
+            <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <nz-form-label for="name" nzRequired>网址</nz-form-label>
+            </nz-form-label>
+            <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+                <input nz-input [nzSize]="'default'" name="website" [(ngModel)]="supplier.website">
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nz-row>
+            <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <nz-form-label for="name" nzRequired>单位邮箱</nz-form-label>
+            </nz-form-label>
+            <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+                <input nz-input [nzSize]="'default'" name="companyEmail" [(ngModel)]="supplier.companyEmail">
+            </nz-form-control>
+        </nz-form-item>
+        <div>第一联系人</div>
+        <nz-form-item nz-row>
+            <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <nz-form-label for="name" nzRequired>姓名</nz-form-label>
+            </nz-form-label>
+            <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+                <input nz-input [nzSize]="'default'" name="firstContact" [(ngModel)]="supplier.firstContact">
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nz-row>
+            <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <nz-form-label for="name" nzRequired>座机</nz-form-label>
+            </nz-form-label>
+            <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+                <input nz-input [nzSize]="'default'" name="firstContactTel" [(ngModel)]="supplier.firstContactTel">
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nz-row>
+            <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <nz-form-label for="name" nzRequired>手机</nz-form-label>
+            </nz-form-label>
+            <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+                <input nz-input [nzSize]="'default'" name="firstContactPhone" [(ngModel)]="supplier.firstContactPhone">
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nz-row>
+            <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <nz-form-label for="name" nzRequired>邮箱</nz-form-label>
+            </nz-form-label>
+            <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+                <input nz-input [nzSize]="'default'" name="firstContactEmail" [(ngModel)]="supplier.firstContactEmail">
+            </nz-form-control>
+        </nz-form-item>
+        <div>第二联系人</div>
+        <nz-form-item nz-row>
+            <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <nz-form-label for="name" nzRequired>姓名</nz-form-label>
+            </nz-form-label>
+            <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+                <input nz-input [nzSize]="'default'" name="secondContact" [(ngModel)]="supplier.secondContact">
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nz-row>
+            <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <nz-form-label for="name" nzRequired>座机</nz-form-label>
+            </nz-form-label>
+            <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+                <input nz-input [nzSize]="'default'" name="secondContactTel" [(ngModel)]="supplier.secondContactTel">
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nz-row>
+            <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <nz-form-label for="name" nzRequired>手机</nz-form-label>
+            </nz-form-label>
+            <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+                <input nz-input [nzSize]="'default'" name="secondContactPhone" [(ngModel)]="supplier.secondContactPhone">
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nz-row>
+            <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <nz-form-label for="name" nzRequired>邮箱</nz-form-label>
+            </nz-form-label>
+            <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+                <input nz-input [nzSize]="'default'" name="secondContactEmail" [(ngModel)]="supplier.secondContactEmail">
+            </nz-form-control>
+        </nz-form-item>
+    </ng-template>

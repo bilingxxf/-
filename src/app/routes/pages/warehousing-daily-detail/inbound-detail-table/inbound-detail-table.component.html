@@ -1,0 +1,132 @@
+
+<nz-table 
+*ngIf="productType === 1"
+[nzData]="data.data"
+[(nzPageIndex)]="dto.page"
+[(nzPageSize)]="dto.size"
+[nzTotal]="data.totalCount"
+(nzPageIndexChange)="getData()"
+(nzPageSizeChange)="getData()"
+[nzFrontPagination]="false"
+nzShowTotal
+nzShowQuickJumper
+nzShowSizeChanger>
+<thead>
+    <tr>
+        <th>序号</th>
+        <th>构件名称</th>
+        <th>构件编号</th>
+        <th>规格</th>
+        <th>长度(mm)</th>
+        <th>材质</th>
+        <th>数量</th>
+        <th>单重(kg)</th>
+        <th>总重(kg)</th>
+        <th>入库</th>
+    </tr>
+    
+</thead>
+<tbody>
+    <tr *ngFor="let item of data.data;let i = index" >
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.productInfo.name }}</td>
+            <td>{{ item.productInfo.serialNo }}</td>
+            <td>{{ item.productInfo.specification }}</td>
+            <td>{{ item.productInfo.length }}</td>
+            <td>{{ item.productInfo.material }}</td>
+            <td>{{ item.productInfo.totalQuantity }}</td>
+            <td>{{ item.productInfo.pieceWeight }}</td>
+            <td>{{ item.productInfo.totalWeight }}</td>
+            <td>
+                {{item.stockQuantity}} / {{item.productInfo.totalQuantity}}
+            </td>
+    </tr>
+</tbody>
+</nz-table>
+
+<nz-table 
+*ngIf="productType === 2"
+[nzData]="data.data"
+[(nzPageIndex)]="dto.page"
+[(nzPageSize)]="dto.size"
+[nzTotal]="data.totalCount"
+(nzPageIndexChange)="getData()"
+(nzPageSizeChange)="getData()"
+[nzFrontPagination]="false"
+nzShowTotal
+nzShowQuickJumper
+nzShowSizeChanger>
+<thead>
+    <tr>
+        <th>序号</th>
+        <th>产品名称</th>
+        <th>颜色</th>
+        <th>厚度(mm)</th>
+        <th>板型</th>
+        <th>有效宽度(mm)</th>
+        <th>长度(m)</th>
+        <th>数量(张)</th>
+        <th>总长度(m)</th>
+        <th>总面积</th>
+        <th>入库</th>
+    </tr>
+</thead>
+<tbody>
+    <tr *ngFor="let item of data.data;let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ item.productInfo.name }}</td>
+        <td>{{ item.productInfo.color }}</td>
+        <td>{{ item.productInfo.thickness }}</td>
+        <td>{{ item.productInfo.modelNum }}</td>
+        <td>{{ item.productInfo.width }}</td>
+        <td>{{ item.productInfo.length }}</td>
+        <td>{{ item.productInfo.totalQuantity }}</td>
+        <td>{{ (item.productInfo.length * item.productInfo.totalQuantity).toFixed(2) }}</td>
+        <td>{{ ((item.productInfo.length * item.productInfo.width * item.productInfo.totalQuantity) / 1000).toFixed(2) }}</td>
+        <td>
+            {{item.stockQuantity}} / {{item.productInfo.totalQuantity}}
+        </td>
+       
+    </tr>
+</tbody>
+</nz-table>
+
+<nz-table 
+*ngIf="productType === 3"
+[nzData]="data.data"
+[(nzPageIndex)]="dto.page"
+[(nzPageSize)]="dto.size"
+[nzTotal]="data.totalCount"
+(nzPageIndexChange)="getData()"
+(nzPageSizeChange)="getData()"
+[nzFrontPagination]="false"
+nzShowTotal
+nzShowQuickJumper
+nzShowSizeChanger>
+<thead>
+    <tr>
+        <th>序号</th>
+        <th>产品名称</th>
+        <th>单位</th>
+        <th>规格</th>
+        <th>材质</th>
+        <th>数量</th>
+        <th>入库</th>
+    </tr>
+</thead>
+<tbody>
+        <tr *ngFor="let item of data.data;let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.productInfo.name }}</td>
+            <td>{{ item.productInfo.unit }}</td>
+            <td>{{ item.productInfo.specification }}</td>
+            <td>{{ item.productInfo.material }}</td>
+            <td>{{ item.productInfo.totalQuantity }}</td>
+            <!-- <td>{{ item.productInfo.quantity }}</td> -->
+            <td>
+                {{item.stockQuantity}} / {{item.productInfo.totalQuantity}}
+            </td>
+            
+        </tr>
+    </tbody>
+</nz-table>

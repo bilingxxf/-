@@ -1,0 +1,144 @@
+<div class="operate-box">
+    <div style="display: flex;flex-direction: row;align-items:center;justify-content:flex-start">
+        <nz-input-group nzSearch style="margin-right: 10px">
+            <input type="text" 
+            [(ngModel)]="dto.serialNo"
+                nz-input placeholder="构件编号"
+                (keyup)="($event.which === 13)?search():0" />
+        </nz-input-group>
+        <!-- <ng-template #suffixButton>
+            <span style="cursor: pointer" (click)="search()">搜索</span>
+        </ng-template> -->
+        
+        <app-tag [options]="options"></app-tag>
+        <div>
+            <nz-select
+            style="width: 200px;margin: 0 30px;"
+            nzShowSearch
+            nzPlaceHolder="请选择"
+            [(ngModel)]="dto.status"
+            (ngModelChange)="searchHandle()"
+            >
+            <nz-option
+                *ngFor="let option of styleList"
+                [nzLabel]="option.name"
+                [nzValue]="option.id"
+                > 
+            </nz-option>
+            </nz-select>
+        </div>
+        
+        <button nz-button style="cursor: pointer" (click)="search()">搜索</button>
+    </div>
+   
+</div>
+<nz-card ng-class="product-table">
+    <!-- <form nz-form [nzLayout]="'inline'">
+        <nz-form-item>
+            <nz-form-control>
+                <nz-date-picker
+                    #input
+                    style="width: 100%"
+                    [(ngModel)]="date"
+                    name="date"
+                    nzSize="default"
+                    nzPlaceHolder="请选择"></nz-date-picker>
+            </nz-form-control>
+        </nz-form-item>
+        <button nz-button nzSize="default" (click)="search(input.nzValue)">搜索</button>
+    </form> -->
+    <!-- <div style="height: 10px;"></div> -->
+    <nz-table
+        [acl]="1125"
+        [nzData]="data.data"
+        [(nzPageIndex)]="dto.page"
+        [(nzPageSize)]="dto.size"
+        [nzTotal]="data.totalCount"
+        (nzPageIndexChange)="getData()"
+        (nzPageSizeChange)="getData()"
+        [nzFrontPagination]="false"
+        [nzLoading]="isSpinning"
+        nzShowTotal
+        nzShowQuickJumper
+        nzShowSizeChanger>
+        <thead style="background: #4472C4;">
+            <tr>
+                <th rowspan="2">序号</th>
+                <th rowspan="2">构件名称</th>
+                <th rowspan="2">构件编号</th>
+                <th rowspan="2">规格</th>
+                <th rowspan="2">长度(mm)</th>
+                <th rowspan="2">材质</th>
+                <th rowspan="2">数量</th>
+                <th rowspan="2">单重(kg)</th>
+                <th rowspan="2">总重(kg)</th>
+                <th colspan="4">工序状态</th>
+            </tr>
+            <tr style="background: #0070C0;">
+            	<th>总装</th>
+                <th>总装检验</th>
+                <th>涂装</th>
+                <th>涂装检验</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data.data;let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.serialNo }}</td>
+                <td>{{ item.specification }}</td>
+                <td>{{ item.length }}</td>
+                <td>{{ item.material }}</td>
+                <td>{{ item.totalQuantity }}</td>
+                <td>{{ item.pieceWeight }}</td>
+                <td>{{ item.totalWeight }}</td>
+                
+                <td *ngIf="item.semiFinishedRecordQuantity === item.totalQuantity" ><span style="color: green;">&#10004;</span></td>
+                <td *ngIf="item.semiFinishedRecordQuantity != item.totalQuantity && item.semiFinishedRecordQuantity!=0" ><span style="color: red;">{{item.semiFinishedRecordQuantity}}</span></td>
+                <td *ngIf="item.semiFinishedRecordQuantity == 0" ><span style="color: red;font-weight: 700;">-</span></td>
+                
+                <td *ngIf="item.semiFinishedInspectionQuantity === item.totalQuantity" ><span style="color: green;">&#10004;</span></td>
+                <td *ngIf="item.semiFinishedInspectionQuantity != item.totalQuantity && item.semiFinishedInspectionQuantity!=0" ><span style="color: red;">{{item.semiFinishedInspectionQuantity}}</span></td>
+                <td *ngIf="item.semiFinishedInspectionQuantity == 0" ><span style="color: red;font-weight: 700;">-</span></td>
+                
+                <td *ngIf="item.finishedRecordQuantity === item.totalQuantity" ><span style="color: green;">&#10004;</span></td>
+                <td *ngIf="item.finishedRecordQuantity != item.totalQuantity && item.finishedRecordQuantity!=0" ><span style="color: red;">{{item.finishedRecordQuantity}}</span></td>
+                <td *ngIf="item.finishedRecordQuantity == 0" ><span style="color: red;font-weight: 700;">-</span></td>
+                
+                <td *ngIf="item.finishedInspectionQuantity === item.totalQuantity" ><span style="color: green;">&#10004;</span></td>
+                <td *ngIf="item.finishedInspectionQuantity != item.totalQuantity && item.finishedInspectionQuantity!=0" ><span style="color: red;">{{item.finishedInspectionQuantity}}</span></td>
+                <td *ngIf="item.finishedInspectionQuantity == 0" ><span style="color: red;font-weight: 700;">-</span></td>
+                
+                
+                <!--<td>{{ item.semiFinishedInspectionQuantity }}/{{ item.totalQuantity }}</td>-->
+                <!--<td>{{ item.finishedRecordQuantity }}/{{ item.totalQuantity }}</td>-->
+                <!--<td>{{ item.finishedInspectionQuantity }}/{{ item.totalQuantity }}</td>-->
+            	
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-card>
+<style type="text/css" scoped>
+.ant-table-thead > tr > th {
+	background: #D9D9D9;
+	padding: 8px 12px;
+	/* text-align: center; */
+	/*color: #FFFFFF;*/
+}
+.ant-table table {
+	border-spacing: 1px !important;
+}
+.ant-table-tbody > tr > td {
+	padding: 12px 18px;
+	/* text-align: center; */
+}
+.ant-table-tbody tr:nth-of-type(2n) {
+ 	background: #D9D9D9;
+}
+.ant-table-tbody tr:nth-of-type(odd) {
+ 	background: #f7f7f7;
+}
+.ant-table-tbody > tr > td {
+	border: 0;
+}
+</style>

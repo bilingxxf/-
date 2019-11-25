@@ -1,0 +1,47 @@
+<div class="content-box">
+    <nz-table [acl]="1040" [nzData]="data.data" [(nzPageIndex)]="dto.page" [(nzPageSize)]="dto.size"
+        [nzTotal]="data.totalCount" (nzPageIndexChange)="getData()" (nzPageSizeChange)="getData()"
+        [nzFrontPagination]="false" nzShowTotal nzShowQuickJumper nzShowSizeChanger nzBordered>
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>项目名称</th>
+                <th>评价日期</th>
+                <th>评价内容</th>
+                <th>综合考评</th>
+                <th>评价</th>
+                <th>得分</th>
+                <th>综合得分</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let item of data.data;let i = index">
+                <tr>
+                    <td [rowSpan]="4">{{ i + 1 }}</td>
+                    <td [rowSpan]="4">{{ item.projectName }}</td>
+                    <td [rowSpan]="4">{{ item.createTime | date: 'yyyy-MM-dd' }}</td>
+                    <td [rowSpan]="4">{{ item.content }}</td>
+                    <td>施工资料</td>
+                    <td>{{ item.pointToStr(item.constructionDoc) }}</td>
+                    <td>{{ item.constructionDoc }}</td>
+                    <td [rowSpan]="4">{{ item.getTotalPoints() }}</td>
+                </tr>
+                <tr>
+                    <td>办公环境</td>
+                    <td>{{ item.pointToStr(item.officeEnvironment) }}</td>
+                    <td>{{ item.officeEnvironment }}</td>
+                </tr>
+                <tr>
+                    <td>施工安全防护</td>
+                    <td>{{ item.pointToStr(item.safetyProtection) }}</td>
+                    <td>{{ item.safetyProtection }}</td>
+                </tr>
+                <tr>
+                    <td>施工环境</td>
+                    <td>{{ item.pointToStr(item.constructionEnvironment) }}</td>
+                    <td>{{ item.constructionEnvironment }}</td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </nz-table>
+</div>

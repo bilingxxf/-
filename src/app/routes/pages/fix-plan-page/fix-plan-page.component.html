@@ -1,0 +1,93 @@
+<nz-card>
+        <!-- <button nz-button [nzType]="'primary'" (click)="multi = !multi">
+            <span>启用多选</span>
+        </button> -->
+        <div class="vertical-tabs">
+                <div class="vertical-tabs__header">
+                    <div class="vertical-tab" (click)="active = 1" [ngClass]="{'is-active': active === 1}">结构</div>
+                    <div class="vertical-tab" (click)="active = 2" [ngClass]="{'is-active': active === 2}">围护</div>
+                </div>
+                <div class="vertical-tabs__content"  *ngIf="active === 1">
+                    <nz-tabset>
+                        <nz-tab nzTitle="{{ area.areaName + '(' + area.coordinates + ')' }}"
+                            *ngFor="let area of pm.areas" (nzClick)="currentArea = area">
+                        </nz-tab>
+                    </nz-tabset>
+                    <nz-card>
+                        <nz-tabset>
+                            <nz-tab nzTitle="周计划">
+                                <app-fix-color-box-wrap 
+                                    [fixPlanTypes]="1" 
+                                    [monomerId]="currentArea.id" 
+                                    [multi]="multi"
+                                    [productType]="1"></app-fix-color-box-wrap>
+                            </nz-tab>
+                            <nz-tab nzTitle="月计划">
+                                <app-fix-color-box-wrap 
+                                    [fixPlanTypes]="2" 
+                                    [monomerId]="currentArea.id" 
+                                    [multi]="multi"
+                                    [productType]="1"></app-fix-color-box-wrap>
+                            </nz-tab>
+                        </nz-tabset>
+                    </nz-card>
+                </div>
+                <div class="vertical-tabs__content"  *ngIf="active === 2">
+                    <nz-tabset>
+                        <nz-tab nzTitle="周计划">
+                            <app-fix-color-box-wrap 
+                                [fixPlanTypes]="1" 
+                                [monomerId]="pm.monomer.id" 
+                                [multi]="multi"
+                
+                                [productType]="2"></app-fix-color-box-wrap>
+                        </nz-tab>
+                        <nz-tab nzTitle="月计划">
+                            <app-fix-color-box-wrap 
+                                [fixPlanTypes]="2" 
+                                [monomerId]="pm.monomer.id" 
+                                [multi]="multi"
+                                [productType]="2"></app-fix-color-box-wrap>
+                        </nz-tab>
+                    </nz-tabset>
+                </div>
+        </div>
+</nz-card>
+
+<!-- <span style></span> -->
+<button (click)="open()" nz-button [nzType]="'primary'"  [nzShape]="'circle'" style="position: absolute; top: 40%; right: 0" >
+    <i class="anticon anticon-swap"></i>
+</button>
+
+<app-popup [visible]="visible" (close)="close()">
+    <nz-table #nzTable nzShowPagination="false" [nzData]="planService.plans">
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>名称</th>
+            <th>编号</th>
+            <th>计划数量</th>
+            <!-- <th>计划重量</th> -->
+            <th>计划时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of planService.plans; index as i">
+            <td>{{ i + 1}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.serialNo}}</td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.date}}</td>
+            <!-- <td></td> -->
+            <td>
+                <a (click)="remove($event, i)">撤销</a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+
+    <button (click)="save()" nz-button [nzType]="'primary'" style="margin-top: 30px;">
+        保存计划
+    </button>
+</app-popup>

@@ -1,0 +1,72 @@
+<div class="operate-box">
+    <div class="operate-left-box">
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixButton" style="margin-right: 10px">
+            <input type="text" 
+            [(ngModel)]="dto.serialNo"
+                nz-input placeholder="构件编号"
+                (keyup)="($event.which === 13)?search():0" />
+        </nz-input-group>
+        <ng-template #suffixButton>
+            <span style="cursor: pointer" (click)="search()">搜索</span>
+        </ng-template>
+    </div> 
+    <div class="blue">清单量: {{ sum.totalQuantity ? sum.totalQuantity : 0 }} | {{ sum.totalWeight ? sum.totalWeight : 0 }} Kg</div>
+    <div class="blue">入库: {{ sum.inStockQuantity ? sum.inStockQuantity : 0 }} | {{ sum.inStockWeight ? sum.inStockWeight : 0 }} Kg</div>
+    <div class="blue">出库：{{ sum.outStockQuantity ? sum.outStockQuantity : 0 }} | {{ sum.outStockWeight ? sum.outStockWeight : 0 }}  Kg</div>
+    <div class="blue">库存：{{ (sum.inStockQuantity - sum.outStockQuantity) == 0 ? 0 : sum.inStockQuantity - sum.outStockQuantity }} | {{ (sum.inStockWeight-sum.outStockWeight) ==0 ?0:(sum.inStockWeight-sum.outStockWeight).toFixed(2)  }}  Kg</div>
+</div>
+<div class="content-box">
+<nz-table 
+    *ngIf="productType === 1"
+    [nzData]="data.data"
+    [(nzPageIndex)]="dto.page"
+    [(nzPageSize)]="dto.size"
+    [nzTotal]="data.totalCount"
+    (nzPageIndexChange)="getData()"
+    (nzPageSizeChange)="getData()"
+    [nzFrontPagination]="false"
+    [nzLoading]="isSpinning"
+    nzShowTotal
+    nzShowQuickJumper
+    nzShowSizeChanger>
+    <thead> 
+        <tr>
+            <th>序号</th>
+            <th>构件名称</th>
+            <th>构件编号</th>
+            <th>规格</th>
+            <th>长度(MM)</th>
+            <th>材质</th>
+            <th>数量</th>
+            <th>单重(Kg)</th>
+            <th>总重(Kg)</th>
+            <th>入库数量</th>
+            <th>入库重量(kg)</th>
+            <th>出库数量</th>
+            <th>出库重量(Kg)</th>
+            <th>库存数量</th>
+            <th>库存(Kg)</th>
+        </tr>
+        
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of data.data;let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.serialNo }}</td>
+            <td>{{ item.specification }}</td>
+            <td>{{ item.length }}</td>
+            <td>{{ item.material }}</td>
+            <td>{{ item.totalQuantity }}</td>
+            <td>{{ item.pieceWeight }}</td>
+            <td>{{ item.totalWeight }}</td>
+            <td>{{ item.inStockQuantity }}  <!-- {{item.inStockQuantity}} / {{item.totalQuantity}} -->   </td>
+            <td>{{ item.inStockWeight }}</td>
+            <td>{{item.outStockQuantity}}  <!-- {{item.outStockQuantity}} / {{item.totalQuantity}} -->  </td>
+            <td>{{ item.outStockWeight }}</td>
+            <td>{{ (item.inStockQuantity - item.outStockQuantity) ==0 ? '0': item.inStockQuantity - item.outStockQuantity }}</td>
+            <td>{{ (item.inStockWeight - item.outStockWeight).toFixed(2) }}</td>
+        </tr>
+    </tbody>
+</nz-table>
+</div>

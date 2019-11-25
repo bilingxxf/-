@@ -1,0 +1,85 @@
+<div class="content-box">
+    <nz-table [nzData]="data.data" [(nzPageIndex)]="dto.page" [(nzPageSize)]="dto.size" [nzTotal]="data.totalCount"
+        (nzPageIndexChange)="getData()" (nzPageSizeChange)="getData()" [nzFrontPagination]="false" [nzLoading]="isSpinning"
+        nzShowTotal nzShowQuickJumper nzShowSizeChanger nzBordered>
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>发起方</th>
+                <th>日期</th>
+                <th>名称</th>
+                <th>问题属性</th>
+                <!-- <th>是否通过</th> -->
+                <th>事件描述</th>
+                <th>整改期限</th>
+                <th>整改反馈</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let item of data.data;let i = index">
+                <!-- (click)="openDetailModal(item.id)" TODO：未使用，待确认-->
+                <tr>
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ item.departmentName }} - {{item.username}}</td>
+                    <td>{{ item.createTime | date: 'yyyy-MM-dd' }}</td>
+                    <td>{{ item.productName }} {{item.serialNo}}</td>
+                    <td>
+                        <span *ngIf="item.type !== 4">{{ProblemTypes[item.type]}}</span>
+                        <div *ngIf="item.type === 4">
+                            <ng-container *ngFor="let ins of item.inspectionItems; let key = index">
+                                <p *ngIf="!ins.isPassed">{{key + 1}}. {{ ins.item}}</p>
+                            </ng-container>
+                        </div>
+                    </td>
+                    <!-- <td>
+                    <i
+                        class="fa"
+                        [ngClass]="{'fa-check': item.inspectionItems[0].isPassed, 'fa-times': !item.inspectionItems[0].isPassed}"></i>
+                </td> -->
+                    <td style="padding: 0;">
+                        <div nz-row style="height: 54px;line-height: 54px;">
+                            <div nz-col [nzSpan]="12" style="border-right: 1px solid #E9E9E9;height: 100%;">
+                                <img *ngFor="let img of item.pictures;let ii = index;"
+                                    (click)="preview(item.pictures, ii)" [src]="img.getPath()"
+                                    style="cursor: pointer;width: 30px">
+                            </div>
+                            <div nz-col [nzSpan]="12" style="padding-left: 8px;">{{ item.description }}</div>
+                        </div>
+                    </td>
+                    <td>{{ item.endDate | date: 'yyyy-MM-dd' }}</td>
+                    <td style="padding: 0;">
+                        <div nz-row style="height: 54px;line-height: 54px;" *ngFor="let feedback of item.feedbackList">
+                            <div nz-col [nzSpan]="12" style="border-right: 1px solid #E9E9E9;height: 100%;">
+                                <img *ngFor="let img of feedback.pictures;let ii = index;"
+                                    (click)="preview(feedback.pictures, ii)"
+                                    [src]=" '/files/' + img.filePath + img.fileName"
+                                    style="width: 30px;cursor: pointer;">
+                            </div>
+                            <div nz-col [nzSpan]="12" style="padding-left: 8px;">{{ feedback.content }}</div>
+                        </div>
+                    </td>
+                    <td>{{ problemStatus[item.status] }}</td>
+                    <td>
+                        <span *ngIf="item.status === problemStatus['未处理'] && opt && item.userId === user.id">
+                            <nz-popconfirm [acl]="1232" [nzTitle]="'确定要关闭这个问题吗?'" (nzOnConfirm)="close(item.reportId)">
+                                <a nz-popconfirm>关闭</a>
+                            </nz-popconfirm>
+                        </span>
+                    </td>
+                </tr>
+                <!-- <tr *ngFor="let o of item.inspectionItems.slice(1)">
+                <td>{{  o.item }}</td> -->
+                <!-- <td>
+                    <i
+                        class="fa"
+                        [ngClass]="{'fa-check': o.isPassed, 'fa-times': !o.isPassed}"></i>
+                </td> -->
+                <!-- <td></td>
+                <td></td>
+            </tr> -->
+            </ng-container>
+        </tbody>
+    </nz-table>
+</div>

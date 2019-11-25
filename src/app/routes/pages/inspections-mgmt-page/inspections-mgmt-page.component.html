@@ -1,0 +1,16 @@
+<app-project-pro-header
+    [projectId]="projectId"></app-project-pro-header>
+
+<nz-card>
+    <nz-tabset>
+        <nz-tab nzTitle="巡检评价" *hasPermission="980" [acl]="980">
+            <app-inspection-mgmt-page
+                [projectId]="projectId"></app-inspection-mgmt-page>
+        </nz-tab>
+        <nz-tab nzTitle="质安管理" *hasPermission="1292" [acl]="1292">
+            <app-problem-feedback-mgmt-page
+                [typeList]="[5, 6, 7]"
+                [projectId]="projectId"></app-problem-feedback-mgmt-page>
+        </nz-tab>
+    </nz-tabset>
+</nz-card>

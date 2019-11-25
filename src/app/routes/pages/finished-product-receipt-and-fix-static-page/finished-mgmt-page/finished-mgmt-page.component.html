@@ -1,0 +1,123 @@
+<!-- <nz-card  *ngIf="scanType === '安装'">
+    <form nz-form [nzLayout]="'inline'" style="margin-top: 5px; margin-bottom: 5px">
+        <nz-form-item>
+            <nz-form-control>
+                <nz-month-picker
+                    #input
+                    style="width: 100%"
+                    [(ngModel)]="date"
+                    [nzFormat]="'YYYY/MM'"
+                    name="date"
+                    nzSize="default"
+                    nzPlaceHolder="请选择"></nz-month-picker>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+    <div class="vertical-tabs">
+            <div class="vertical-tabs__header">
+                <div class="vertical-tab" (click)="active = 1" [ngClass]="{'is-active': active === 1}">结构</div>
+                <div class="vertical-tab" (click)="active = 2" [ngClass]="{'is-active': active === 2}">围护</div>
+            </div>
+            <div class="vertical-tabs__content"  *ngIf="active === 1">
+                <nz-tabset>
+                    <nz-tab nzTitle="{{ area.areaName + '(' + area.coordinates + ')' }}"
+                        *ngFor="let area of currentMonomer.areas"
+                        (click)="currentArea = area">
+                        
+            
+                        <app-fix-static-page
+                            [productType]="1"
+                            [monomerId]="area.id" 
+                            [date]="date" 
+                            title="" 
+                            scanType="安装"
+                            [projectId]="projectId"></app-fix-static-page>
+                    </nz-tab>
+                </nz-tabset>
+            </div>
+            <div class="vertical-tabs__content"  *ngIf="active === 2">
+                <app-fix-static-page
+                    [productType]="2" 
+                    [monomerId]="currentMonomer.monomer.id" 
+                    [date]="date" 
+                    title="''" 
+                    scanType="安装"
+                    [projectId]="projectId"></app-fix-static-page>
+            </div>
+    </div>
+</nz-card> -->
+
+<nz-card  *ngIf="scanType === '安装'">
+    <form nz-form [nzLayout]="'inline'" style="margin-top: 5px; margin-bottom: 5px">
+        <nz-form-item>
+            <nz-form-control>
+                <nz-month-picker
+                    #input
+                    style="width: 100%"
+                    [(ngModel)]="date"
+                    [nzFormat]="'YYYY/MM'"
+                    name="date"
+                    nzSize="default"></nz-month-picker>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+    <div
+        nz-row style="margin-top: 20px;">
+        <div
+            style="margin: 0 4px;padding: 0 8px 4px;"
+            nz-col
+            [nzSpan]="3"
+            *ngFor="let dayOfWeek of weeks"
+            class="text-right">
+            {{ dayOfWeek }}
+        </div>
+    </div>
+    <app-fix-static-page
+        [productType]="2" 
+        [monomerId]="currentMonomer.monomer.id" 
+        [date]="date" 
+        title="" 
+        scanType="安装"
+        [projectId]="projectId"></app-fix-static-page>
+</nz-card>
+
+<nz-card *ngIf="scanType === '收货'">
+        <div class="operate-box">
+            <div>
+                <form nz-form [nzLayout]="'inline'">
+                    <nz-form-item>
+                        <nz-form-control>
+                            <nz-month-picker
+                                #input
+                                style="width: 100%"
+                                [(ngModel)]="date"
+                                [nzFormat]="'YYYY/MM'"
+                                name="date"
+                                nzSize="default"></nz-month-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </form>
+            </div>
+            <div>
+                <app-tag [options]="[{color: '#00CC83', label: '有收货记录'}]"></app-tag>
+            </div>
+        </div>
+
+    
+    <div
+        nz-row style="margin-top: 20px;">
+        <div
+            style="margin: 0 4px;padding: 0 8px 4px;"
+            nz-col
+            [nzSpan]="3"
+            *ngFor="let dayOfWeek of weeks"
+            class="text-right">
+            {{ dayOfWeek }}
+        </div>
+    </div>
+    <app-fix-static-page
+        [date]="date" 
+        scanType="收货"
+        title=""
+        [projectId]="projectId"></app-fix-static-page>
+</nz-card>

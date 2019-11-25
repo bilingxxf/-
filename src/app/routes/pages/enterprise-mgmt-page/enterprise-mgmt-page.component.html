@@ -1,0 +1,47 @@
+<div class="content__title">
+    <h1>企业管理</h1>
+</div>
+<nz-card class="company">
+    <form nz-form (keydown.enter)="$event.preventDefault()">
+        <nz-form-item nz-row [nzGutter]="16">
+            <div nz-col [nzSm]="5" [nzOffset]="16">
+                <button nz-button>清除</button>
+                <button [routerLink]="['/enterprise-c']" nzType="primary" nz-button>添加企业</button>
+            </div>
+        </nz-form-item>
+    </form>
+
+    <!-- <nz-table 
+        [reqHeaders]="userService.getReqHeaderToken()" 
+        [extraParams]="dto" 
+        [data]="url" 
+        [columns]="columns">
+    </nz-table> -->
+    <nz-table
+        #nzTable
+        [nzData]="companyList"
+        [nzShowPagination]="false"
+        nzShowTotal>
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>公司全称</th>
+                <th>公司简称</th>
+                <th>创建日期</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of companyList;let i = index;">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.name}}</td>
+                <td>{{ item.shortName }}</td>
+                <td>{{ item.createTime | date:'yyyy-MM-dd' }}</td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-card>
+<style scoped>
+.ant-table-pagination.ant-pagination {
+    display: none;
+}
+</style>

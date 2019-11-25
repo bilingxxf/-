@@ -1,0 +1,60 @@
+<div class="operate-box" style="margin-bottom: 10px">
+    <div class="operate-left-box">
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixButton">
+            <input type="text" [(ngModel)]="dto.name" nz-input placeholder="产品名称"
+                (keyup)="($event.which === 13)?search():0" />
+        </nz-input-group>
+        <ng-template #suffixButton>
+            <span style="cursor: pointer" (click)="search()">搜索</span>
+        </ng-template>
+    </div>
+    <div class="operate-right-box">
+    </div>
+</div>
+<nz-table [nzData]="data.data" [(nzPageIndex)]="dto.page" [(nzPageSize)]="dto.size" [nzTotal]="data.totalCount"
+    (nzPageIndexChange)="getData()" (nzPageSizeChange)="getData()" [nzFrontPagination]="false" [nzLoading]="isSpinning" nzShowTotal
+    nzShowQuickJumper nzShowSizeChanger>
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>产品名称</th>
+            <th>单位</th>
+            <th>规格</th>
+            <th>材质</th>
+            <th>数量</th>
+            <th>备注</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of data.data;let i = index">
+            <td>
+                {{ i + 1 }}
+            </td>
+            <td class="tip-parent">
+                <div *ngIf="item.stockType !== undefined" class="td-tip"
+                    [ngStyle]="{'background-color': item.stockType === '采' ? 'green':'orange'}">
+                    {{ item.stockType }}</div>
+                {{ item.name }}
+            </td>
+            <td>{{ item.unit }}</td>
+            <td>{{ item.specification }}</td>
+            <td>{{ item.material }}</td>
+            <td>
+                {{ item.quantity }}
+            </td>
+            <td>
+                {{ item.tip }}
+            </td>
+            <td>
+                <a (click)="preview(item)">查看标签</a>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>
+<style scoped>
+    .print-tip {
+        background: black;
+    }
+
+</style>

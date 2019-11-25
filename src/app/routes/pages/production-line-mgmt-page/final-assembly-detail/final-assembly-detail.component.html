@@ -1,0 +1,48 @@
+<div>
+    <ng-container *ngFor="let item of finalAssemblySetting">
+        <nz-card [nzTitle]="item.label">
+            <ng-container *ngIf="finalAssemBlyArr && finalAssemBlyArr[item.value]">
+                <nz-select *ngFor="let ii of arr(finalAssemBlyArr[item.value].length);let j = index"
+                    style="width: 120px;margin-right: 10px"
+                    nzShowSearch
+                    nzAllowClear
+                    nzPlaceHolder="指定人员"
+                    [(ngModel)]="finalAssemBlyArr[item.value][j].confirmUserId"
+                    (ngModelChange)="qrChange(finalAssemBlyArr[item.value], j, item.value)"
+                >
+                    <nz-option
+                        nzLabel="不指定"
+                        nzValue="-1"
+                        >
+                    </nz-option>
+                    <nz-option
+                        *ngFor="let option of userList"
+                        [nzLabel]="option.name"
+                        [nzValue]="option.id"
+                        > 
+                    </nz-option>
+                </nz-select>
+                <p class="info-tip">{{item.tip}}</p>
+            </ng-container>
+        </nz-card>
+    </ng-container>
+    
+    <nz-popconfirm [nzTitle]="'确定要删除这条记录吗？'" (nzOnConfirm)="confirmDelete()">
+        <button nz-button [nzType]="'danger'" nz-popconfirm>删除当前班组</button>
+    </nz-popconfirm> 
+    <!-- <nz-card nzTitle="总装质检">
+        <p>Card content</p>
+    </nz-card>
+    <nz-card nzTitle="涂装扫码">
+        <p>Card content</p>
+    </nz-card>
+    <nz-card nzTitle="涂装质检">
+        <p>Card content</p>
+    </nz-card> -->
+</div>
+<style scope>
+.info-tip {
+    margin: 10px 0 0 0!important;
+    color:red;
+}
+</style>

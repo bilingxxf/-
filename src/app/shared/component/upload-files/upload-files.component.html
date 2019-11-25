@@ -1,0 +1,14 @@
+<nz-upload
+    nzType="drag"
+    [nzFileList]="fileList"
+    [nzData]="{fileType: fileType}"
+    [nzMultiple]="true"
+    [nzLimit]="10"
+    nzAction="/api/attachments"
+    (nzChange)="handleChange($event)">
+    <p class="ant-upload-drag-icon">
+        <i class="anticon anticon-inbox"></i>
+    </p>
+    <p class="ant-upload-text">点击选择文件或者拖拽文件到框内</p>
+    <p class="ant-upload-hint">可一次性选择多个文件</p>
+</nz-upload>

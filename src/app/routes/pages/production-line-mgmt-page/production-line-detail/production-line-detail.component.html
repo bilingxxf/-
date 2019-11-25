@@ -1,0 +1,69 @@
+<button nz-button [nzType]="'primary'" style="margin-bottom: 15px" (click)="isVisible = true">
+    <span>新增班组</span>
+</button>
+
+<nz-tabset>
+    <nz-tab [nzTitle]="item.userName"
+        *ngFor="let item of finalAssemblyUser" (nzClick)="currentFinalAssemblyUser = item">
+    </nz-tab>
+</nz-tabset>
+
+<app-final-assembly-detail [finalAssemblyUser]='currentFinalAssemblyUser' [userList]="userList" (outer)="getDate()"></app-final-assembly-detail>
+
+<nz-modal [nzVisible]="isVisible" [nzTitle]="'新增'"  
+[nzContent]="modalContent" 
+[nzFooter]="true" 
+(nzOnCancel)="handleCancel()" 
+(nzOnOk)="handleOk()">
+    <ng-template #modalContent>
+        <form nz-form 
+        [formGroup]="validateForm">
+            <nz-form-item nz-row>
+                <nz-form-label for="userId" nzRequired nz-col [nzSm]="6" [nzXs]="24">
+                    用户
+                </nz-form-label>
+                <nz-form-control nz-col [nzSm]="14" [nzXs]="24">
+                    <nz-select style="width: 200px;" 
+                    [nzPlaceHolder]="'请选择用户'" 
+                    id="userId"
+                    formControlName="userId"
+                    [(ngModel)]="addMemberForm.userId"
+                    nzAllowClear>
+                        <nz-option
+                            *ngFor="let option of userList"
+                            [nzLabel]="option.name"
+                            [nzValue]="option.id"
+                            >
+                        </nz-option>
+                    </nz-select>
+                    <nz-form-explain *ngIf="validateForm.get('userId').dirty && validateForm.get('userId').errors">请选择用户</nz-form-explain>
+                </nz-form-control>
+            </nz-form-item>            
+           
+            <!-- <nz-form-item nz-row>
+                <nz-form-label nz-col for="styleId" [nzSm]="6" [nzXs]="24" nzRequired>类型</nz-form-label>
+                <nz-form-control nz-col [nzSm]="14" [nzXs]="24">
+                    <nz-select style="width: 200px;" 
+                    [nzPlaceHolder]="'请选择类型'"
+                    id="styleId"
+                    formControlName="styleId" 
+                    [(ngModel)]="addMemberForm.styleId"
+                    nzAllowClear>
+                        <nz-option
+                            *ngFor="let option of styleList"
+                            [nzLabel]="option.name"
+                            [nzValue]="option.id">
+                        </nz-option>
+                    </nz-select>
+                    <nz-form-explain *ngIf="validateForm.get('styleId').dirty && validateForm.get('styleId').errors">请选择类型</nz-form-explain>
+                </nz-form-control>
+            </nz-form-item> -->
+        </form>
+    </ng-template>
+</nz-modal>
+<style scoped>
+.fontStyle {
+    font-weight: 700;
+    margin: 50px 0 5px 0 !important;
+}
+</style>

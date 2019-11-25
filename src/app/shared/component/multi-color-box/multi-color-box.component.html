@@ -1,0 +1,27 @@
+<nz-tooltip [nzTitle]="tooltip">
+    <ul
+        class="box"
+        nz-tooltip
+        style="position: relative;"
+        [style.backgroundColor]="backgroundColor">
+        <label nz-checkbox *ngIf="multi" [(ngModel)]="box.isChecked"  style="position: absolute; right: 4px;" (click)="stop(event)">
+        </label>
+        <div
+            style="position: absolute;left: 0;right: 0;top: 10px;width: 100%;text-align: center;">
+            
+            <p *ngFor="let p of contents">
+                {{ p }}
+            </p>
+        </div>
+        <li
+            *ngFor="let area of areas;let i = index;"
+            style="height: 98px;display: inline-block;"
+            [style.borderTopLeftRadius.px]="i === 0 ? 5 : 0"
+            [style.borderBottomLeftRadius.px]="i === 0 ? 5 : 0"
+            [style.borderTopRightRadius.px]="i === areas.length - 1 ? 5 : 0"
+            [style.borderBottomRightRadius.px]="i === areas.length - 1 ? 5 : 0"
+            [style.width.px]="98 * area.percent"
+            [style.backgroundColor]="area.color">
+        </li>
+    </ul>
+</nz-tooltip>

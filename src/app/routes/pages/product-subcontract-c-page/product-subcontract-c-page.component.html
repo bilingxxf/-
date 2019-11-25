@@ -1,0 +1,126 @@
+<app-project-pro-header [projectId]="projectId">
+    <nz-tabset>
+        <nz-tab nzTitle="{{ pm.monomer.name }}"
+            *ngFor="let pm of pageMonomers"
+            (nzClick)="currentMonomers = pm">
+        </nz-tab>
+    </nz-tabset>
+</app-project-pro-header>
+
+<nz-card *ngIf="currentMonomers"  [acl]="1115">
+        <div class="vertical-tabs">
+            <div class="vertical-tabs__header">
+                <div class="vertical-tab" (click)="active = 1" [ngClass]="{'is-active': active === 1}">结构</div>
+                <!--<div class="vertical-tab" (click)="active = 2" [ngClass]="{'is-active': active === 2}">围护</div>-->
+                <!--<div class="vertical-tab" (click)="active = 3" [ngClass]="{'is-active': active === 3}">辅材</div>-->
+            </div>
+            <div class="vertical-tabs__content"  *ngIf="active === 1">
+                <nz-tabset>
+                    <nz-tab nzTitle="{{ area.area.areaName + '(' + area.area.coordinates + ')' }} "
+                        *ngFor="let area of currentMonomers.areas">
+                        <ul class="sub">
+                            <li *ngFor="let s of subcontractors">
+                                <div
+                                    [style.backgroundColor]="s.color"></div>
+                                    {{ s.name }}
+                            </li>
+                            <li>
+                                <button nz-button [nzType]="'primary'" (click)="batchSave(area)">剩余全部分包</button>
+                            </li>
+                        </ul>
+                        <app-multi-color-box-list [boxs]="area.boxs"></app-multi-color-box-list>
+                    </nz-tab>
+                </nz-tabset>
+            </div>
+            <!--<div class="vertical-tabs__content" *ngIf="active === 2">
+                <ul class="sub">
+                    <li *ngFor="let s of subcontractors">
+                        <div
+                            [style.backgroundColor]="s.color"></div>
+                            {{ s.name }}
+                    </li>
+                    <li>
+                        <button nz-button [nzType]="'primary'" (click)="enclosureBatchSave(currentMonomers)">剩余全部分包</button>
+                    </li>
+                </ul>
+                <app-multi-color-box-list [boxs]="currentMonomers.enclosureBoxs"></app-multi-color-box-list>
+            </div>-->
+            <!--<div class="vertical-tabs__content" *ngIf="active === 3">
+                <ul class="sub">
+                    <li *ngFor="let s of subcontractors">
+                        <div
+                            [style.backgroundColor]="s.color"></div>
+                            {{ s.name }}
+                    </li>
+                    <li>
+                        <button nz-button [nzType]="'primary'" (click)="supportMaterialBatchSave(currentMonomers)">剩余全部分包</button>
+                    </li>
+                </ul>
+                <app-multi-color-box-list [boxs]="currentMonomers.supportMaterialBoxs"></app-multi-color-box-list>
+            </div>-->
+        </div>
+</nz-card>
+
+<!-- <div
+    [acl]="1115"
+    *ngFor="let pm of pageMonomers"
+    [hidden]="pm !== currentMonomers">
+
+    <nz-card [nzTitle]="'结构'" class="panel">
+        <nz-tabset>
+            <nz-tab nzTitle="{{ area.area.areaName + '(' + area.area.coordinates + ')' }} "
+                *ngFor="let area of pm.areas">
+                <ul class="sub">
+                    <li *ngFor="let s of subcontractors">
+                        <div
+                            [style.backgroundColor]="s.color"></div>
+                            {{ s.name }}
+                    </li>
+                    <li>
+                        <button nz-button [nzType]="'primary'" (click)="batchSave(area)">剩余全部分包</button>
+                    </li>
+                </ul>
+                <app-multi-color-box-list [boxs]="area.boxs"></app-multi-color-box-list>
+            </nz-tab>
+        </nz-tabset>
+    </nz-card>
+
+    <nz-card
+        [nzTitle]="'围护'" class="panel">
+        <ul class="sub">
+            <li *ngFor="let s of subcontractors">
+                <div
+                    [style.backgroundColor]="s.color"></div>
+                    {{ s.name }}
+            </li>
+            <li>
+                <button nz-button [nzType]="'primary'" (click)="enclosureBatchSave(pm)">剩余全部分包</button>
+            </li>
+        </ul>
+        <app-multi-color-box-list [boxs]="pm.enclosureBoxs"></app-multi-color-box-list>
+    </nz-card>
+
+    <nz-card
+        [nzTitle]="'辅材'" class="panel">
+        <ul class="sub">
+            <li *ngFor="let s of subcontractors">
+                <div
+                    [style.backgroundColor]="s.color"></div>
+                    {{ s.name }}
+            </li>
+            <li>
+                <button nz-button [nzType]="'primary'" (click)="supportMaterialBatchSave(pm)">剩余全部分包</button>
+            </li>
+        </ul>
+        <app-multi-color-box-list [boxs]="pm.supportMaterialBoxs"></app-multi-color-box-list>
+    </nz-card>
+</div> -->
+
+<footer-toolbar>
+    <button
+        nz-button
+        type="submit"
+        [nzType]="'primary'"
+        [routerLink]="['/product-subcontract-summary', projectId]"
+        nzSize="default">生成分配汇总清单</button>
+</footer-toolbar>

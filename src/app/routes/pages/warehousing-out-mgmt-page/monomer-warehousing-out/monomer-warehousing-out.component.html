@@ -1,0 +1,41 @@
+<nz-tabset>
+    <nz-tab nzTitle="表格式">
+        <nz-table
+            [acl]="1119"
+            [nzData]="data.data"
+            [(nzPageIndex)]="dto.page"
+            [(nzPageSize)]="dto.size"
+            [nzTotal]="data.totalCount"
+            (nzPageIndexChange)="getData()"
+            (nzPageSizeChange)="getData()"
+            [nzFrontPagination]="false"
+            nzShowTotal
+            nzShowQuickJumper
+            nzShowSizeChanger>
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>区域</th>
+                    <th>构件名称</th>
+                    <th>构件编号</th>
+                    <th>出库数量</th>
+                    <th>工地实收</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of data.data;let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ item.areaDivisionName }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.serialNo }}</td>
+                    <td>{{ item.recordQuantity }}</td>
+                    <td>{{ item.receiptQuantity }}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </nz-tab>
+    <nz-tab nzTitle="平铺式">
+        <app-multi-color-box-list
+            [boxs]="boxs"></app-multi-color-box-list>
+    </nz-tab>
+</nz-tabset>

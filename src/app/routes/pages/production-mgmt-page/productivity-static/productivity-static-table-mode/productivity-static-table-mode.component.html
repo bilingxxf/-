@@ -1,0 +1,17 @@
+<nz-tabset style="min-height: 600px;margin-right:20px" [nzShowPagination]="false" [nzTabPosition]="'left'"
+    [(nzSelectedIndex)]="leftSelectedIndex">
+    <nz-tab *ngFor="let tab of leftTabs" [nzTitle]="tab.name">
+        <ng-container *ngIf="tab.value === 'structure' && tab.index == leftSelectedIndex">
+            <nz-tabset>
+                <nz-tab nzTitle="{{ area.areaName + '(' + area.coordinates + ')' }}" *ngFor="let area of areas"
+                    (nzClick)="currentArea = area">
+                </nz-tab>
+            </nz-tabset>
+            <!-- <app-productivity-static-structure-table *ngIf="currentArea" [monomerId]="currentArea.id">
+            </app-productivity-static-structure-table> -->
+        </ng-container>
+        <ng-container *ngIf="tab.value === 'enclosure' && tab.index == leftSelectedIndex">
+            <!-- <app-productivity-static-enclosure-table [monomerId]="monomerId"></app-productivity-static-enclosure-table> -->
+        </ng-container>
+    </nz-tab>
+</nz-tabset>

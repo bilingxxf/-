@@ -1,0 +1,323 @@
+<form
+    nz-form
+    #form="ngForm"
+    (ngSubmit)="ok()"
+    [nzLayout]="'vertical'">
+    <div
+        nz-row
+        [nzGutter]="96">
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>建设单位</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <input nz-input
+                        name="buildCompany"
+                        [(ngModel)]="dto.buildCompany"
+                        nzSize="default">
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>负责人</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <input nz-input
+                        name="buildCompanyManager"
+                        [(ngModel)]="dto.buildCompanyManager"
+                        nzSize="default"
+                        >
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>邮箱</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <input nz-input
+                        name="buildCompanyEmail"
+                        [(ngModel)]="dto.buildCompanyEmail"
+                        nzSize="default">
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+    <div
+        nz-row
+        [nzGutter]="96">
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label >实际发包人</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <input nz-input
+                        name="actualSender"
+                        [(ngModel)]="dto.actualSender"
+                        nzSize="default"
+                        >
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>负责人</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <input nz-input
+                        name="senderManager"
+                        [(ngModel)]="dto.senderManager"
+                        nzSize="default"
+                        >
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>邮箱</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <input nz-input
+                        name="senderEmail"
+                        [(ngModel)]="dto.senderEmail"
+                        nzSize="default">
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+    <div
+        nz-row
+        [nzGutter]="96">
+        <div
+            nz-col
+            [nzMd]="24"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>项目主要负责人</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col>
+                    <nz-table
+                        [nzShowPagination]="false"
+                        [nzData]="dto.managers">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>姓名</th>
+                                <th>电话</th>
+                                <th>邮箱</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of dto.managers;let i = index">
+                                <td>
+                                    {{ i + 1 }}
+                                </td>
+                                <td>
+                                    <input nz-input
+                                        style="width: 100%"
+                                        [(ngModel)]="item.name"
+                                        [ngModelOptions]="{standalone: true}"
+                                        nzSize="default">
+                                </td>
+                                <td>
+                                    <input nz-input
+                                        style="width: 100%"
+                                        [(ngModel)]="item.phone"
+                                        [ngModelOptions]="{standalone: true}"
+                                        nzSize="default">
+                                </td>
+                                <td>
+                                    <input nz-input
+                                        style="width: 100%"
+                                        [(ngModel)]="item.email"
+                                        [ngModelOptions]="{standalone: true}"
+                                        nzSize="default">
+                                </td>
+                                <td>
+                                    <span *ngIf="dto.managers.length > 1">
+                                        <a (click)="dto.managers.splice(i, 1)">删除</a>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                    <button
+                        type="button"
+                        nz-button
+                        [nzType]="'dashed'"
+                        [nzSize]="'default'"
+                        (click)="addProjectManager()"
+                        class="ant-btn__block mt-md">
+                        <i class="anticon anticon-plus"></i>
+                        <span>新增负责人</span>
+                    </button>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+    <div
+        nz-row
+        [nzGutter]="96">
+        <div
+            nz-col
+            [nzMd]="24"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-control nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>实际发包人办公地址</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <input nz-input
+                        name="senderOfficeAddress"
+                        [(ngModel)]="dto.senderOfficeAddress"
+                        nzSize="default">
+                </nz-form-control>
+            </nz-form-control>
+        </div>
+    </div>
+    <div
+        nz-row
+        [nzGutter]="96">
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>开户行</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <input nz-input
+                        name="bankName"
+                        [(ngModel)]="dto.bankName"
+                        nzSize="default">
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>账户</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <input nz-input
+                        name="bankAccount"
+                        [(ngModel)]="dto.bankAccount"
+                        nzSize="default">
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>社会统一代码</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <input nz-input
+                        name="socialCode"
+                        [(ngModel)]="dto.socialCode"
+                        nzSize="default">
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+    <div
+        nz-row
+        [nzGutter]="96">
+        <div
+            nz-col
+            [nzMd]="24"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>其他补充</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <textarea nz-input
+                        row="3"
+                        name="tips"
+                        [(ngModel)]="dto.tips"
+                        nzSize="default"></textarea>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+
+    <footer-toolbar errorCollect>
+        <ng-content></ng-content>
+        <button
+            nz-button
+            type="submit"
+            [nzType]="'primary'"
+            nzSize="default"
+            [disabled]="form.form.invalid"
+            [nzLoading]="submitting">{{ btnText }}</button>
+    </footer-toolbar>
+</form>

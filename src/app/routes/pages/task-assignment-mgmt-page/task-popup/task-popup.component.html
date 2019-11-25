@@ -1,0 +1,51 @@
+<form #form="ngForm" nz-form>
+    <nz-timeline>
+        <nz-timeline-item *ngFor="let item of history">{{item.date + '安装数量' + item.needQuantity}}</nz-timeline-item>
+    </nz-timeline>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="quantity" nzRequired>需求数量</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <nz-input-number style="width: 100%" [(ngModel)]="dto.needQuantity" nzPlaceHolder="'您最多可以输入' + max"
+                [nzDisabled]="max === 0" name="needQuantity" nzSize="default" [nzStep]="1" [nzMin]="1" [nzMax]="max" required>
+            </nz-input-number>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <!-- <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="productionLine" nzRequired>生产线</nz-form-label>
+        </nz-form-label>
+        <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input style="width: 100%" [(ngModel)]="dto.productionLine" name="productionLine"
+                placeholder="请输入生产线" nzSize="default">
+        </div> -->
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24"><nz-form-label for="productionLine" nzRequired>生产线</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <nz-select style="width: 100%;" [nzSize]="size" placeholder="请输入生产线"
+                [(ngModel)]="listOfSelectedValue" name="createProductionLine">
+                <ng-container *ngFor="let option of data.data">
+                    <nz-option [nzLabel]="option.name" [nzValue]="option" ></nz-option>
+                </ng-container>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="demandDate" nzRequired>需求时间</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <nz-date-picker style="width: 100%" [(ngModel)]="productDemandService.date" name="demandDate" nzSize="default"
+                nzPlaceHolder="请选择"></nz-date-picker>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="customize-footer">
+        <button [disabled]="form.form.invalid" (click)="ok()" nz-button [nzType]="'primary'" [nzLoading]="submitting">
+            确定
+        </button>
+        <button nz-button [nzType]="'default'" (click)="cancel()">
+            取消
+        </button>
+    </div>
+</form>

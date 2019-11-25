@@ -1,0 +1,16 @@
+<nz-card style="margin-top: 10px">
+    <nz-tabset [nzShowPagination]="false" [nzTabPosition]="'left'">
+        <nz-tab nzTitle="结构">
+            <nz-tabset>
+                <nz-tab nzTitle="{{ area.areaName + '(' + area.coordinates + ')' }}"
+                    *ngFor="let area of areas" (nzClick)="currentArea = area">
+                </nz-tab>
+                <nz-tab *ngIf="allotRecord" nzTitle="{{ allotRecord.areaName }}"
+                        (nzClick)="currentArea = allotRecord">
+                </nz-tab>
+            </nz-tabset>
+            <app-task-list *ngIf="currentArea && currentArea.id && !currentArea.isDetail" [monomerId]="currentArea.id"></app-task-list>
+            <app-allot-detail-calendar *ngIf="currentArea && currentArea.isDetail" [monomerId]="monomer.id"></app-allot-detail-calendar>
+        </nz-tab>
+    </nz-tabset>
+</nz-card>

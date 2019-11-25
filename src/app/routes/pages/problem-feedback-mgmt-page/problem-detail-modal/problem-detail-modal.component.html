@@ -1,0 +1,43 @@
+<desc-list>
+    <desc-list-item term="上报日期">{{ problemDetail.createTime | date: 'yyyy-MM-dd' }}</desc-list-item>
+    <desc-list-item term="检查人">{{ problemDetail.userName }}</desc-list-item>
+    <desc-list-item term="整改单位">{{ problemDetail.departments.join() }}</desc-list-item>
+    <desc-list-item term="状态">{{ problemDetail.getStatusLabel() }}</desc-list-item>
+    <desc-list-item term="问题描述">{{ problemDetail.description }}</desc-list-item>
+</desc-list>
+<div class="text-lg my-md">图片</div>
+<div
+    class="image-wrapper"
+    *ngFor="let item of problemDetail.attachments">
+    <img
+        [src]="item.getPath()">
+</div>
+<div class="text-lg my-md">检查项</div>
+<nz-table
+    #nzTable
+    [nzData]="problemDetail.inspectionItems"
+    [nzShowPagination]="false"
+    [nzTotal]="problemDetail.inspectionItems.length"
+    nzShowTotal
+    nzBordered>
+    <thead>
+        <tr>
+            <th>
+                <span>序号</span>
+            </th>
+            <th>
+                <span>检查项</span>
+            </th>
+            <th>
+                <span>是否通过</span>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of problemDetail.inspectionItems;let i = index;">
+            <td>{{ i + 1 }}</td>
+            <td>{{ data.item }}</td>
+            <td>{{ data.isPassed ? '通过' : '不通过' }}</td>
+        </tr>
+    </tbody>
+</nz-table>

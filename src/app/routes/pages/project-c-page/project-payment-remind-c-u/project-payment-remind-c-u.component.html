@@ -1,0 +1,215 @@
+<desc-list>
+    <desc-list-item term="合同金额">{{ projectInfo.amount }}万元</desc-list-item>
+    <desc-list-item term="完工日期">{{ projectInfo.endDate | date: 'yyyy-MM-dd' }}</desc-list-item>
+</desc-list>
+<div style="height: 10px;"></div>
+<form
+    nz-form
+    #form="ngForm"
+    (ngSubmit)="ok()"
+    [nzLayout]="'vertical'">
+    <div
+        nz-row
+        [nzGutter]="96">
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label nzRequired>付款方式</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <nz-select
+                        style="width: 100%;"
+                        name="payWay"
+                        [(ngModel)]="type"
+                        nzPlaceHolder="请选择"
+                        nzAllowClear
+                        required>
+                        <nz-option
+                            *ngFor="let item of types | enumToArray"
+                            [nzLabel]="item.label"
+                            [nzValue]="item.value">
+                        </nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+    <div
+        nz-row
+        [nzGutter]="96"
+        *ngIf="type === types['节点付款']">
+        <div
+            nz-col
+            [nzMd]="24"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label></nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col>
+                    <nz-table
+                        [nzShowPagination]="false"
+                        [nzData]="nodeList">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>付款约定</th>
+                                <th>付款比例(%)</th>
+                                <th>金额(万元)</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of nodeList.data;let i = index">
+                                <td>
+                                    {{ i + 1 }}
+                                </td>
+                                <td>
+                                    <input nz-input
+                                        style="width: 100%"
+                                        [(ngModel)]="item.name"
+                                        [ngModelOptions]="{standalone: true}"
+                                        name="name"
+                                        nzSize="default">
+                                </td>
+                                <td>
+                                    <nz-input-number
+                                        style="width: 100%"
+                                        [(ngModel)]="item.percent"
+                                        [ngModelOptions]="{standalone: true}"
+                                        nzSize="default"
+                                        [nzMax]="100"
+                                        [nzStep]="1"></nz-input-number>
+                                </td>
+                                <td>
+                                    {{ (projectInfo.amount * item.percent / 100).toFixed(2) || 0 }}
+                                </td>
+                                <td>
+                                    <span>
+                                        <a (click)="nodeList.data.splice(i, 1)">删除</a>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    合计
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    {{ nodeList.getTotalPercent() * 100 }}%
+                                </td>
+                                <td>
+                                    {{ projectInfo.amount * nodeList.getTotalPercent() }}
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                    <button
+                        type="button"
+                        nz-button
+                        [nzType]="'dashed'"
+                        [nzSize]="'default'"
+                        (click)="nodeList.data.push({})"
+                        class="ant-btn__block mt-md">
+                        <i class="anticon anticon-plus"></i>
+                        <span>新增节点</span>
+                    </button>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+
+    <div
+        nz-row
+        [nzGutter]="96"
+        *ngIf="type === types['进度付款']">
+        <div
+            nz-col
+            [nzMd]="24"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label></nz-form-label>
+                </nz-form-label>
+                <div
+                    nz-form-control
+                    nz-col>
+                    <nz-table
+                        [nzShowPagination]="false"
+                        [nzData]="progressList">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>付款约定</th>
+                                <th>时间设定</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of progressList;let i = index">
+                                <td>
+                                    {{ i + 1 }}
+                                </td>
+                                <td>
+                                    <input nz-input
+                                        style="width: 100%"
+                                        [(ngModel)]="item.name"
+                                        [ngModelOptions]="{standalone: true}"
+                                        name="name"
+                                        nzSize="default">
+                                </td>
+                                <td>
+                                    <nz-date-picker
+                                        style="width: 100%"
+                                        [(ngModel)]="item.date"
+                                        [ngModelOptions]="{standalone: true}"
+                                        nzSize="default"
+                                        nzPlaceHolder="请选择"></nz-date-picker>
+                                </td>
+                                <td>
+                                    <span *ngIf="progressList.length > 1">
+                                        <a (click)="progressList.splice(i, 1)">删除</a>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                    <button
+                        type="button"
+                        nz-button
+                        [nzType]="'dashed'"
+                        [nzSize]="'default'"
+                        (click)="progressList.push({date: ''})"
+                        class="ant-btn__block mt-md">
+                        <i class="anticon anticon-plus"></i>
+                        <span>新增时间点</span>
+                    </button>
+                </div>
+            </nz-form-item>
+        </div>
+    </div>
+
+    <footer-toolbar errorCollect>
+        <ng-content></ng-content>
+        <button
+            nz-button
+            type="submit"
+            [nzType]="'primary'"
+            [disabled]="form.form.invalid || !canSubmit()"
+            nzSize="default"
+            [nzLoading]="submitting">{{ btnText }}</button>
+    </footer-toolbar>
+</form>

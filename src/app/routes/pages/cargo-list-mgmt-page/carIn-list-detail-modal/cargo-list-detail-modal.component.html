@@ -1,0 +1,31 @@
+<nz-table
+#nzTable
+[nzData]="cargoListDetail.data"
+[nzShowPagination]="false"
+[nzScroll]="{ y: '600px' }"
+[nzLoading]="isSpinning"
+nzShowTotal>
+<thead>
+    <tr>
+        <th nzWidth="150px">序号</th>
+        <th nzWidth="150px">区域</th>
+        <th nzWidth="150px">构件编号</th>
+        <th nzWidth="150px">总数量</th>
+        <th nzWidth="150px">单重(kg)</th>
+        <th nzWidth="150px">入库数量</th>
+        <th nzWidth="150px">入库重量(kg)</th>
+    </tr>
+</thead>
+<tbody>
+    <tr *ngFor="let data of cargoListDetail.data;let i = index;">
+        <td>{{ i + 1 }}</td>
+        <td>{{ data.productInfo.areaDivisionName }}</td>
+        <td>{{ data.productInfo.serialNo }}</td>
+        <td>{{ data.productInfo.totalQuantity }}</td>
+        <td>{{ data.productInfo.pieceWeight }}</td>
+        <td>{{ data.stockQuantity }}</td>
+        <td>{{ (data.stockQuantity * data.productInfo.pieceWeight).toFixed(2)}}</td>
+        <!-- <td>{{ data.receiptQuantity }}</td> -->
+    </tr>
+</tbody>
+</nz-table>

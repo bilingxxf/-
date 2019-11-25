@@ -1,0 +1,12 @@
+<desc-list>
+  <desc-list-item
+    term="记录日期">{{ securityLogDetail && securityLogDetail.recordDate }}</desc-list-item>
+  <desc-list-item
+    term="填写时间">{{ securityLogDetail && securityLogDetail.createTime | date: 'yyyy-MM-dd HH:mm' }}</desc-list-item>
+  <desc-list-item
+    term="填写人">{{  securityLogDetail && securityLogDetail.userName }}</desc-list-item>
+  <desc-list-item
+    term="安全情况">{{  securityLogDetail && securityLogSituations[securityLogDetail.situation] }}</desc-list-item>
+  <desc-list-item
+    term="填写内容">{{ securityLogDetail && securityLogDetail.content }}</desc-list-item>
+</desc-list>

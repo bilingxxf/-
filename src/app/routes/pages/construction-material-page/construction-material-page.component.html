@@ -1,0 +1,24 @@
+<app-project-pro-header [projectId]="projectId"></app-project-pro-header>
+<nz-card>
+    <nz-tabset>
+        <nz-tab nzTitle="施工日志">
+            <app-construction-log-mgmt-page [projectId]="projectId"></app-construction-log-mgmt-page>
+        </nz-tab>
+        <nz-tab nzTitle="安全日志">
+            <app-security-log-page [projectId]="projectId"></app-security-log-page>
+        </nz-tab>
+        <nz-tab nzTitle="形象进度">
+            <app-image-progress-page [projectId]="projectId"></app-image-progress-page>
+        </nz-tab>
+        <nz-tab nzTitle="风控管理">
+            <app-risk-control [projectId]="projectId"></app-risk-control>
+        </nz-tab>
+        <nz-tab nzTitle="质安管理">
+            <app-problem-feedback-mgmt-page
+                [typeList]="[5,6,7]"
+                [projectId]="projectId"></app-problem-feedback-mgmt-page>
+            <!-- <app-quality-and-security-mgmt
+                [projectId]="projectId"></app-quality-and-security-mgmt> -->
+        </nz-tab>
+    </nz-tabset>
+</nz-card>

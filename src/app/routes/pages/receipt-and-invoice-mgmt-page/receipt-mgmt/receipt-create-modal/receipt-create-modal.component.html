@@ -1,0 +1,46 @@
+<form #form="ngForm" nz-form>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="amount" nzRequired>收款金额(万元)</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <nz-input-number
+                style="width: 100%"
+                [(ngModel)]="amount"
+                name="amount"
+                nzSize="default"
+                [nzStep]="1"
+                required></nz-input-number>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="date" nzRequired>收款日期</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <nz-date-picker
+                style="width: 100%"
+                [(ngModel)]="date"
+                name="date"
+                nzSize="default"
+                [nzDisabledDate]="disabledDate"
+                nzPlaceHolder="请选择"></nz-date-picker>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+            <nz-form-label for="tip">备注</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+            <input nz-input name="tip" [(ngModel)]="dto.tip" [nzSize]="'default'">
+        </nz-form-control>
+    </nz-form-item>
+    <div class="customize-footer">
+        <button [disabled]="form.form.invalid" (click)="ok()" nz-button [nzType]="'primary'" [nzLoading]="submitting">
+            确定
+        </button>
+        <button nz-button [nzType]="'default'" (click)="cancel()">
+            取消
+        </button>
+    </div>
+</form>

@@ -1,0 +1,43 @@
+<nz-card>
+    <nz-tabset style="min-height: 600px;margin-right:20px" [nzShowPagination]="false" [nzTabPosition]="'left'"
+        [(nzSelectedIndex)]="leftSelectedIndex">
+        <nz-tab *ngFor="let tab of leftTabs" [nzTitle]="tab.name">
+            <ng-container *ngIf="tab.value === 'structure'">
+                <nz-tabset [nzSelectedIndex]="selectedIndex">
+                    <nz-tab nzTitle="{{ area.areaName }}{{area.id? '('+ area.coordinates +')' : ''}}"
+                        *ngFor="let area of areas" (nzClick)="currentArea = area">
+                    </nz-tab>
+                    <nz-tab nzTitle="{{ updatedRecord.areaName }}" *ngIf="updatedRecord && updatedRecord.areaName"
+                        (nzClick)="currentArea = updatedRecord">
+                    </nz-tab>
+                    <nz-tab nzTitle="{{ deleteRecord.areaName }}" *ngIf="deleteRecord && deleteRecord.areaName"
+                        (nzClick)="currentArea = deleteRecord">
+                    </nz-tab>
+                </nz-tabset>
+                <ng-container *ngIf="currentArea && currentArea.id">
+                    <nz-tabset>
+                        <nz-tab nzTitle="{{ productionLine.userLineName }}"
+                            *ngFor="let productionLine of productionLines" (nzClick)="currentLine = productionLine">
+                        </nz-tab>
+                    </nz-tabset>
+                </ng-container>
+                <app-component-print-label-table *ngIf="currentArea && currentArea.id" [projectId]="projectId"
+                    [areaId]="currentArea.id" [areaName]="currentArea.areaName" [productionLine]="currentLine"
+                    (priceChange)="getProjectTotalPrice()" [monomerName]="monomer.name">
+                </app-component-print-label-table>
+                <app-component-table *ngIf="currentArea && !currentArea.id" [area]="currentArea"
+                    [monomerId]="monomer.id" #componentList>
+                </app-component-table>
+            </ng-container>
+            <ng-container *ngIf="tab.value === 'enclosure'">
+                <app-enclosure-print-label-table [projectId]="projectId" [monomerName]="monomer.name"
+                    [monomerId]="monomer.id"></app-enclosure-print-label-table>
+            </ng-container>
+            <ng-container *ngIf="tab.value === 'material'">
+                <app-suppoprt-material-print-lable-table [projectId]="projectId" [monomerName]="monomer.name"
+                    [monomerId]="monomer.id"></app-suppoprt-material-print-lable-table>
+            </ng-container>
+
+        </nz-tab>
+    </nz-tabset>
+</nz-card>

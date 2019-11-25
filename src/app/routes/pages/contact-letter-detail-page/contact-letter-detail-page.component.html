@@ -1,0 +1,46 @@
+<div class="content__title">
+    <h1>联系函详情</h1>
+</div>
+
+<nz-card [acl]="1137">
+    <desc-list>
+        <desc-list-item term="项目名称">{{ contactLetterDetail.projectName }}</desc-list-item>
+        <desc-list-item term="合同编号">{{ contactLetterDetail.contractNo }}</desc-list-item>
+        <desc-list-item term="函件提交用户">{{ contactLetterDetail.userName }}</desc-list-item>
+        <desc-list-item term="承包单位">{{ contactLetterDetail.subcontractor }}</desc-list-item>
+        <desc-list-item term="主送单位">{{ contactLetterDetail.mainSender }}</desc-list-item>
+        <desc-list-item term="抄送单位">{{ contactLetterDetail.subSender }}</desc-list-item>
+        <desc-list-item term="函件主题">{{ contactLetterDetail.theme }}</desc-list-item>
+        <desc-list-item term="函件内容">{{ contactLetterDetail.content }}</desc-list-item>
+        <desc-list-item term="提交时间">{{ contactLetterDetail.createTime | date: 'yyyy-MM-dd' }}</desc-list-item>
+    </desc-list>
+
+    <div class="text-lg my-md">附件</div>
+    <nz-table
+        #nzTable
+        [nzData]="contactLetterDetail.attachments"
+        [nzShowPagination]="false">
+        <thead>
+            <tr>
+                <th><span>序号</span></th>
+                <th><span>文件</span></th>
+                <th><span>操作</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of contactLetterDetail.attachments;let i = index;">
+                <td>
+                    {{ i + 1 }}
+                </td>
+                <td>
+                    {{ item.fileName }}
+                </td>
+                <td>
+                    <a [attahcmentDownload]="item.id">下载</a>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-card>
+
+<app-footer-approval></app-footer-approval>

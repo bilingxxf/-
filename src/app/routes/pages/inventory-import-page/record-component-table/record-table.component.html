@@ -1,0 +1,170 @@
+<nz-table
+    [acl]="1076"
+    [nzData]="data.data"
+    [(nzPageIndex)]="dto.page"
+    [(nzPageSize)]="dto.size"
+    [nzTotal]="data.totalCount"
+    (nzPageIndexChange)="getData()"
+    (nzPageSizeChange)="getData()"
+    [nzFrontPagination]="false"
+    nzShowTotal
+    nzShowQuickJumper
+    nzShowSizeChanger>
+    <thead>
+        <tr>
+            <th>日期</th>
+            <th>区域</th>
+            <th>构件名称</th>
+            <th>构件编号</th>
+            <th>规格</th>
+            <th>长度(mm)</th>
+            <th>材质</th>
+            <th>数量</th>
+            <th>单重(kg)</th>
+            <th>总重(kg)</th>
+            <th>原因描述</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of data.data;let i = index">
+            <td>{{ item.createTime | date: 'yyyy-MM-dd'}}</td>
+            <td>{{ item.areaDivisionName }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.serialNo }}</td>
+            <td>{{ item.specification }}</td>
+            <td>{{ item.length }}</td>
+            <td>{{ item.material }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.pieceWeight }}</td>
+            <td>{{ item.totalWeight }}</td>
+            <td>{{ item.causeDescription }}</td>
+        </tr>
+    </tbody>
+</nz-table>
+<a *ngIf="data.data.length>0" (click)="recordDownExcel()" class="export-style">下载</a>
+
+
+<nz-modal [(nzVisible)]="isClearVisible" nzTitle="编辑" [nzContent]="clearContent" (nzOnCancel)="onCancel()" (nzOnOk)="onClear()">
+    <ng-template #clearContent>
+        <form nz-form [formGroup]="productForm" >
+            <nz-form-item nz-row>
+              <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <nz-form-label for="name" >执行原因描述</nz-form-label>
+              </nz-form-label>
+              <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+                <input nz-input [nzSize]="'default'" formControlName="name" [id]="'areaName'">
+              </nz-form-control>
+            </nz-form-item>
+        </form>
+    </ng-template>
+</nz-modal>
+ 
+<nz-modal [(nzVisible)]="isVisible" nzTitle="编辑" [nzContent]="modalContent" (nzOnCancel)="cancel()" (nzOnOk)="submit()">
+  <ng-template #modalContent>
+    <form nz-form [formGroup]="productForm" >
+      <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+          <nz-form-label for="name" >构件名称</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+          <input nz-input [nzSize]="'default'" formControlName="name" [id]="'areaName'">
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+          <nz-form-label for="figureNo">图号</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+          <input nz-input [nzSize]="'default'" formControlName="figureNo" [id]="'figureNo'">
+        </nz-form-control>
+      </nz-form-item>
+
+      <!-- <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+          <nz-form-label for="serialNo">构件编号</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+          <input nz-input [nzSize]="'default'" formControlName="serialNo" [id]="'serialNo'">
+        </nz-form-control>
+      </nz-form-item> -->
+
+      <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+          <nz-form-label for="specification">规格</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+          <input nz-input [nzSize]="'default'" formControlName="specification" [id]="'specification'">
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+          <nz-form-label for="length">长度</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+          <input nz-input [nzSize]="'default'" formControlName="length" [id]="'length'">
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+          <nz-form-label for="material">材质</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+          <input nz-input [nzSize]="'default'" formControlName="material" [id]="'material'">
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+          <nz-form-label for="quantity">数量</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+          <input nz-input [nzSize]="'default'" formControlName="quantity" [id]="'quantity'">
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+          <nz-form-label for="pieceWeight">构件单重</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+          <input nz-input [nzSize]="'default'" formControlName="pieceWeight" [id]="'pieceWeight'">
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+          <nz-form-label for="totalWeight">总重</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+          <input nz-input [nzSize]="'default'" formControlName="totalWeight" [id]="'totalWeight'">
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+          <nz-form-label for="surfaceArea">表面积</nz-form-label>
+        </nz-form-label>
+        <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+          <input nz-input [nzSize]="'default'" formControlName="surfaceArea" [id]="'surfaceArea'">
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-template>
+</nz-modal>
+<style scoped>
+.span-style {
+  width: 70px;
+  display: inline-block;
+  text-align: center;
+  padding: 2px 10px;
+  background: #fff;
+  margin-left: 10px;
+}
+ .ant-table-tbody > tr > td {
+  padding: 8px;
+  font-weight: 600;
+}
+</style>

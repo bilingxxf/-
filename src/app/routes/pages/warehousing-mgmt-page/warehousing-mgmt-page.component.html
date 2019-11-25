@@ -1,0 +1,24 @@
+
+<nz-card >
+    <form nz-form [nzLayout]="'inline'">
+        <nz-form-item>
+        </nz-form-item>
+    </form>
+    <div style="margin-top: 20px"></div>
+    <!-- <app-tag  *ngIf="warehouseType === 0"></app-tag> -->
+    <!-- <app-tag *ngIf="warehouseType === 1"></app-tag> -->
+
+    <!-- <app-history-outbound-list>
+                
+    </app-history-outbound-list> -->
+
+    <app-monomer-warehousing
+        *ngIf="currentMonomer"
+        [monomerId]="currentMonomer.id" 
+        [date]="date"  
+        [projectId]="projectId" 
+        [warehouseType]="warehouseType"></app-monomer-warehousing>
+
+        
+
+    </nz-card>

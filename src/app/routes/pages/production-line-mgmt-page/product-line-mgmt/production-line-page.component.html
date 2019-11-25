@@ -1,0 +1,80 @@
+<nz-card class="panel">
+    <form (keydown.enter)="$event.preventDefault()">
+        <nz-form-item nz-row [nzGutter]="16">
+            <div nz-col [nzSm]="24">
+                <button (click)="c()" [acl]="1097" nzType="primary" nz-button>添加结构生产线</button>
+            </div>
+        </nz-form-item>
+    </form>
+    <nz-table #nzTable [nzData]="data.data" [(nzPageIndex)]="dto.page" [(nzPageSize)]="dto.size"
+        [nzTotal]="data.totalCount" (nzPageIndexChange)="getData()" (nzPageSizeChange)="getData()"
+        [nzFrontPagination]="false" nzShowTotal nzBordered nzShowQuickJumper nzShowSizeChanger>
+        <thead>
+            <tr>
+                <th>
+                    <span>序号</span>
+                </th>
+                <th>
+                    <span>结构生产线</span>
+                </th>
+                <th>
+                    <span>创建时间</span>
+                </th>
+                <th>
+                    <span>操作</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data.data;let i = index;">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.createTime | date: 'yyyy-MM-dd HH:mm' }}</td>
+                <td>
+                    <button nz-button nzType="default" style="margin-left: 5px" (click)="edit(item)">编辑</button>
+                    <nz-popconfirm [nzTitle]="'确定要删除这个角色么'" (nzOnConfirm)="remove(item)">
+                        <button nz-popconfirm nz-button nzType="danger" style="margin-left: 5px">删除</button>
+                    </nz-popconfirm>
+                    <button nz-button nzType="primary" style="margin-left: 5px"
+                        (click)="navigateTo(item.id)">新增用户</button>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-card>
+<nz-modal [nzVisible]="isVisible" [nzTitle]="'新增用户'" [nzFooter]="true" (nzOnCancel)="handleCancel()"
+    (nzOnOk)="handleOk()">
+    <ng-template #modalContent>
+        <form nz-form #InboundForm="ngForm" [formGroup]="validateForm" (ngSubmit)="handleOk()">
+            <nz-form-item nz-row>
+                <nz-form-label nzRequired for="userId" nz-col [nzSm]="6" [nzXs]="24">
+                    用户
+                </nz-form-label>
+                <nz-form-control nz-col [nzSm]="14" [nzXs]="24" [nzSpan]="12">
+                    <nz-select style="width: 200px;" id="userId" formControlName="userId" [nzPlaceHolder]="'请选择用户'"
+                        [(ngModel)]="addMemberForm.userId" nzShowSearch nzAllowClear>
+                        <nz-option *ngFor="let option of userList" [nzLabel]="option.name" [nzValue]="option.id">
+                        </nz-option>
+                    </nz-select>
+                    <nz-form-explain
+                        *ngIf="getFormControl('userId').dirty&&getFormControl('userId').hasError('required')">请选择用户
+                    </nz-form-explain>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item nz-row>
+                <nz-form-label nzRequired nz-col [nzSm]="6" [nzXs]="24">
+                    <label for="type">类型</label>
+                </nz-form-label>
+                <nz-form-control nz-col [nzSm]="14" [nzXs]="24">
+                    <nz-select style="width: 200px;" [nzPlaceHolder]="'请选择类型'" [(ngModel)]="addMemberForm.type"
+                        formControlName="type" nzAllowClear>
+                        <nz-option *ngFor="let option of styleList" [nzLabel]="option.name" [nzValue]="option.id">
+                        </nz-option>
+                    </nz-select>
+                    <nz-form-explain *ngIf="getFormControl('type').dirty&&getFormControl('type').hasError('required')">
+                        请选择类型</nz-form-explain>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+    </ng-template>
+</nz-modal>

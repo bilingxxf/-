@@ -1,0 +1,36 @@
+<nz-table #detailTable [nzData]="data.data" [(nzPageIndex)]="listQuery.page" [(nzPageSize)]="listQuery.size"
+    [nzTotal]="data.totalCount" (nzPageIndexChange)="getDetail()" (nzPageSizeChange)="getDetail()"
+    [nzFrontPagination]="false" [nzLoading]="listQuery.loading" nzShowTotal nzShowQuickJumper nzShowSizeChanger>
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>区域</th>
+            <th>构件名称</th>
+            <th>构件编号</th>
+            <th>规格</th>
+            <th>长度(mm)</th>
+            <th>材质</th>
+            <th>数量</th>
+            <th>单量(kg)</th>
+            <th>总量(kg)</th>
+            <th>安装数量</th>
+            <th>安装重量(kg)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of detailTable.data;let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.areaDivisionName }}</td>
+            <td>{{ item.productName }}</td>
+            <td>{{ item.serialNo }}</td>
+            <td>{{ item.specification }}</td>
+            <td>{{ item.length }}</td>
+            <td>{{ item.material }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.pieceWeight }}</td>
+            <td>{{ item.totalWeight }}</td>
+            <td>{{ item.setupQuantity }}</td>
+            <td>{{ item.setupWeight }}</td>
+        </tr>
+    </tbody>
+</nz-table>

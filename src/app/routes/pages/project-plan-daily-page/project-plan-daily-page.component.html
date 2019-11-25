@@ -1,0 +1,149 @@
+<app-project-pro-header [projectId]="projectId">
+    <!-- <nz-tabset>
+        <nz-tab nzTitle="{{ pm.monomer.name }}"
+            *ngFor="let pm of pageMonomers"
+            (nzClick)="currentMonomers = pm">
+        </nz-tab>
+    </nz-tabset> -->
+</app-project-pro-header>
+<nz-card >
+    <ng-template #title>
+        成品需求计划详情
+    </ng-template>
+    <nz-table 
+        [nzShowPagination]="false"
+        [nzData]="data"
+        *ngIf="productType == 1"
+        >
+        <thead>
+            <tr>
+                <th rowspan="2">序号</th>
+                <th rowspan="2">区域</th>
+                <th rowspan="2">构件名称</th>
+                <th colspan="4">计划</th>
+                <th colspan="2">实际</th>
+            </tr>
+            <tr>
+                <th>计划需求数量</th>
+                <th>单重(kg)</th>
+                <th>总重(kg)</th>
+                <th>需求时间</th>
+                <th>已生产数量</th>
+                <th>完成率</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data;let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{item.areaDivisionName}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.demandQuantity}}</td>
+                <td>{{item.pieceWeight}}</td>
+                <td>{{item.planTotalWeight}}</td>
+                <td>{{item.demandDate}}</td>
+                <td>{{item.finishedQuantity}}</td>
+                <td>{{item.finishedRate + '%'}}</td>
+                <!-- <td>
+                    <a (click)="getDetail(item)">详情</a>
+                    <a (click)="export(item)" style="margin-left: 15px">导出</a>
+                </td> -->
+            </tr>
+        </tbody>
+    </nz-table>
+
+    <nz-table 
+        [nzShowPagination]="false"
+        [nzData]="data"
+        *ngIf="productType == 2"
+        >
+        <thead>
+            <tr>
+                <th rowspan="2">序号</th>
+                <th rowspan="2">产品名称</th>
+                <th rowspan="2">颜色</th>
+                <th rowspan="2">厚度(mm)</th>
+                <th rowspan="2">板型</th>
+                <th rowspan="2">长度(mm)</th>
+                <th rowspan="2">有效宽度(mm)</th>
+                <th colspan="4">计划</th>
+                <th colspan="2">实际</th>
+            </tr>
+            <tr>
+                <th>需求数量(张)</th>
+                <th>需求总长(m)</th>
+                <th>需求总量(㎡)</th>
+                <th>需求时间</th>
+                <th>已生产数量</th>
+                <th>完成率</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data;let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.color}}</td>
+                <td>{{item.thickness}}</td>
+                <td>{{item.modelNum}}</td>
+                <td>{{item.length}}</td>
+                <td>{{item.width}}</td>
+
+                <td>{{item.demandQuantity}}</td>
+                <td>{{item.demandTotalLength}}</td>
+                <td>{{item.demandTotalArea}}</td>
+                <td>{{item.demandDate}}</td>
+
+                <td>{{item.finishedQuantity}}</td>
+                <td>{{item.finishedRate + '%'}}</td>
+                <!-- <td>
+                    <a (click)="getDetail(item)">详情</a>
+                    <a (click)="export(item)" style="margin-left: 15px">导出</a>
+                </td> -->
+            </tr>
+        </tbody>
+    </nz-table>
+
+
+    <nz-table 
+        [nzShowPagination]="false"
+        [nzData]="data"
+        *ngIf="productType == 3"
+        >
+        <thead>
+            <tr>
+                <th rowspan="2">序号</th>
+                <th rowspan="2">产品名称</th>
+                <th rowspan="2">单位</th>
+                <th rowspan="2">规格</th>
+                <th rowspan="2">材质</th>
+                <th colspan="4">计划</th>
+                <th colspan="2">实际</th>
+            </tr>
+            <tr>
+                <th>计划需求数量</th>
+                <th>需求时间</th>
+                <th>已发货数量</th>
+                <th>完成率</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data;let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.unit}}</td>
+                <td>{{item.specification}}</td>
+                <td>{{item.material}}</td>
+
+                <td>{{item.demandQuantity}}</td>
+                <td>{{item.demandDate}}</td>
+                <td>{{item.shippedQuantity}}</td>
+                <td>{{item.finishedRate + '%'}}</td>
+                <!-- <td>
+                    <a (click)="getDetail(item)">详情</a>
+                    <a (click)="export(item)" style="margin-left: 15px">导出</a>
+                </td> -->
+            </tr>
+        </tbody>
+    </nz-table>
+
+    <button nz-button nzType="primary" (click)="export()">导出</button>
+</nz-card>

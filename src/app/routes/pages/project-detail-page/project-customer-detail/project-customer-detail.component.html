@@ -1,0 +1,52 @@
+<nz-card
+    [acl]="967"
+    nzTitle="客户信息"
+    [nzBordered]="false">
+    <desc-list size="default" class="mb-lg">
+        <desc-list-item term="建设单位">{{ customerInfo.buildCompany }}</desc-list-item>
+        <desc-list-item term="负责人">{{ customerInfo.buildCompanyManager }}</desc-list-item>
+        <desc-list-item term="邮箱">{{ customerInfo.buildCompanyEmail }}</desc-list-item>
+        <desc-list-item term="实际发包人">{{ customerInfo.actualSender }}</desc-list-item>
+        <desc-list-item term="负责人">{{ customerInfo.senderManager }}</desc-list-item>
+        <desc-list-item term="邮箱">{{ customerInfo.senderEmail }}</desc-list-item>
+    </desc-list>
+    <nz-divider class="mb-md"></nz-divider>
+    <div class="text-lg my-md">项目主要负责人</div>
+    <nz-table
+        #nzTable
+        [nzData]="customerInfo.managers"
+        [nzShowPagination]="false">
+        <thead>
+            <tr>
+              <th><span>序号</span></th>
+              <th><span>姓名</span></th>
+              <th><span>电话</span></th>
+              <th><span>邮箱</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of customerInfo.managers;let i = index;">
+                <td>
+                    {{ i + 1 }}
+                </td>
+                <td>
+                    {{ item.name }}
+                </td>
+                <td>
+                    {{ item.phone }}
+                </td>
+                <td>
+                    {{ item.email }}
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+    <div class="text-lg my-md">发包人信息</div>
+    <desc-list size="default" class="mb-lg">
+        <desc-list-item term="实际发包人办公地址">{{ customerInfo.senderOfficeAddress }}</desc-list-item>
+        <desc-list-item term="开户行">{{ customerInfo.bankName }}</desc-list-item>
+        <desc-list-item term="账户">{{ customerInfo.bankAccount }}</desc-list-item>
+        <desc-list-item term="社会统一代码">{{ customerInfo.socialCode }}</desc-list-item>
+        <desc-list-item term="其他补充">{{ customerInfo.tips }}</desc-list-item>
+    </desc-list>
+</nz-card>

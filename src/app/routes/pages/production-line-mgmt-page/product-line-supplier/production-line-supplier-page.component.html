@@ -1,0 +1,51 @@
+<div>
+    <ng-container *ngFor="let item of finalAssemblySetting">
+        <nz-card [nzTitle]="item.label" *ngIf="item.label == '审核确认'">
+            <ng-container *ngIf="finalAssemBlyArr && finalAssemBlyArr[item.value]">
+                <nz-select *ngFor="let ii of arr(finalAssemBlyArr[item.value].length);let j = index"
+                    style="width: 160px;margin: 25px 10px 0 0" 
+                    nzShowSearch 
+                    nzAllowClear 
+                    nzPlaceHolder="指定人员"
+                    [(ngModel)]="finalAssemBlyArr[item.value][j].userId"
+                    (ngModelChange)="qrChange(finalAssemBlyArr[item.value], j, item.type)">
+                    <nz-option nzLabel="不指定" nzValue="-1">
+                    </nz-option>
+                    <nz-option *ngFor="let option of userList" 
+                        [nzLabel]="option.name" 
+                        [nzValue]="option.id">
+                    </nz-option>
+                </nz-select>
+                <!-- <p class="info-tip">{{item.tip}}</p> -->
+            </ng-container>
+        </nz-card>
+        <nz-card [nzTitle]="item.label" *ngIf="item.label != '审核确认'">
+            <ng-container *ngIf="finalAssemBlyArrRole && finalAssemBlyArrRole[item.type]">
+                <nz-select *ngFor="let ii of arr(finalAssemBlyArrRole[item.type].length);let j = index"
+                    style="width: 160px;margin: 25px 10px 0 0" 
+                    nzShowSearch 
+                    nzAllowClear 
+                    nzPlaceHolder="指定角色人员"
+                    [(ngModel)]="finalAssemBlyArrRole[item.type][j].roleId"
+                    (ngModelChange)="qrChange(finalAssemBlyArrRole[item.type], j, item.type)">
+                    <nz-option nzLabel="不指定" nzValue="-1">
+                    </nz-option>
+                    <nz-option 
+                        *ngFor="let option of roles"
+                        [nzLabel]="option.name" 
+                        [nzValue]="option.id">
+                    </nz-option>
+                </nz-select>
+                <!-- <p class="info-tip">{{item.tip}}</p> -->
+            </ng-container>
+            <!-- <span>角色：{{ finalAssemBlyArrRole[item.value].length }}</span> -->
+        </nz-card>
+    </ng-container>
+    
+</div>
+<style scope>
+    .info-tip {
+        margin: 10px 0 0 0 !important;
+        color: red;
+    }
+</style>

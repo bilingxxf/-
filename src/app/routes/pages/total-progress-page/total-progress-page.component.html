@@ -1,0 +1,139 @@
+<app-project-pro-header [projectId]="projectId">
+    <nz-tabset>
+        <nz-tab nzTitle="{{ pm.monomer.name }}" *ngFor="let pm of pageMonomers" (nzClick)="currentMonomers = pm">
+        </nz-tab>
+    </nz-tabset>
+</app-project-pro-header>
+
+<ng-container *hasPermission="1152">
+    <nz-card *ngIf="currentMonomers" class="panel2">
+        <block-ui>
+            <nz-tabset (nzSelectChange)="selectChange()">
+                <nz-tab nzTitle="工序状态" (nzClick)="activeTab = 1">
+                    <ng-container *ngIf="activeTab == 1">
+                        <div class="vertical-tabs">
+                            <div class="vertical-tabs__header">
+                                <div class="vertical-tab" (click)="active = 1" [ngClass]="{'is-active': active === 1}">
+                                    结构
+                                </div>
+                                <div class="vertical-tab" (click)="active = 2" [ngClass]="{'is-active': active === 2}">
+                                    围护
+                                </div>
+                                <div class="vertical-tab" (click)="active = 3" [ngClass]="{'is-active': active === 3}">
+                                    辅材
+                                </div>
+                            </div>
+                            <div class="vertical-tabs__content" *ngIf="active === 1">
+                                <nz-tabset>
+                                    <nz-tab nzTitle="{{ area.areaName + '(' + area.coordinates + ')' }}"
+                                        *ngFor="let area of currentMonomers.areas" (nzClick)="currentArea = area">
+                                    </nz-tab>
+                                </nz-tabset>
+                                <app-total-progress-table *ngIf="currentArea" [productType]="1"
+                                    [areaDivisionId]="currentArea.id" [monomerId]="currentMonomers.monomer.id">
+                                </app-total-progress-table>
+                            </div>
+                            <div class="vertical-tabs__content" *ngIf="active === 2">
+                                <app-total-progress-table [productType]="2" [monomerId]="currentMonomers.monomer.id">
+                                </app-total-progress-table>
+                            </div>
+                            <div class="vertical-tabs__content" *ngIf="active === 3">
+                                <app-total-progress-table [productType]="3" [monomerId]="currentMonomers.monomer.id">
+                                </app-total-progress-table>
+                            </div>
+                        </div>
+                    </ng-container>
+                </nz-tab>
+
+                <nz-tab nzTitle="生产看板" (nzClick)="activeTab = 3">
+                    <ng-container *ngIf="activeTab == 3">
+                        <div class="vertical-tabs">
+                            <div class="vertical-tabs__header">
+                                <div class="vertical-tab" (click)="switchTab(1)"
+                                    [ngClass]="{'is-active': active === 1}">结构
+                                </div>
+                                <div class="vertical-tab" (click)="switchTab(2)"
+                                    [ngClass]="{'is-active': active === 2}">围护
+                                </div>
+                            </div>
+                            <div class="vertical-tabs__content" *ngIf="active === 1">
+                                <nz-tabset>
+                                    <nz-tab nzTitle="{{ area.areaName + '(' + area.coordinates + ')' }}"
+                                        *ngFor="let area of currentMonomers.areas" (nzClick)="currentArea = area">
+                                    </nz-tab>
+                                </nz-tabset>
+                                <app-multi-color-box-list [boxs]="boxs" [multi]="multi"></app-multi-color-box-list>
+                            </div>
+                            <div class="vertical-tabs__content" *ngIf="active === 2">
+                                <app-multi-color-box-list [boxs]="boxs" [multi]="multi"></app-multi-color-box-list>
+                            </div>
+                        </div>
+                    </ng-container>
+                </nz-tab>
+                <nz-tab nzTitle="出库看板" (nzClick)="activeTab = 4">
+                    <ng-container *ngIf="activeTab == 4">
+                        <div class="vertical-tabs">
+                            <div class="vertical-tabs__header">
+                                <div class="vertical-tab" (click)="switchTab(1)"
+                                    [ngClass]="{'is-active': active === 1}">结构
+                                </div>
+                                <div class="vertical-tab" (click)="switchTab(2)"
+                                    [ngClass]="{'is-active': active === 2}">围护
+                                </div>
+                            </div>
+                            <div class="vertical-tabs__content" *ngIf="active === 1">
+                                <nz-tabset>
+                                    <nz-tab nzTitle="{{ area.areaName + '(' + area.coordinates + ')' }}"
+                                        *ngFor="let area of currentMonomers.areas" (nzClick)="currentArea = area">
+                                    </nz-tab>
+                                </nz-tabset>
+                                <app-multi-color-box-list [boxs]="boxs" [multi]="multi"></app-multi-color-box-list>
+                            </div>
+                            <div class="vertical-tabs__content" *ngIf="active === 2">
+                                <app-multi-color-box-list [boxs]="boxs" [multi]="multi"></app-multi-color-box-list>
+                            </div>
+                        </div>
+                    </ng-container>
+                </nz-tab>
+                <nz-tab nzTitle="安装看板" (nzClick)="activeTab = 5">
+                    <ng-container *ngIf="activeTab == 5">
+                        <div class="vertical-tabs">
+                            <div class="vertical-tabs__header">
+                                <div class="vertical-tab" (click)="switchTab(1)"
+                                    [ngClass]="{'is-active': active === 1}">结构
+                                </div>
+                                <div class="vertical-tab" (click)="switchTab(2)"
+                                    [ngClass]="{'is-active': active === 2}">围护
+                                </div>
+                            </div>
+                            <div class="vertical-tabs__content" *ngIf="active === 1">
+                                <nz-tabset>
+                                    <nz-tab nzTitle="{{ area.areaName + '(' + area.coordinates + ')' }}"
+                                        *ngFor="let area of currentMonomers.areas" (nzClick)="currentArea = area">
+                                    </nz-tab>
+                                </nz-tabset>
+                                <app-multi-color-box-list [boxs]="boxs" [multi]="multi"></app-multi-color-box-list>
+                            </div>
+                            <div class="vertical-tabs__content" *ngIf="active === 2">
+                                <app-multi-color-box-list [boxs]="boxs" [multi]="multi"></app-multi-color-box-list>
+                            </div>
+                        </div>
+                    </ng-container>
+                </nz-tab>
+                <nz-tab nzTitle="3D模型" (nzClick)="activeTab = 2">
+                    <nz-tabset>
+                        <nz-tab nzTitle="{{ tab.name }}" (nzClick)="currentTab = tab" *ngFor="let tab of monomers">
+                            <!-- <ng-template #nzTabHeading>
+                                    
+                                </ng-template> -->
+                            <ng-container *ngIf="activeTab === 2">
+                                <iframe width="100%" height="800" [src]="currentTab.url"></iframe>
+                            </ng-container>
+                        </nz-tab>
+                    </nz-tabset>
+                </nz-tab>
+            </nz-tabset>
+        </block-ui>
+    </nz-card>
+
+</ng-container>

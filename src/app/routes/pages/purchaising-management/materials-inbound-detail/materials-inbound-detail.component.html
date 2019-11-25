@@ -1,0 +1,279 @@
+<nz-card>
+    <ng-container>
+        <ng-template [ngTemplateOutlet]="base"></ng-template>
+    </ng-container>
+</nz-card>
+
+<ng-template #steel>
+    <nz-table #nzTable [nzData]="[]" [nzBordered]="true">
+        <thead>
+            <tr>
+                <th colspan="18">钢板入库单</th>
+            </tr>
+            <tr>
+                <th>入库日期</th>
+                <th colspan="4">时间</th>
+                <th colspan="3">入库人</th>
+                <th colspan="3"></th>
+                <th colspan="2">NO:</th>
+                <th colspan="4">入库单号</th>
+                <th>操作</th>
+            </tr>
+            <tr>
+                <th rowspan="2">序号</th>
+                <th rowspan="2">编号</th>
+                <th colspan="3">物料类型</th>
+                <th colspan="3">规格</th>
+                <th rowspan="2">理论厚度</th>
+                <th rowspan="2">数量(张)</th>
+                <th rowspan="2">单位</th>
+                <th rowspan="2">重量</th>
+                <th rowspan="2">采购单价</th>
+                <th rowspan="2">含税金额(元)</th>
+                <th rowspan="2">单位净重(kg/m²)</th>
+                <th rowspan="2">品牌</th>
+                <th rowspan="2">供应商</th>
+                <th rowspan="2"></th>
+            </tr>
+            <tr>
+                <th>名称</th>
+                <th>种类</th>
+                <th>品种</th>
+                <th>L长(mm)</th>
+                <th>W宽(mm)</th>
+                <th>T厚(mm)</th>
+            </tr>
+            
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of nzTable.data; index as i">
+            <td>
+                <a>{{index + 1}}</a>
+            </td>
+            <td>{{data.age}}</td>
+            <td>{{data.address}}</td>
+            <td>{{data.address}}</td>
+            <td>{{data.address}}</td>
+            <td>{{data.address}}</td>
+            <td>
+                <a>编辑</a>
+                <a>删除</a>
+                <a>交易记录</a>
+            </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</ng-template>
+
+<ng-template #profile>
+    <nz-table #nzTable [nzData]="[]" [nzBordered]="true">
+        <thead>
+            <tr>
+                <th colspan="16">型材入库单</th>
+            </tr>
+            <tr>
+                <th>入库日期</th>
+                <th colspan="4">时间</th>
+                <th colspan="1">入库人</th>
+                <th colspan="3"></th>
+                <th colspan="6">入库单号</th>
+                <th>操作</th>
+            </tr>
+            <tr>
+                <th rowspan="2">序号</th>
+                <th rowspan="2">编号</th>
+                <th colspan="3">物料类型</th>
+                <th colspan="2">规格</th>
+                <th rowspan="2">数量(根)</th>
+                <th rowspan="2">单位</th>
+                <th rowspan="2">重量</th>
+                <th rowspan="2">采购单价</th>
+                <th rowspan="2">含税金额(元)</th>
+                <th rowspan="2">单位净重(kg/m²)</th>
+                <th rowspan="2">品牌</th>
+                <th rowspan="2">供应商</th>
+                <th rowspan="2"></th>
+            </tr>
+            <tr>
+                <th>名称</th>
+                <th>种类</th>
+                <th>品种</th>
+                <th>规格</th>
+                <th>定尺长度</th>
+            </tr>
+        </thead>
+    </nz-table>
+</ng-template>
+
+
+<ng-template #color>
+        <nz-table #nzTable [nzData]="[]" [nzBordered]="true">
+                <thead>
+                    <tr>
+                        <th colspan="19">彩卷/带钢入库单</th>
+                    </tr>
+                    <tr>
+                        <th>入库日期</th>
+                        <th colspan="5">时间</th>
+                        <th colspan="3">入库人</th>
+                        <th colspan="3"></th>
+                        <th colspan="6">入库单号</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr>
+                        <th rowspan="2">序号</th>
+                        <th rowspan="2">编号</th>
+                        <th colspan="3">物料类型</th>
+                        <th rowspan="2">颜色</th>
+                        <th colspan="3">规格</th>
+                        <th rowspan="2">单位金额(m/元)</th>
+                        <th rowspan="2">数量</th>
+                        <th rowspan="2">单位</th>
+                        <th rowspan="2">重量</th>
+                        <th rowspan="2">采购单价</th>
+                        <th rowspan="2">含税金额(元)</th>
+                        <th rowspan="2">单位净重(kg/m²)</th>
+                        <th rowspan="2">品牌</th>
+                        <th rowspan="2">供应商</th>
+                        <th rowspan="2"></th>
+                    </tr>
+                    <tr>
+                        <th>名称</th>
+                        <th>种类</th>
+                        <th>品种</th>
+                        <th>L长(mm)</th>
+                        <th>W宽(mm)</th>
+                        <th>T厚(mm)</th>
+                    </tr>
+                    
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of nzTable.data; index as i">
+                    <td>
+                        <a>{{index + 1}}</a>
+                    </td>
+                    <td>{{data.age}}</td>
+                    <td>{{data.address}}</td>
+                    <td>{{data.address}}</td>
+                    <td>{{data.address}}</td>
+                    <td>{{data.address}}</td>
+                    <td>
+                        <a>编辑</a>
+                        <a>删除</a>
+                        <a>交易记录</a>
+                    </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+</ng-template>
+
+<ng-template #enclosure>
+        <nz-table #nzTable [nzData]="[]" [nzBordered]="true">
+                <thead>
+                    <tr>
+                        <th colspan="16">围护型材入库单</th>
+                    </tr>
+                    <tr>
+                        <th>入库日期</th>
+                        <th colspan="4">时间</th>
+                        <th colspan="2">入库人</th>
+                        <th colspan="3"></th>
+                        <th colspan="5">入库单号</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr>
+                        <th rowspan="2">序号</th>
+                        <th rowspan="2">编号</th>
+                        <th colspan="3">物料类型</th>
+                        <th rowspan="2">颜色</th>
+                        <th colspan="2">规格</th>
+                        <th rowspan="2">数量</th>
+                        <th rowspan="2">单位</th>
+                        <th rowspan="2">总重</th>
+                        <th rowspan="2">采购单价</th>
+                        <th rowspan="2">含税金额(元)</th>
+                        <th rowspan="2">品牌</th>
+                        <th rowspan="2">供应商</th>
+                        <th rowspan="2"></th>
+                    </tr>
+                    <tr>
+                        <th>名称</th>
+                        <th>种类</th>
+                        <th>品种</th>
+                        <th>L长(mm)</th>
+                        <th>W宽(mm)</th>
+                    </tr>
+                    
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of nzTable.data; index as i">
+                    <td>
+                        <a>{{index + 1}}</a>
+                    </td>
+                    <td>{{data.age}}</td>
+                    <td>{{data.address}}</td>
+                    <td>{{data.address}}</td>
+                    <td>{{data.address}}</td>
+                    <td>{{data.address}}</td>
+                    <td>
+                        <a>编辑</a>
+                        <a>删除</a>
+                        <a>交易记录</a>
+                    </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+</ng-template>
+
+<ng-template #base>
+    <nz-table #nzTable [nzData]="[]" [nzBordered]="true">
+            <thead>
+                <tr>
+                    <th colspan="13">一般物料入库单</th>
+                </tr>
+                <tr>
+                    <th>入库日期</th>
+                    <th colspan="3">时间</th>
+                    <th colspan="1">入库人</th>
+                    <th colspan="3"></th>
+                    <th colspan="4">入库单号</th>
+                    <th>操作</th>
+                </tr>
+                <tr>
+                    <th rowspan="2">序号</th>
+                    <th rowspan="2">编号</th>
+                    <th colspan="3">物料类型</th>
+                    <th rowspan="2">颜色</th>
+                    <th rowspan="2">单位</th>
+                    <th rowspan="2">数量</th>
+                    <th rowspan="2">采购单价</th>
+                    <th rowspan="2">含税金额(元)</th>
+                    <th rowspan="2">品牌</th>
+                    <th rowspan="2">供应商</th>
+                    <th rowspan="2"></th>
+                </tr>
+                <tr>
+                    <th>名称</th>
+                    <th>种类</th>
+                    <th>品种</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of nzTable.data; index as i">
+                <td>
+                    <a>{{index + 1}}</a>
+                </td>
+                <td>{{data.age}}</td>
+                <td>{{data.address}}</td>
+                <td>{{data.address}}</td>
+                <td>{{data.address}}</td>
+                <td>{{data.address}}</td>
+                <td>
+                    <a>编辑</a>
+                    <a>删除</a>
+                    <a>交易记录</a>
+                </td>
+                </tr>
+            </tbody>
+        </nz-table>
+</ng-template>

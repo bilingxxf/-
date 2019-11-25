@@ -1,0 +1,125 @@
+<nz-card>
+    <button nz-button [nzType]="'primary'" (click)="addMaterialType()">
+        <span>Primary</span>
+    </button>
+    
+    <tree-root 
+        #tree
+        [nodes]="nodes | async" 
+        [focused]="true"
+        (toggleExpanded)="getChildren($event)"
+        [options]="options">
+
+        <ng-template #treeNodeTemplate let-node let-index="index" >
+            <span (mouseover)="getCurrentNode(node.data)">{{ node.data.name }}</span>
+            <ng-container *ngIf="currentNode && node.data.id === currentNode.id">
+                <i class="anticon anticon-plus"   (click)="addChildNode(node.data)" style="margin-left: 15px"></i>
+                <i class="anticon anticon-edit"   (click)="updateTreeNode(node.data)"  style="margin-left: 15px"></i>
+                <i class="anticon anticon-delete" (click)="removeTreeNode(node.data)" style="margin-left: 15px"></i>
+            </ng-container>
+        </ng-template>
+    </tree-root>
+</nz-card>
+
+<nz-modal [nzVisible]="isVisible" [nzFooter]="false" [nzContent]="modalContent" (nzOnCancel)="handleCancel()">
+    <ng-template #modalContent>
+        <ng-container *ngTemplateOutlet="template"></ng-container>
+    </ng-template>
+</nz-modal>
+
+<ng-template #MaterialType>
+    <form nz-form  class="login-form" #form="ngForm" >
+        <nz-form-item>
+            <nz-form-control>
+                <nz-select name="formType" style="width: 120px;" [(ngModel)]="materialType.formType" nzPlaceHolder="'选择物料种类'" nzAllowClear>
+                    <nz-option
+                        *ngFor="let option of materailTypes"
+                        [nzLabel]="option.label"
+                        [nzValue]="option.value">
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control>
+                <input nz-input name="typeName"  placeholder="名称" [nzSize]="'default'" [(ngModel)]="materialType.typeName">
+                
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control>
+                <input nz-input name="typeCode"  placeholder="名称代码" [nzSize]="'default'" [(ngModel)]="materialType.typeCode">
+                
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <button nz-button [nzType]="'primary'" (click)="addMaterialType()">
+                <span>确定</span>
+            </button>
+        </nz-form-item>
+    </form>
+</ng-template>
+
+<ng-template #MaterialVariety>
+    <form nz-form  class="login-form">
+        <nz-form-item>
+            <nz-form-control>
+                <input nz-input name="varietiesName"  placeholder="名称" [nzSize]="'default'" [(ngModel)]="materialVariety.varietiesName">
+                
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control>
+                <input nz-input name="varietiesCode"  placeholder="名称代码" [nzSize]="'default'" [(ngModel)]="materialVariety.varietiesCode">
+                
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <button nz-button [nzType]="'primary'" (click)="addMaterialVariety()">
+                <span>确定</span>
+            </button>
+        </nz-form-item>
+    </form>
+</ng-template>
+
+<ng-template #MaterialKind>
+    <form nz-form  class="login-form">
+        
+        <nz-form-item>
+            <nz-form-control>
+                <input nz-input name="kindName"  placeholder="名称" [nzSize]="'default'" [(ngModel)]="materialKind.kindName">
+                
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control>
+                <input nz-input name="kindCode"  placeholder="名称代码" [nzSize]="'default'" [(ngModel)]="materialKind.kindCode">
+                
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control>
+                <input nz-input name="minimumInventory"  placeholder="最小库存" [nzSize]="'default'" [(ngModel)]="materialKind.minimumInventory">
+                
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control>
+                <input nz-input name="unit"  placeholder="单位" [nzSize]="'default'" [(ngModel)]="materialKind.unit">
+                
+            </nz-form-control>
+        </nz-form-item>
+        
+        <nz-form-item>
+            <nz-form-control>
+                <input nz-input  placeholder="规格" [nzSize]="'default'">
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <button nz-button [nzType]="'primary'" (click)="addMaterialKind()">
+                <span>确定</span>
+            </button>
+        </nz-form-item>
+    </form>
+</ng-template>

@@ -1,0 +1,91 @@
+<div class="operate-box">
+    <div class="operate-left-box">
+        <!-- <nz-input-group nzSearch [nzAddOnAfter]="suffixButton" style="margin-right: 10px">
+            <input type="text" [(ngModel)]="dto.serialNo" nz-input placeholder="产品名称"
+                (keyup)="($event.which === 13)?search():0" />
+        </nz-input-group>
+        <ng-template #suffixButton>
+            <span style="cursor: pointer" (click)="search()">搜索</span>
+        </ng-template> -->
+    </div>
+    <div class="operate-right-box">
+        <div class="total-info">
+            <span>
+                清单量: {{ sumData.totalQuantity || 0 }} |
+                {{ sumData.totalSurfaceArea || 0 }} ㎡
+            </span>
+            <span>
+                收货量: {{ sumData.receiptQuantity || 0 }} |
+                {{ sumData.receiptSurfaceArea || 0 }} ㎡
+            </span>
+            <span>
+                安装量：{{ sumData.setupQuantity || 0 }} |
+                {{ sumData.setupSurfaceArea || 0 }} ㎡
+            </span>
+            <span>
+                工地存量：{{ (sumData.receiptQuantity || 0) - (sumData.setupQuantity || 0) }}
+                | {{ ((sumData.receiptSurfaceArea || 0) - (sumData.setupSurfaceArea || 0)).toFixed(2) }}
+                ㎡
+            </span>
+        </div>
+    </div>
+</div>
+<div class="content-box">
+    <nz-table [nzData]="data.data" [(nzPageIndex)]="dto.page" [(nzPageSize)]="dto.size"
+        [nzTotal]="data.totalCount" (nzPageIndexChange)="getData()" (nzPageSizeChange)="getData()"
+        [nzFrontPagination]="false" [nzLoading]="isSpinning" nzShowTotal nzShowQuickJumper nzShowSizeChanger>
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>产品名称</th>
+                <th>颜色</th>
+                <th>厚度(mm)</th>
+                <th>板型</th>
+                <th>有效宽度(mm)</th>
+                <th>长度(mm)</th>
+                <th>数量(张)</th>
+                <th>总长度</th>
+                <th>总面积(㎡)</th>
+                <th>收货数量(张)</th>
+                <th>安装数量(张)</th>
+                <th>工地存量(张)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data.data;let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.color }}</td>
+                <td>{{ item.thickness }}</td>
+                <td>{{ item.modelNum }}</td>
+                <td>{{ item.width }}</td>
+                <td>{{ item.length }}</td>
+                <td>{{ item.totalQuantity }}</td>
+                <td>{{ item.totalMeter }}</td>
+                <td>{{ item.surfaceArea }}</td>
+                <td>{{ item.receiptQuantity }}</td>
+                <td>{{ item.setupQuantity }}</td>
+                <td [ngStyle]="{'color': item.receiptQuantity - item.setupQuantity > 0 ? 'red':'#3dbd7d'}">{{ item.receiptQuantity - item.setupQuantity }}</td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>
+
+
+<style scoped>
+    .total-info {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-content: center
+    }
+
+    .total-info>span {
+        /* flex: 1; */
+        margin-left: 30px;
+        color: #5B9BD5;
+        font-weight: 600;
+    }
+
+</style>

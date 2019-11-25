@@ -1,0 +1,435 @@
+<nz-card>
+        <ng-container>
+            <ng-template [ngTemplateOutlet]="template"></ng-template>
+        </ng-container>
+    </nz-card>
+    
+    <ng-template #steel>
+        <nz-table #nzTable [nzData]="materialOutboundOrder.outboundDetailResponseVOS || []" [nzBordered]="true">
+            <thead>
+                <tr>
+                    <th colspan="18">钢板出库单</th>
+                </tr>
+                <tr>
+                    <th>出库日期</th>
+                    <th colspan="4">{{materialOutboundOrder.updateTime | date: 'yyyy-MM-dd: HH:mm:ss'}}</th>
+                    <th colspan="3">入库人</th>
+                    <th colspan="3">{{materialOutboundOrder.createName}}</th>
+                    <th colspan="3">入库单号</th>
+                    <th colspan="3">{{materialOutboundOrder.outboundNo}}</th>
+                    <th>操作</th>
+                </tr>
+                <tr>
+                    <th rowspan="2">序号</th>
+                    <th rowspan="2">编号</th>
+                    <th colspan="3">物料类型</th>
+                    <th colspan="3">规格</th>
+                    <th rowspan="2">理论厚度</th>
+                    <th rowspan="2">数量(张)</th>
+                    <th rowspan="2">单位</th>
+                    <th rowspan="2">重量</th>
+                    <th rowspan="2">采购单价</th>
+                    <th rowspan="2">含税金额(元)</th>
+                    <th rowspan="2">单位净重(kg/m²)</th>
+                    <th rowspan="2">品牌</th>
+                    <th rowspan="2">供应商</th>
+                    <th rowspan="2"></th>
+                </tr>
+                <tr>
+                    <th>名称</th>
+                    <th>种类</th>
+                    <th>品种</th>
+                    <th>L长(mm)</th>
+                    <th>W宽(mm)</th>
+                    <th>T厚(mm)</th>
+                </tr>
+                
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of nzTable.data; index as i">
+                <td>
+                    <a>{{i + 1}}</a>
+                </td>
+                <td></td>
+                <td>{{data.materialType}}</td>
+                <td>{{data.materialVarieties}}</td>
+                <td>{{data.materialKind}}</td>
+                <td>
+                    {{data.length}}
+                </td>
+                <td>
+                    {{data.width}}
+                </td>
+                <td>
+                    {{data.thickness}}
+                </td>
+                <td>
+                    {{data.theoryThickness}}
+                </td>
+                <td>
+                    {{data.oddmentNumber}}
+                </td>
+                <td>
+                    {{data.unit}}
+                </td>
+                <td>
+                    {{data.weight}}
+                </td>
+                <td>
+                    {{data.purchasePrice}}
+                </td>
+                <td>
+                    {{data.taxIncludedAmount}}
+                </td>
+                <td>
+                    {{data.unitNetWeight}}
+                </td>
+                <td>
+                    {{data.brand}}
+                </td>
+                <td>
+                    {{data.supplierCode}}
+                </td>
+                <td>
+                </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </ng-template>
+    
+    <ng-template #profile>
+        <nz-table #nzTable [nzData]="[]" [nzBordered]="true">
+            <thead>
+                <tr>
+                    <th colspan="16">型材出库单</th>
+                </tr>
+                <tr>
+                    <th>出库日期</th>
+                    <th colspan="4">{{materialOutboundOrder.updateTime | date: 'yyyy-MM-dd: HH:mm:ss'}}</th>
+                    <th colspan="1">入库人</th>
+                    <th colspan="3">{{materialOutboundOrder.createName}}</th>
+                    <th colspan="3">入库单号</th>
+                    <th colspan="3">{{materialOutboundOrder.outboundNo}}</th>
+                    <th>操作</th>
+                </tr>
+                <tr>
+                    <th rowspan="2">序号</th>
+                    <th rowspan="2">编号</th>
+                    <th colspan="3">物料类型</th>
+                    <th colspan="2">规格</th>
+                    <th rowspan="2">数量(根)</th>
+                    <th rowspan="2">单位</th>
+                    <th rowspan="2">重量</th>
+                    <th rowspan="2">采购单价</th>
+                    <th rowspan="2">含税金额(元)</th>
+                    <th rowspan="2">单位净重(kg/m²)</th>
+                    <th rowspan="2">品牌</th>
+                    <th rowspan="2">供应商</th>
+                    <th rowspan="2"></th>
+                </tr>
+                <tr>
+                    <th>名称</th>
+                    <th>种类</th>
+                    <th>品种</th>
+                    <th>规格</th>
+                    <th>定尺长度</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr *ngFor="let data of nzTable.data; index as i">
+                    <td>
+                        <a>{{i + 1}}</a>
+                    </td>
+                    <td></td>
+                    <td>{{data.materialType}}</td>
+                    <td>{{data.materialVarieties}}</td>
+                    <td>{{data.materialKind}}</td>
+                    <td>
+                        {{data.unit}}
+                    </td>
+                    <td>
+                        {{data.specifiedLength}}
+                    </td>
+                    <td>
+                        {{data.oddmentNumber}}
+                    </td>
+                    <td>
+                        {{data.unit}}
+                    </td>
+                    <td>
+                        {{data.weight}}
+                    </td>
+                    <td>
+                        {{data.purchasePrice}}
+                    </td>
+                    <td>
+                        {{data.taxIncludedAmount}}
+                    </td>
+                    <td>
+                        {{data.unitNetWeight}}
+                    </td>
+                    <td>
+                        {{data.brand}}
+                    </td>
+                    <td>
+                        {{data.supplierCode}}
+                    </td>
+                    <td>
+                    </td>
+                    </tr>
+                </tbody>
+        </nz-table>
+    </ng-template>
+    
+    
+    <ng-template #color>
+            <nz-table #nzTable [nzData]="[]" [nzBordered]="true">
+                    <thead>
+                        <tr>
+                            <th colspan="19">彩卷/带钢出库单</th>
+                        </tr>
+                        <tr>
+                            <th>出库日期</th>
+                            <th colspan="4">{{materialOutboundOrder.updateTime | date: 'yyyy-MM-dd: HH:mm:ss'}}</th>
+                            <th colspan="3">入库人</th>
+                            <th colspan="4">{{materialOutboundOrder.createName}}</th>
+                            <th colspan="3">入库单号</th>
+                            <th colspan="3">{{materialOutboundOrder.outboundNo}}</th>
+                            <th>操作</th>
+                        </tr>
+                        <tr>
+                            <th rowspan="2">序号</th>
+                            <th rowspan="2">编号</th>
+                            <th colspan="3">物料类型</th>
+                            <th rowspan="2">颜色</th>
+                            <th colspan="3">规格</th>
+                            <th rowspan="2">单位金额(m/元)</th>
+                            <th rowspan="2">数量</th>
+                            <th rowspan="2">单位</th>
+                            <th rowspan="2">重量</th>
+                            <th rowspan="2">采购单价</th>
+                            <th rowspan="2">含税金额(元)</th>
+                            <th rowspan="2">单位净重(kg/m²)</th>
+                            <th rowspan="2">品牌</th>
+                            <th rowspan="2">供应商</th>
+                            <th rowspan="2"></th>
+                        </tr>
+                        <tr>
+                            <th>名称</th>
+                            <th>种类</th>
+                            <th>品种</th>
+                            <th>L长(mm)</th>
+                            <th>W宽(mm)</th>
+                            <th>T厚(mm)</th>
+                        </tr>
+                        
+                    </thead>
+                    <tbody>
+                            <tr *ngFor="let data of nzTable.data; index as i">
+                            <td>
+                                <a>{{i + 1}}</a>
+                            </td>
+                            <td></td>
+                            <td>{{data.materialType}}</td>
+                            <td>{{data.materialVarieties}}</td>
+                            <td>{{data.materialKind}}</td>
+                            <td>
+                                {{data.color}}
+                            </td>
+                            <td>
+                                {{data.length}}
+                            </td>
+                            <td>
+                                {{data.width}}
+                            </td>
+                            <td>
+                                {{data.thickness}}
+                            </td>
+                            <td>
+                                {{data.purchasePrice}}
+                            </td>
+                            <td>
+                                {{data.oddmentNumber}}
+                            </td>
+                            <td>
+                                {{data.unit}}
+                            </td>
+                            <td>
+                                {{data.weight}}
+                            </td>
+                            <td>
+                                {{data.taxIncludedAmount}}
+                            </td>
+                            <td>
+                                {{data.unitNetWeight}}
+                            </td>
+                            <td>
+                                {{data.brand}}
+                            </td>
+                            <td>
+                                {{data.supplierCode}}
+                            </td>
+                            <td>
+                            </td>
+                            </tr>
+                        </tbody>
+                </nz-table>
+    </ng-template>
+    
+    <ng-template #enclosure>
+            <nz-table #nzTable [nzData]="[]" [nzBordered]="true">
+                    <thead>
+                        <tr>
+                            <th colspan="16">围护型材出库单</th>
+                        </tr>
+                        <tr>
+                            <th>出库日期</th>
+                            <th colspan="4">{{materialOutboundOrder.updateTime | date: 'yyyy-MM-dd: HH:mm:ss'}}</th>
+                            <th colspan="2">入库人</th>
+                            <th colspan="2">{{materialOutboundOrder.createName}}</th>
+                            <th colspan="3">入库单号</th>
+                            <th colspan="3">{{materialOutboundOrder.outboundNo}}</th>
+                            <th>操作</th>
+                        </tr>
+                        <tr>
+                            <th rowspan="2">序号</th>
+                            <th rowspan="2">编号</th>
+                            <th colspan="3">物料类型</th>
+                            <th rowspan="2">颜色</th>
+                            <th colspan="2">规格</th>
+                            <th rowspan="2">数量</th>
+                            <th rowspan="2">单位</th>
+                            <th rowspan="2">总重</th>
+                            <th rowspan="2">采购单价</th>
+                            <th rowspan="2">含税金额(元)</th>
+                            <th rowspan="2">品牌</th>
+                            <th rowspan="2">供应商</th>
+                            <th rowspan="2"></th>
+                        </tr>
+                        <tr>
+                            <th>名称</th>
+                            <th>种类</th>
+                            <th>品种</th>
+                            <th>L长(mm)</th>
+                            <th>W宽(mm)</th>
+                        </tr>
+                        
+                    </thead>
+                    <tbody>
+                            <tr *ngFor="let data of nzTable.data; index as i">
+                            <td>
+                                <a>{{i + 1}}</a>
+                            </td>
+                            <td></td>
+                            <td>{{data.materialType}}</td>
+                            <td>{{data.materialVarieties}}</td>
+                            <td>{{data.materialKind}}</td>
+                            <td>
+                                {{data.color}}
+                            </td>
+                            <td>
+                                {{data.length}}
+                            </td>
+                            <td>
+                                {{data.width}}
+                            </td>
+                            <td>
+                                {{data.oddmentNumber}}
+                            </td>
+                            <td>
+                                {{data.unit}}
+                            </td>
+                            <td>
+                                {{data.weight}}
+                            </td>
+                            <td>
+                                {{data.purchasePrice}}
+                            </td>
+                            <td>
+                                {{data.taxIncludedAmount}}
+                            </td>
+                            <td>
+                                {{data.brand}}
+                            </td>
+                            <td>
+                                {{data.supplierCode}}
+                            </td>
+                            <td>
+                            </td>
+                            </tr>
+                        </tbody>
+                </nz-table>
+    </ng-template>
+    
+    <ng-template #base>
+        <nz-table #nzTable [nzData]="[]" [nzBordered]="true">
+                <thead>
+                    <tr>
+                        <th colspan="13">一般物料出库单</th>
+                    </tr>
+                    <tr>
+                        <th>出库日期</th>
+                        <th colspan="3">{{materialOutboundOrder.updateTime | date: 'yyyy-MM-dd: HH:mm:ss'}}</th>
+                        <th colspan="2">入库人</th>
+                        <th colspan="2">{{materialOutboundOrder.createName}}</th>
+                        <th colspan="2">入库单号</th>
+                        <th colspan="2">{{materialOutboundOrder.outboundNo}}</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr>
+                        <th rowspan="2">序号</th>
+                        <th rowspan="2">编号</th>
+                        <th colspan="3">物料类型</th>
+                        <th rowspan="2">颜色</th>
+                        <th rowspan="2">单位</th>
+                        <th rowspan="2">数量</th>
+                        <th rowspan="2">采购单价</th>
+                        <th rowspan="2">含税金额(元)</th>
+                        <th rowspan="2">品牌</th>
+                        <th rowspan="2">供应商</th>
+                        <th rowspan="2"></th>
+                    </tr>
+                    <tr>
+                        <th>名称</th>
+                        <th>种类</th>
+                        <th>品种</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr *ngFor="let data of nzTable.data; index as i">
+                        <td>
+                            <a>{{i + 1}}</a>
+                        </td>
+                        <td></td>
+                        <td>{{data.materialType}}</td>
+                        <td>{{data.materialVarieties}}</td>
+                        <td>{{data.materialKind}}</td>
+                        <td>
+                            {{data.color}}
+                        </td>
+                        
+                        <td>
+                            {{data.oddmentNumber}}
+                        </td>
+                        <td>
+                            {{data.unit}}
+                        </td>
+                        <td>
+                            {{data.purchasePrice}}
+                        </td>
+                        <td>
+                            {{data.taxIncludedAmount}}
+                        </td>
+                        <td>
+                            {{data.brand}}
+                        </td>
+                        <td>
+                            {{data.supplierCode}}
+                        </td>
+                        <td>
+                        </td>
+                        </tr>
+                    </tbody>
+            </nz-table>
+    </ng-template>
+    

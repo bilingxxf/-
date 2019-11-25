@@ -1,0 +1,48 @@
+<div class="operate-box">
+    <div class="operate-left-box">
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixButton" style="margin-right: 10px">
+            <input type="text" [(ngModel)]="dto.productName" nz-input placeholder="产品名称"
+                (keyup)="($event.which === 13)?search():0" />
+        </nz-input-group>
+        <ng-template #suffixButton>
+            <span style="cursor: pointer" (click)="search()">搜索</span>
+        </ng-template>
+    </div>
+</div>
+<div class="content-box">
+    <nz-table [nzData]="data.data" [(nzPageIndex)]="dto.page" [(nzPageSize)]="dto.size" [nzTotal]="data.totalCount"
+        (nzPageIndexChange)="getData()" (nzPageSizeChange)="getData()" [nzFrontPagination]="false"
+        [nzLoading]="isSpinning" nzShowTotal nzShowQuickJumper nzShowSizeChanger>
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>产品名称</th>
+                <th>单位</th>
+                <th>规格</th>
+                <th>材质</th>
+                <th>总数量</th>
+                <th>入库数</th>
+                <th>出库数</th>
+                <th>剩余数</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data.data;let i = index">
+                <td>{{ i + 1 }}</td>
+                <td class="tip-parent">
+                    <div *ngIf="item.stockType !== undefined" class="td-tip"
+                        [ngStyle]="{'background-color': item.stockType === '采' ? 'green':'orange'}">
+                        {{ item.stockType }}</div>
+                    {{ item.name }}
+                </td>
+                <td>{{ item.unit }}</td>
+                <td>{{ item.specification }}</td>
+                <td>{{ item.material }}</td>
+                <td>{{ item.totalQuantity }}</td>
+                <td>{{ item.inStockQuantity }}</td>
+                <td>{{ item.outStockQuantity }}</td>
+                <td>{{ item.inStockQuantity - item.outStockQuantity }}</td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>

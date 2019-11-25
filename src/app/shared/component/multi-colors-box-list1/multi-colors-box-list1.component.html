@@ -1,0 +1,9 @@
+<app-multi-color-box1
+  *ngFor="let box of boxs"
+  (click)="click(box)"
+  [areas]="box.areas"
+  [tooltip]="box.tooltip"
+  [content]="box.content"
+  [box]="box"
+  [multi]="multi"
+  [backgroundColor]="backgroundColor"></app-multi-color-box1>

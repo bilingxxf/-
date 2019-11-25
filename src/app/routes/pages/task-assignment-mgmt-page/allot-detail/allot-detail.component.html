@@ -1,0 +1,92 @@
+<div class="operate-box">
+    <div>
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixButton">
+            <input type="text" 
+            [(ngModel)]="lineUserDTO.userName"
+             nz-input placeholder="请输入用户名称"
+             (keyup)="($event.which === 13)?searchUser():0" />
+        </nz-input-group>
+        <ng-template #suffixButton>
+            <span style="cursor: pointer" (click)="searchUser()">搜索</span>
+        </ng-template>
+    </div>
+    <div></div>
+</div>
+<div style="width: 100%;padding: 0 10px">
+    <nz-table 
+    #basicTable 
+    [nzData]="dataSet.data"
+    [(nzPageIndex)]="lineUserDTO.page"
+    [(nzPageSize)]="lineUserDTO.size"
+    [nzTotal]="dataSet.totalCount"
+    (nzPageIndexChange)="getUserList()"
+    (nzPageSizeChange)="getUserList()"
+    [nzFrontPagination]="false"
+    [nzLoading]="isSpinning"
+    nzShowQuickJumper
+    nzShowSizeChanger
+    >
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>班组名称</th>
+                <th>计划数量</th>
+                <th>计划重量</th>
+                <th>详情</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of basicTable.data; let i = index">
+                <td>{{i + 1}}</td>
+                <td>{{item.userName}}</td>
+                <td [ngStyle]="{'color': item.hasUpdate ? 'red' : ''}">{{item.planQuantity}}</td>
+                <td [ngStyle]="{'color': item.hasUpdate ? 'red' : ''}">{{item.planWeight}}</td>
+                <td class="action-box">
+                    <span (click)="openUserDetail(item)">查看</span>
+                    <span>/</span>
+                    <span (click)="exportExcel(item)">下载</span>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>
+<nz-modal [(nzVisible)]="isUserDetailDlgVisible" [nzWidth]="'700px'" [nzTitle]="userDlgTitle" (nzOnCancel)="handleCancel()" [nzCancelText]="null" (nzOnOk)="handleOk()">
+    <div style="width: 100%;padding: 0 10px;box-sizing: border-box;">
+        <nz-table 
+        #userDetailTable 
+        [nzData]="userDetailData.data"
+        [(nzPageIndex)]="userDetailListDTO.page"
+        [(nzPageSize)]="userDetailListDTO.size"
+        [nzTotal]="userDetailData.totalCount"
+        (nzPageIndexChange)="getuserDetailList()"
+        (nzPageSizeChange)="getuserDetailList()"
+        [nzFrontPagination]="false"
+        [nzLoading]="isDetailSpinning"
+        nzShowQuickJumper
+        nzShowSizeChanger
+        >
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>区域</th>
+                    <th>构件名称</th>
+                    <th>构件编号</th>
+                    <th>数量</th>
+                    <th>重量（kg）</th>
+                    <th>完成时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of userDetailTable.data; let i = index">
+                    <td>{{i + 1}}</td>
+                    <td>{{item.areaDivisionName}}</td>
+                    <td>{{item.structure ? item.structure.name : ''}}</td>
+                    <td>{{item.structure ? item.structure.serialNo : ''}}</td>
+                    <td>{{item.needQuantity}}</td>
+                    <td>{{item.planWeight}}</td>
+                    <td>{{item.deadline | date: 'yyyy-MM-dd'}}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</nz-modal>

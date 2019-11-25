@@ -1,0 +1,38 @@
+<app-project-pro-header [projectId]="projectId"></app-project-pro-header>
+
+<nz-card>
+    <nz-tabset>
+        <nz-tab nzTitle="{{ pm.monomer.name }}"
+            *ngFor="let pm of pageMonomers">
+            <nz-card
+                [nzTitle]="'结构'">
+                <nz-tabset>
+                    <nz-tab nzTitle="{{ area.areaName }}"
+                        *ngFor="let area of pm.areas">
+                        <app-fix-plan-summary-table
+                            [productType]="productTypes['结构']"
+                            [areaDivisionId]="area.id"></app-fix-plan-summary-table>
+                    </nz-tab>
+                </nz-tabset>
+            </nz-card>
+            <!--<nz-card
+                [nzTitle]="'围护'">
+                <app-fix-plan-summary-table
+                    [productType]="productTypes['辅材']"
+                    [areaDivisionId]="pm.monomer.id"></app-fix-plan-summary-table>
+            </nz-card>-->
+        </nz-tab>
+    </nz-tabset>
+</nz-card>
+
+<div
+    *ngFor="let pm of pageMonomers"
+    [hidden]="pm !== currentMonomers">
+    <nz-card
+        [nzTitle]="area.areaName"
+        *ngFor="let area of pm.areas">
+        <app-fix-plan-summary-table
+            [productType]="productTypes['结构']"
+            [areaDivisionId]="area.id"></app-fix-plan-summary-table>
+    </nz-card>
+</div>

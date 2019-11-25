@@ -1,0 +1,18 @@
+{
+  "/api": {
+    "target": "http://39.108.11.136:8081",
+    "secure": false
+  },
+  "/bim": {
+    "target": "http://39.108.11.136:8081",
+    "secure": false
+  },
+  "/engine": {
+    "target": "http://39.108.11.136:8081",
+    "secure": false
+  },
+  "/files": {
+    "target": "http://39.108.11.136:8081",
+    "secure": false
+  }
+}

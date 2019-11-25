@@ -1,0 +1,29 @@
+<nz-card>
+    <nz-tabset>
+        <nz-tab nzTitle="{{ pm.monomer.name }}"
+            *ngFor="let pm of pageMonomers">
+            <nz-card>
+                <nz-tabset>
+                    <nz-tab  nzTitle="结构">
+                        <nz-tabset>
+                            <nz-tab nzTitle="{{ area.areaName + '(' + area.coordinates + ')' }}"
+                                *ngFor="let area of pm.areas">
+                                <app-structure-outbound-table
+                                    [monomerId]="area.id"></app-structure-outbound-table>
+                            </nz-tab>
+                        </nz-tabset>
+                        
+                    </nz-tab>
+                    <nz-tab  nzTitle="围护">
+                        <app-enclosure-outbound-table
+                            [monomerId]="pm.monomer.id"></app-enclosure-outbound-table>
+                    </nz-tab>
+                    <nz-tab  nzTitle="辅材">
+                        <app-support-material-outbound-table
+                            [monomerId]="pm.monomer.id"></app-support-material-outbound-table>
+                    </nz-tab>
+                </nz-tabset>
+            </nz-card>
+        </nz-tab>
+    </nz-tabset>
+</nz-card>

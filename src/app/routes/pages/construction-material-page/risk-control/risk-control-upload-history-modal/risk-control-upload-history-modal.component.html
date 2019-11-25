@@ -1,0 +1,30 @@
+<nz-table
+    #nzTable
+    [nzData]="item.riskControlAttachmentLinks"
+    [nzShowPagination]="false"
+    [nzTotal]="item.riskControlAttachmentLinks.length"
+    nzShowTotal>
+    <thead>
+        <tr>
+            <th>
+                <span>序号</span>
+            </th>
+            <th>
+                <span>上传日期</span>
+            </th>
+            <th>
+                <span>下载</span>
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of item.riskControlAttachmentLinks;let i = index;">
+            <td>{{ i + 1 }}</td>
+            <td>{{ data.createTime | date: 'yyyy-MM-dd' }}</td>
+            <td>
+                <a [attahcmentDownload]="data.attachmentId">点击下载</a>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>

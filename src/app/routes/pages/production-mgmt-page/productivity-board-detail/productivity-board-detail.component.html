@@ -1,0 +1,46 @@
+<app-project-pro-header [projectId]="projectId">
+</app-project-pro-header>
+<nz-card style="margin-top: 10px;">
+    <div class="project-content">
+        <span>项目名称：张家口展览馆项目</span>
+        <span>统计日期：6月份</span>
+    </div>
+    <nz-table #nzTable [nzData]="data" [nzShowPagination]="false">
+        <thead>
+            <!-- <tr>
+                <th colspan="5">工程名称:</th>
+                <th>项目单体:</th>
+                <th></th>
+                <th colspan="2">时间: {{queryDate}}</th>
+            </tr> -->
+            <tr>
+                <th>序号</th>
+                <th>区域</th>
+                <th>构件名称</th>
+                <th>构件号</th>
+                <!-- <th>总数量</th>
+                <th>单重(kg)</th>
+                <th>总重(kg)</th> -->
+                <th>生产数量</th>
+                <th>生产重量(kg)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data; index as i">
+                <td>{{i + 1}}</td>
+                <td>{{item.areaDivisionName}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.serialNo}}</td>
+                <!-- <td>{{item.totalQuantity}}</td>
+                <td>{{item.pieceWeight}}</td>
+                <td>{{item.totalWeight}}</td> -->
+                <td>{{item.finishedQuantity}}</td>
+                <td>{{item.finishedWeight}}</td>
+            </tr>
+        </tbody>
+    </nz-table>
+
+    <button nz-button [nzType]="'primary'" (click)="export()" style="margin-top: 15px">
+        <span>下载</span>
+    </button>
+</nz-card>

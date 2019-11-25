@@ -1,0 +1,12 @@
+<nz-dropdown class="mx-sm">
+    <!-- <button nz-button nz-dropdown [nzSize]="'default'">{{ name }}</button> -->
+    <a class="ant-dropdown-link" nz-dropdown>
+        {{ name }}
+        <i class="anticon anticon-down"></i>
+    </a>
+    <ul nz-menu>
+        <li nz-menu-item *ngFor="let item of actions">
+            <a [routerLink]="item.routes">{{ item.name }}</a>
+        </li>
+    </ul>
+</nz-dropdown>

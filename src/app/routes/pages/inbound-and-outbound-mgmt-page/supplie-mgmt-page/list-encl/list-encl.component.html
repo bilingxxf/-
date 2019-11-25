@@ -1,0 +1,46 @@
+<div class="operate-box">
+    <div class="operate-left-box">
+        <div>
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixButton" style="width: 200px">
+                <input type="text" [(ngModel)]="listQuery.productName" nz-input placeholder="请输入产品名称"
+                    (keyup)="($event.which === 13)?searchData(true):0" />
+            </nz-input-group>
+            <ng-template #suffixButton>
+                <span style="cursor: pointer" (click)="searchData(true)">搜索</span>
+            </ng-template>
+        </div>
+    </div>
+    <div class="operate-right-box">
+
+    </div>
+</div>
+<div class="content-box">
+    <nz-table #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="supplieData.data" [nzLoading]="listQuery.loading"
+        [nzTotal]="supplieData.totalCount" [(nzPageIndex)]="listQuery.page" [(nzPageSize)]="listQuery.size" (nzPageIndexChange)="searchData()"
+        (nzPageSizeChange)="searchData(true)">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>属性</th>
+                <th>供应商名称</th>
+                <th>产品名称</th>
+                <th>累计数量</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of ajaxTable.data;let i = index">
+                <td>{{ i + 1}}</td>
+                <td>{{ item.manufactureType == 1 ? '直发工地':'直发工厂' }}</td>
+                <td>{{ item.supplierName }}</td>
+                <td>{{ item.productName }}</td>
+                <td>{{ item.finishNumber }}</td>
+                <td class="action-box">
+                    <span (click)="showDetail(item)">查看</span>
+                    <span> / </span>
+                    <span (click)="exportExcelDetail(item)">下载</span>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>

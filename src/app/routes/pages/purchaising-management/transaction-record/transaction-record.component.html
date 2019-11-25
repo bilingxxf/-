@@ -1,0 +1,67 @@
+<nz-card>
+        <form nz-form [nzLayout]="'inline'" style="margin-bottom: 15px">
+            <nz-form-item nz-row>
+                <nz-form-control  nzHasFeedback>
+                    <nz-select style="width: 200px;" nzPlaceHolder="'选择供应商'" [(ngModel)]="materialDataQuery.supplierId" name="supplierId" nzAllowClear>
+                        <nz-option
+                            *ngFor="let option of supplierList"
+                            [nzLabel]="option.name"
+                            [nzValue]="option.id"
+                            >
+                        </nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item nz-row>
+                <div nz-col >
+                    <nz-form-control>
+                        <div nz-col [nzSpan]="10">
+                            <nz-form-item nz-row>
+                                <nz-form-control >
+                                    <nz-date-picker [nzSize]="'default'" nzPlaceHolder="'开始日期'" [(ngModel)]="materialDataQuery.startDate" name="startDate"></nz-date-picker>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col [nzSpan]="10">
+                            <nz-form-item nz-row>
+                                <nz-form-control>
+                                    <nz-date-picker [nzSize]="'default'" nzPlaceHolder="'结束日期'" [(ngModel)]="materialDataQuery.endDate" name="endDate"></nz-date-picker>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </nz-form-control>
+                </div>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-control>
+                    <button nz-button [nzType]="'primary'" (click)="getTranscationOrder()">
+                        <span>搜索</span>
+                    </button>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+        <nz-table #nzTable [nzTotal]="total" [nzData]="(transcationOrderList | async) || []" (nzPageIndexChange)="getTranscationOrder($event)">
+        <thead>
+          <tr>
+            <th><span>序号</span></th>
+            <th><span>交易日期</span></th>
+            <th><span>商品名称</span></th>
+            <th><span>单价</span></th>
+            <th><span>数量</span></th>
+            <th><span>总额(万元)</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of nzTable.data; index as i">
+            <td>
+              <a>{{i + 1}}</a>
+            </td>
+            <td>{{data.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td>{{data.materialType + '/' + data.materialVarieties + '/' + data.materialKind}}</td>
+            <td>{{data.purchasePrice}}</td>
+            <td>{{data.number}}</td>
+            <td>{{data.taxIncludedAmount}}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </nz-card>

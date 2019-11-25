@@ -1,0 +1,538 @@
+<form
+    nz-form
+    #form="ngForm"
+    (ngSubmit)="ok()"
+    [nzLayout]="'vertical'">
+    <div
+        nz-row
+        [nzGutter]="96">
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label nzRequired>合同编号</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <input nz-input
+                        name="contractNo"
+                        [(ngModel)]="dto.contractNo"
+                        nzSize="default"
+                        required>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label nzRequired>工程名称</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <input nz-input
+                        name="name"
+                        [(ngModel)]="dto.name"
+                        nzSize="default"
+                        required>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label nzRequired>工程简称</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <input nz-input
+                        name="shortName"
+                        [(ngModel)]="dto.shortName"
+                        nzSize="default"
+                        requiredz>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+    <div
+        nz-row
+        [nzGutter]="96">
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label nzRequired>签订日期</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <nz-date-picker
+                        style="width: 100%"
+                        name="signTime"
+                        [(ngModel)]="signTime"
+                        nzSize="default"
+                        placeholder="请选择"></nz-date-picker>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>合同金额(万元)</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <nz-input-number
+                        style="width: 100%"
+                        [(ngModel)]="dto.amount"
+                        name="amount"
+                        nzSize="default"
+                        [nzStep]="1000"
+                        ></nz-input-number>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>保证金类型</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <nz-select
+                        style="width: 100%;"
+                        [(ngModel)]="dto.marginType"
+                        name="marginType"
+                        placeholder="请选择"
+                        nzAllowClear>
+                        <nz-option
+                            *ngFor="let t of marginTypes | enumToArray"
+                            [nzLabel]="t.label"
+                            [nzValue]="t.value">
+                        </nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+    <div
+        nz-row
+        [nzGutter]="96">
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>保证金金额(万元)</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <nz-input-number
+                        style="width: 100%"
+                        [(ngModel)]="dto.marginAmount"
+                        name="marginAmount"
+                        nzSize="default"
+                        [nzStep]="1000"></nz-input-number>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>币种</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <nz-select
+                        style="width: 100%;"
+                        [(ngModel)]="dto.currencyType"
+                        name="currencyType"
+                        placeholder="请选择"
+                        nzAllowClear>
+                        <nz-option [nzLabel]="'人民币'" [nzValue]="'人民币'"></nz-option>
+                        <nz-option [nzLabel]="'美元'" [nzValue]="'美元'"></nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>预付款(万元)</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <nz-input-number
+                        style="width: 100%"
+                        [(ngModel)]="dto.advancePaymentAmount"
+                        name="advancePaymentAmount"
+                        nzSize="default"
+                        [nzStep]="1000"></nz-input-number>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+    <div
+        nz-row
+        [nzGutter]="96">
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>订单类型</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <nz-select
+                        style="width: 100%;"
+                        [(ngModel)]="dto.orderType"
+                        name="orderType"
+                        placeholder="请选择"
+                        nzAllowClear>
+                        <nz-option
+                            *ngFor="let o of orderTypes | enumToArray"
+                            [nzLabel]="o.label"
+                            [nzValue]="o.value">
+                        </nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>项目所在地区</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <nz-cascader
+                        name="location"
+                        nzPlaceHolder="请选择"
+                        [(ngModel)]="location"
+                        [nzLoadData]="loadData"
+                        nzChangeOnSelect
+                        nzAllowClear
+                        >
+                    </nz-cascader>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>项目所在详细地址</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <input nz-input
+                        name="address"
+                        [(ngModel)]="dto.address"
+                        nzSize="default">
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+    <div
+        nz-row
+        [nzGutter]="96">
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>结构形式</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <nz-select
+                        style="width: 100%;"
+                        [(ngModel)]="dto.structType"
+                        name="structType"
+                        placeholder="请选择"
+                        nzAllowClear>
+                        <nz-option
+                            *ngFor="let o of structTypes | enumToArray"
+                            [nzLabel]="o.label"
+                            [nzValue]="o.value">
+                        </nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>合同约定工期开始时间</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <nz-date-picker
+                        style="width: 100%"
+                        [(ngModel)]="startDate"
+                        name="startDate"
+                        nzSize="default"
+                        placeholder="请选择"></nz-date-picker>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>合同约定工期结束时间</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <nz-date-picker
+                        style="width: 100%"
+                        [(ngModel)]="endDate"
+                        name="endDate"
+                        nzSize="default"
+                        placeholder="请选择"></nz-date-picker>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+    <div
+        nz-row
+        [nzGutter]="96">
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>总工期(天)</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <input nz-input
+                        name="total"
+                        [(ngModel)]="total"
+                        disabled="true"
+                        nzSize="default">
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>合同吨位量</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <input nz-input
+                        name="contractWeight"
+                        [(ngModel)]="dto.contractWeight"
+                        nzSize="default">
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <!-- <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>业务负责人</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <input nz-input
+                        name="managerName"
+                        [(ngModel)]="dto.managerName"
+                        nzSize="default">
+                </nz-form-control>
+            </nz-form-item>
+        </div> -->
+        <!-- <div
+            nz-col
+            [nzMd]="8"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>负责人电话</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <input nz-input
+                        name="managerPhone"
+                        [(ngModel)]="dto.managerPhone"
+                        nzSize="default">
+                </nz-form-control>
+            </nz-form-item>
+        </div> -->
+    </div>
+    <div
+        nz-row
+        [nzGutter]="96">
+        <div
+            nz-col
+            [nzMd]="24"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>上传附件</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col
+                    nzHasFeedback>
+                    <app-upload-files [attachments]="dto.attachments" [fileType]="fileType"></app-upload-files>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+    <div
+        nz-row
+        [nzGutter]="96">
+        <div
+            nz-col
+            [nzMd]="24"
+            nzSm="24"
+            nzXs="24">
+            <nz-form-item
+                nz-row>
+                <nz-form-label nz-col>
+                    <nz-form-label>单体</nz-form-label>
+                </nz-form-label>
+                <nz-form-control nz-col>
+                    <nz-table
+                        [nzShowPagination]="false"
+                        [nzData]="dto.monomers">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th nzRequired>单体名称</th>
+                                <th>描述</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of dto.monomers;let i = index">
+                                <td>
+                                    {{ i + 1 }}
+                                </td>
+                                <td>
+                                    <input nz-input
+                                        style="width: 100%"
+                                        [(ngModel)]="item.name"
+                                        [ngModelOptions]="{standalone: true}"
+                                        nzSize="default">
+                                </td>
+                                <td>
+                                    <input nz-input
+                                        style="width: 100%"
+                                        [(ngModel)]="item.description"
+                                        [ngModelOptions]="{standalone: true}"
+                                        nzSize="default">
+                                </td>
+                                <td>
+                                    <span *ngIf="dto.monomers.length > 1">
+                                        <a (click)="dto.monomers.splice(i, 1)">删除</a>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                    <button
+                        type="button"
+                        nz-button
+                        [nzType]="'dashed'"
+                        [nzSize]="'default'"
+                        (click)="addMonomer()"
+                        class="ant-btn__block mt-md">
+                        <i class="anticon anticon-plus"></i>
+                        <span>新增单体</span>
+                    </button>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+
+    <footer-toolbar errorCollect>
+        <button
+            nz-button
+            type="submit"
+            [nzType]="'primary'"
+            nzSize="default"
+            [disabled]="form.form.invalid || uploading"
+            [nzLoading]="submitting">{{ btnText }}</button>
+    </footer-toolbar>
+</form>

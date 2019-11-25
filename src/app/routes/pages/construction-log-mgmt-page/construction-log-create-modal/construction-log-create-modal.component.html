@@ -1,0 +1,104 @@
+<form #form="ngForm" nz-form  [acl]="950">
+    <nz-table 
+        nzBordered
+        [nzShowPagination]="false"
+        [nzData]="[1]"
+     >
+        <tbody>
+            <tr>
+                <td colspan="2" rowspan="2">施工日志</td>
+                <td>工程名称</td>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td>日期</td>
+                <td colspan="2">{{date}}</td>
+            </tr>
+            <tr>
+                <td>时间</td>
+                <td>天气状况</td>
+                <td colspan="2">最高最低温度(℃)</td>
+                <td>记录人</td>
+            </tr>
+            <tr>
+                <td>上午</td>
+                <td>
+                    <nz-form-item >
+                        <nz-form-control nzHasFeedback>
+                            <input nz-input  name="morningWeather" [(ngModel)]="dto.morningWeather" required>
+                            <!-- <nz-select
+                                style="width: 120px"
+                                [(ngModel)]="dto.morningWeather"
+                                nzPlaceHolder="请选择"
+                                name="morningWeather"
+                                nzAllowClear>
+                                <nz-option *ngFor="let o of weather | enumToArray" [nzLabel]="o.label" [nzValue]="o.value"></nz-option>
+                            </nz-select> -->
+                        </nz-form-control>
+                    </nz-form-item>
+                </td>
+                <td colspan="2">
+                    <nz-form-item >
+                        <nz-form-control nzHasFeedback>
+                            <nz-input-number
+                                name="morningTemperature"
+                                style="width: 100%;"
+                                [(ngModel)]="dto.morningTemperature"
+                                [nzSize]="'default'"
+                                required></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                </td>
+                <td rowspan="2">
+                    <span *ngIf="user">{{user.name}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>下午</td>
+                <td>
+                    <nz-form-item >
+                        <nz-form-control nzHasFeedback>
+                            <input nz-input  name="afternoonWeather" [(ngModel)]="dto.afternoonWeather" required>
+                            <!-- <nz-select
+                                style="width: 120px"
+                                [(ngModel)]="dto.afternoonWeather"
+                                nzPlaceHolder="请选择"
+                                name="afternoonWeather"
+                                nzAllowClear>
+                                <nz-option *ngFor="let o of weather | enumToArray" [nzLabel]="o.label" [nzValue]="o.value"></nz-option>
+                            </nz-select> -->
+                        </nz-form-control>
+                    </nz-form-item>
+                </td>
+                <td colspan="2">
+                    <nz-form-item >
+                        <nz-form-control nzHasFeedback>
+                            <nz-input-number
+                                name="afternoonTemperature"
+                                style="width: 100%;"
+                                [(ngModel)]="dto.afternoonTemperature"
+                                [nzSize]="'default'"
+                                required></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5" rowspan="5">
+                    <nz-form-control  nzHasFeedback>
+                        <textarea nz-input nzPlaceHolder="请输入日志内容" name="content" [(ngModel)]="dto.content" required></textarea>
+                    </nz-form-control>  
+                </td>
+            </tr>
+        </tbody>
+        <div noResult>..</div>
+    </nz-table>
+    <div class="customize-footer">
+        <button [disabled]="form.form.invalid" (click)="ok()" nz-button [nzType]="'primary'" [nzLoading]="submitting">
+            确定
+        </button>
+        <button nz-button [nzType]="'default'" (click)="cancel()">
+            取消
+        </button>
+    </div>
+</form>

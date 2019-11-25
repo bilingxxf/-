@@ -1,0 +1,72 @@
+<desc-list>
+    <desc-list-item term="名称">{{ product.name }}</desc-list-item>
+    <desc-list-item term="编号">{{ product.serialNo }}</desc-list-item>
+    <desc-list-item term="规格">{{ product.specification }}</desc-list-item>
+    <desc-list-item term="长度">{{ product.length }}</desc-list-item>
+    <desc-list-item term="材质">{{ product.material }}</desc-list-item>
+    <desc-list-item term="数量">{{ product.quantity }}</desc-list-item>
+</desc-list>
+<nz-table
+    style="margin-top: 20px;display: block;"
+    [nzShowPagination]="false"
+    [nzData]="subcontractDetailList">
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>分包商</th>
+            <th>数量</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of subcontractDetailList;let i = index">
+                <td>
+                    {{ i + 1 }}
+                </td>
+                <td>
+                    <nz-select
+                        nzPlaceHolder="请选择"
+                        [(ngModel)]="item.subcontractorId"
+                        style="width: 100%;">
+                        <nz-option
+                            *ngFor="let o of subcontractors"
+                            [nzLabel]="o.name"
+                            [nzValue]="o.id"></nz-option>
+                    </nz-select>
+                </td>
+                <td>
+                    <nz-input-number [(ngModel)]="item.quantity"></nz-input-number>
+                </td>
+                <td>
+                    <span>
+                        <nz-popconfirm [nzTitle]="'确定要删除吗？'" (nzOnConfirm)="subcontractDetailList.splice(i, 1)">
+                            <a nz-popconfirm>删除</a>
+                        </nz-popconfirm>
+                    </span>
+                </td>
+        </tr>
+    </tbody>
+</nz-table>
+<button
+    nz-button
+    type="button"
+    (click)="add()"
+    [nzType]="'dashed'"
+    [nzSize]="'default'"
+    class="ant-btn__block mt-md">
+    <i class="anticon anticon-plus"></i>
+    <span>添加</span>
+</button>
+
+<div class="customize-footer">
+    <button
+        [acl]="1029"
+        (click)="ok()"
+        nz-button
+        [nzType]="'primary'">
+        确定
+    </button>
+    <button nz-button [nzType]="'default'" (click)="cancel()">
+        取消
+    </button>
+</div>

@@ -1,0 +1,13 @@
+{
+    "app": {
+        "name": "CMBIM",
+        "description": "CMBIM"
+    },
+    "user": {
+        "name": "Admin",
+        "avatar": "./assets/img/zorro.svg",
+        "email": "wudengguang@gmail.com"
+    },
+    "menu": [
+    ]
+}
